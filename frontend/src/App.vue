@@ -35,6 +35,7 @@ export default {
 .app-header
   position sticky
   top 0
+  z-index 3
 
 .app-body
   padding 3rem
