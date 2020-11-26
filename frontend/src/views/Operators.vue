@@ -61,6 +61,7 @@ export default {
     display flex
     align-items center
     margin-bottom 2rem
+    z-index 4
   
   header a 
     margin-left auto

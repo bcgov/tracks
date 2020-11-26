@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuesax from 'vuesax'
 import 'vuesax/dist/vuesax.css'
+import VueSmoothScroll from 'vue2-smooth-scroll'
 import '@mdi/font/css/materialdesignicons.min.css' // icon library (https://materialdesignicons.com/)
 
 import App from './App.vue'
@@ -27,6 +28,11 @@ const router = new VueRouter({
     { path: '/create-operator', component: CreateOperator},
     { path: '/operator-detail', component: OperatorDetail}
   ]
+})
+
+Vue.use(VueSmoothScroll, {
+  duration: 400,
+  updateHistory: false,
 })
 
 Vue.config.productionTip = false

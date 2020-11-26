@@ -1,3 +1,5 @@
+@import 'helpers.styl'
+
 @font-face{
   font-family: 'BCSans';
   font-style: normal;
@@ -53,9 +55,9 @@ fieldset
   border none
 
 legend
-  display block
-  padding-top: 1rem;
+  float left
   margin-bottom 1rem
+  font-size: 1.125rem
   font-weight 700
 
 p
@@ -73,6 +75,7 @@ th, td
   font-size 1rem
 
 .vs-input--label + .vs-con-input,
+.vs-input--label + .custom-chips,
 .vs-select--label + .input-select-con
   margin-top 0.65rem
 
@@ -91,3 +94,9 @@ th, td
 
 .icon-select
   display none !important
+
+.vs-row
+  width auto !important
+
+.con-vs-chip .vs-chip--text
+  font-size 0.9375rem
