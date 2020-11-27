@@ -9,7 +9,7 @@
       <section
         class="stepper-section"
       >
-        <header @click="openStep1()">
+        <header @click="gotoStep1()">
           <h2>Operator Detail</h2>
         </header>
 

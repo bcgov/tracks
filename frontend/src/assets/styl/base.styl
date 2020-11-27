@@ -89,6 +89,13 @@ th, td
   padding 0.75rem
   font-size 1rem
 
+// Multiselect doesn't support icon pack changes so we fix it!
+.vs-select--item.con-icon.activex .vs-select--item-icon
+  display none
+
+.vs-select-primary .vs-select--item.activex
+  padding 1rem
+
 .vs-con-table table
   font-size 1rem
 
@@ -100,3 +107,8 @@ th, td
 
 .con-vs-chip .vs-chip--text
   font-size 0.9375rem
+
+// Input Hints
+.con-text-validation .span-text-validation
+  padding 0.5rem 0
+  font-size 0.875rem
