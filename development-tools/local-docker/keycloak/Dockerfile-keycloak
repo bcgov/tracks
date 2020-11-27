@@ -1,0 +1,2 @@
+FROM jboss/keycloak:11.0.3
+COPY realm.json /tmp/realm.json

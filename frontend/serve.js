@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 const path = require('path');
-//const static = require('express-static');
+const expressStaticGzip = require('express-static-gzip');
 
 const port = 5001;
 
@@ -12,17 +12,22 @@ function cacheHeaders(res, p) {
   }
 }
 
-app.use('/', express.static(path.resolve(__dirname, 'dist'), {
+app.use('/', expressStaticGzip('public/build', {
   index: false,
-  maxAge: 0.25 * 3600,
+  maxAge: 1000 * 3600,
+  setHeaders: cacheHeaders,
+
+}));
+app.use('/', expressStaticGzip('assets/', {
+  index: false,
+  maxAge: 1000 * 3600,
   setHeaders: cacheHeaders,
 }));
 
 app.get('/*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, 'dist/index.html'));
+  response.sendFile(path.resolve(__dirname, 'public/build/generated_index.html'));
 });
 
 app.listen(port, () => {
   console.log('service ready');
 });
-
