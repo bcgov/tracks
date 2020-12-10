@@ -1,0 +1,38 @@
+@import '../../common/styles/base.scss';
+
+#header {
+  background: $logoBackground;
+
+  overflow: hidden;
+  padding: 16px 16px;
+  margin: 0;
+
+  img {
+    vertical-align: middle;
+  }
+
+  #mainTitle {
+    color: white;
+    display: inline;
+    position: relative;
+    top: 8px;
+    margin-left: 32px;
+    margin-bottom: 0;
+    padding: 0;
+    vertical-align: middle;
+    text-transform: capitalize;
+  }
+
+  border-bottom: 3px solid $bcYellow;
+}
+
+#footer {
+  background: $logoBackground;
+}
+
+
+.devNote {
+  background: #cccccc;
+  padding: 2rem;
+  border-radius: 6px;
+}
