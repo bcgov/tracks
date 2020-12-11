@@ -9,6 +9,7 @@ import LandingPage from "./pages/LandingPage";
 import Admin from "./pages/admin/Admin";
 import CommercialOperator from "./pages/operator/CommercialOperator";
 import ConservationOfficer from "./pages/conservation_officer/ConservationOfficer";
+import LeafletDemo from "../common/components/LeafletDemo";
 
 const PageStructure = () => {
     return (
@@ -21,6 +22,7 @@ const PageStructure = () => {
                         <Route path="/admin/home" component={Admin} />
                         <Route path="/operator/home" component={CommercialOperator} />
                         <Route path="/conservation_officer/home" component={ConservationOfficer} />
+                        <Route path="/map" component={LeafletDemo} />
                         <Route component={LandingPage} />
                     </Switch>
                 </div>

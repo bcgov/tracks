@@ -16,7 +16,7 @@ const devServerOptions = {
       { from: /^\/admin/, to: '/generated_index.html' },
       { from: /^\/conservation_officer/, to: '/generated_index.html' },
       { from: /^\/operator/, to: '/generated_index.html' },
-
+      { from: /^\/map/, to: '/generated_index.html' },
 
     ],
   },
