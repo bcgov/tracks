@@ -17,6 +17,7 @@ const Navigation = (props) => {
         nav('/operator/home', 'Commercial Recreation Operator Home'),
         nav('/admin/home', 'Administration Home'),
         nav('/conservation_officer/home', 'Conservation Officer Home'),
+        nav('/map', 'Leaflet Demo'),
     ];
 
 
@@ -54,7 +55,7 @@ const Navigation = (props) => {
                         </button>
                     </li>
                 ))}
-                <li className={'filler'}/>
+                <li className={'filler'} />
                 <li className={'right'}>
                     <button
                         onClick={() => keycloak.logout()}
