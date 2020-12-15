@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { withRouter } from 'react-router';
-import { Link } from "react-router-dom";
-import { KeycloakContext } from './AuthRequired';
-import "./Navigation.scss";
+import React, {useContext, useEffect, useState} from 'react';
+import {withRouter} from 'react-router';
+import {Link} from "react-router-dom";
+import {KeycloakContext} from './AuthRequired';
+import "../styles/nav.scss";
 
 const Navigation = (props) => {
-  const { history } = props;
+  const {history} = props;
   const keycloak = useContext(KeycloakContext);
 
   const nav = (path, name) => ({
@@ -13,12 +13,11 @@ const Navigation = (props) => {
     name,
   });
 
-
   const navs = [
-    nav('/operator/home', 'Commercial Recreation Operator Home'),
-    nav('/admin/home', 'Administration Home'),
-    nav('/conservation_officer/home', 'Conservation Officer Home'),
-    nav('/map', 'Leaflet Demo'),
+    nav('/operator/home', 'Operators'),
+    nav('/conservation_officer/home', 'Conservation Officers'),
+    nav('/admin/home', 'Administration'),
+    nav('/map', 'Map'),
   ];
 
 
@@ -43,49 +42,24 @@ const Navigation = (props) => {
   }, [history.location.pathname]);
 
   return (
-    <nav className={'main-nav'}>
-      <div className={ 'container' }>
+    <nav>
         <ul>
-          <li>
-            <Link to="/operator/home">
-              Operators
-            </Link>
-          </li>
-          <li>
-            <Link to="/conservation_officer/home">
-              Conservation Officers
-            </Link>
-          </li>
-          <li>
-            <Link to="/map">
-              Map
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      {/* <ul>
-        {navs.map((n) => (
-          <li key={n.name}>
+          {navs.map((n) => (
+            <li key={n.name}>
+              <Link to={n.path} className={activeLink === n.path ? 'active' : ''}>
+                {n.name}
+              </Link>
+            </li>
+          ))}
+          <li className={'filler'} />
+          <li className={'right'}>
             <button
-              className={activeLink === n.path ? 'active' : ''}
-              onClick={() => history.push(n.path)}
-              disabled={activeLink === n.path}
+              onClick={() => keycloak.logout()}
             >
-              {n.name}
+              Logout {bestName()}
             </button>
           </li>
-        ))}
-        <li className={'filler'} />
-        <li className={'right'}>
-          <button
-            onClick={() => keycloak.logout()}
-          >
-            Logout {bestName()}
-          </button>
-        </li>
-      </ul> */}
-
+        </ul>
     </nav>
   );
 }

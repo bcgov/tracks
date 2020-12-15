@@ -9,7 +9,6 @@ const OperatorsList = () => {
         const [loaded, setLoaded] = useState(false);
         const [operators, setOperators] = useState([]);
 
-
         useEffect(() => {
             axios.get(`${CONFIG.API_BASE}/api/v1/operators`).then((response) => {
                 setOperators(response.data);
