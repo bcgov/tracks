@@ -1,0 +1,25 @@
+plugins {
+  id 'org.liquibase.gradle' version '2.0.3'
+}
+
+dependencies {
+  liquibaseRuntime group: 'org.liquibase', name: 'liquibase-core', version: '3.8.1'
+  liquibaseRuntime group: 'org.postgresql', name: 'postgresql', version: '42.2.16'
+  liquibaseRuntime group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+  liquibaseRuntime group: 'org.yaml', name: 'snakeyaml', version: '1.27'
+}
+
+liquibase {
+  activities {
+    main {
+      changeLogFile 'db.changelog-master.yaml'
+      url project.ext.dbUrl
+      username project.ext.dbUser
+      password project.ext.dbPassword
+    }
+  }
+}
+
+repositories {
+  mavenCentral()
+}

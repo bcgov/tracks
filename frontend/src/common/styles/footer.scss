@@ -1,0 +1,17 @@
+@import 'colours.scss';
+
+footer {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+  color: white;
+  padding: 2px;
+  line-height: 2;
+  border-bottom: 2px solid $BCgovGold;
+  background: $mainNavBg;
+
+  nav ul {
+    justify-content: start;
+    background: $mainNavBg;
+  }
+}

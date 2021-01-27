@@ -1,0 +1,145 @@
+databaseChangeLog:
+  -  preConditions:
+  -  changeSet:
+       id:  1
+       author:  plasticviking
+       changes:
+        -  createTable:
+            tableName:  operator
+            columns:
+              -  column:
+                   name:  id
+                   type:  bigint
+                   autoIncrement:  true
+                   constraints:
+                     primaryKey:  true
+                     nullable:  false
+              -  column:
+                   name:  region_id
+                   type:  bigint
+                   constraints:
+                     nullable:  false
+              -  column:
+                   name:  name
+                   type:  varchar(200)
+                   constraints:
+                     unique: true
+                     nullable: false
+              -  column:
+                   name:  active
+                   type:  boolean
+                   constraints:
+                     nullable:  false
+        -  createTable:
+            tableName:  region
+            columns:
+              -  column:
+                   name:  id
+                   type:  bigint
+                   autoIncrement:  true
+                   constraints:
+                     primaryKey:  true
+                     nullable:  false
+              -  column:
+                   name:  name
+                   type:  varchar(200)
+                   constraints:
+                     nullable: false
+              -  column:
+                   name:  active
+                   type:  boolean
+                   constraints:
+                     nullable:  false
+        -  addForeignKeyConstraint:
+             baseColumnNames:  region_id
+             baseTableName: operator
+             onDelete:  RESTRICT
+             onUpdate:  CASCADE
+             referencedColumnNames:  id
+             referencedTableName:  region
+             validate:  true
+             constraintName: fk_region
+  -  changeSet:
+       id:  2
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0002u_create_travel_paths.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0002d_create_travel_paths.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  3
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0003u_make_organization_optional.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0003d_make_organization_optional.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  4
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0004u_add_travel_path_modes.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0004d_add_travel_path_modes.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  5
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0005u_add_tenures_permits_username_officers.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0005d_add_tenures_permits_username_officers.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  6
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0006u_drop_legacy_tables.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  7
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0007u_improve_consistency.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0007d_improve_consistency.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  8
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0008u_file_upload_rework.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0008d_file_upload_rework.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  9
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0009u_add_reports.sql
+              relativeToChangelogFile: true
+       rollback:
+         -  sqlFile:
+              path: 0009d_add_reports.sql
+              relativeToChangelogFile: true

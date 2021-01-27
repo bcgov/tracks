@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+    rabbit:
+        image: rabbitmq:3.8-management
+        hostname: "rabbit"
+        environment:
+            - RABBITMQ_DEFAULT_USER=rabbitmq
+            - RABBITMQ_DEFAULT_PASS=rabbitmq
+            - RABBITMQ_DEFAULT_VHOST=/tracks
+            - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error}]
+        ports:
+            - 15672:15672
+            - 5672:5672
+    minio:
+      image: minio/minio
+      volumes:
+        - minio_data:/export
+      environment:
+        MINIO_ACCESS_KEY: ccfc0d5a7a8f589ed8bc65b50a255d64
+        MINIO_SECRET_KEY: 7f99fccf96804f9456f05ad8bf926dba
+      ports:
+        - 9000:9000
+      command: "server /export"
+volumes:
+    minio_data:
