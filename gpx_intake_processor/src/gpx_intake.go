@@ -9,10 +9,10 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	geom "github.com/twpayne/go-geom"
+	"github.com/twpayne/go-gpx"
 	_ "github.com/twpayne/go-geom/encoding/ewkb"
 	"github.com/twpayne/go-geom/encoding/ewkbhex"
 	_ "github.com/twpayne/go-geom/encoding/geojson"
-	"github.com/twpayne/go-gpx"
 	"log"
 	"os"
 	"strconv"
@@ -78,6 +78,11 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 		flagProcessingFailed(db, id)
 		return err
 	}
+	stmt, err := db.Prepare(`UPDATE travel_path set geometry = $1, processing_state = 'READY' where id = $2`)
+	if err != nil {
+		return err
+	}
+
 	defer tx.Rollback()
 
 	for _, trk := range track.Trk {
@@ -89,10 +94,11 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 			return err
 		}
 
-		_, err = db.Query(`UPDATE travel_path set geometry = $1, processing_state = 'READY' where id = $2`,
-			ewkbhexGeom, id)
+		stmt.Exec(ewkbhexGeom, id)
 
+		err = stmt.Close()
 		if err != nil {
+			flagProcessingFailed(db, id)
 			return err
 		}
 
