@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	_ "github.com/lib/pq"
-	"github.com/minio/minio-go"
 	"github.com/minio/minio-go/pkg/credentials"
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/ewkbhex"
@@ -100,11 +99,13 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 
 	err = tx.Commit()
 
-	log.Printf("TX COMMIT\n")
-
 	if err != nil {
+		log.Printf("Error committing transaction %s\n", err)
 		return err
 	}
+
+	log.Printf("TX COMMIT\n")
+
 	return nil
 }
 
@@ -130,6 +131,7 @@ func findAll(db *sql.DB, client *minio.Client) error {
 		log.Printf("Will process file id: %+v, (%+v)\n", fileID, minioID)
 
 		if err := processEntry(db, client, minioID, travelPathID); err != nil {
+			log.Printf("Error processing file %s\n", err)
 			return err
 		}
 	}
