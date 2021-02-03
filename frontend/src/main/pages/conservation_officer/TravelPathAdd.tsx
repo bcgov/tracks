@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useHistory} from "react-router-dom";
-import FormGroup from "../../../common/components/FormGroup";
+import FormGroup from "../../components/FormGroup";
 
 const TravelPathAdd = () => {
   const history = useHistory();
@@ -37,6 +37,7 @@ const TravelPathAdd = () => {
         {(history.length >= 1) &&
         <button onClick={() => history.push('/officer/travel_paths/list')}>Go back</button>
         }
+
         <button disabled={true} type={"submit"}>Save</button>
 
       </form>

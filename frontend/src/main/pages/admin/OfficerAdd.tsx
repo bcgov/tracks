@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
-import {AuthenticationContext} from "../../../common/components/AuthRequired";
+import {AuthenticationContext} from "../../components/AuthRequired";
 import {KeycloakInstance} from "keycloak-js";
 import axios from "axios";
 import CONFIG from "../../../config";
-import Loading from "../../../common/components/Loading";
-import FormGroup from "../../../common/components/FormGroup";
+import Loading from "../../components/Loading";
+import FormGroup from "../../components/FormGroup";
 
 const OfficerAdd = () => {
   const history = useHistory();

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import ListComponent from "../../../common/components/ListComponent";
+import ListComponent from "../../components/ListComponent";
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {OperatorActions} from "../../../state/actions";
-import Loading from "../../../common/components/Loading";
+import Loading from "../../components/Loading";
 
 const OperatorList = () => {
   const detailRoute = `/admin/organizations/view/:id`;

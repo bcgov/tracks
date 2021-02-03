@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router";
-import '../../../common/styles/travel_path.scss';
+import '../../styles/travel_path.scss';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import Loading from "../../../common/components/Loading";
-import TravelPathDetailComponent from "../../../common/components/TravelPathDetailComponent";
+import Loading from "../../components/Loading";
+import TravelPathDetailComponent from "../../components/TravelPathDetailComponent";
 import {TravelPathActions} from "../../../state/actions";
 
 const TravelPathDetail = () => {

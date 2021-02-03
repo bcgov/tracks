@@ -1,7 +1,7 @@
 import React from 'react';
 import CONFIG from "../../../config";
 import {useParams} from "react-router";
-import DetailPane, {DetailMap} from "../../../common/components/DetailPane";
+import DetailPane, {DetailMap} from "../../components/DetailPane";
 
 const TenureDetail = () => {
   const path = `${CONFIG.API_BASE}/api/v1/operator/tenures/:id`;

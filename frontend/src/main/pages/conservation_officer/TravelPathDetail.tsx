@@ -1,7 +1,7 @@
 import React from 'react';
 import CONFIG from "../../../config";
 import {useParams} from "react-router";
-import TravelPathMap from "../../../common/components/TravelPathMap";
+import TravelPathMap from "../../components/TravelPathMap";
 import {useHistory} from "react-router-dom";
 
 const TravelPathDetail = () => {

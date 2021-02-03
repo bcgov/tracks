@@ -1,5 +1,7 @@
 import {combineReducers} from "redux";
 import {Auth} from "./auth";
+import {TravelPathUpload} from "./travel_path_uploads";
+
 import {
   OfficerActions,
   OperatorActions,
@@ -17,6 +19,7 @@ const rootReducer = combineReducers({
   Reports: defaultReducer(ReportActions),
   Operators: defaultReducer(OperatorActions),
   Officers: defaultReducer(OfficerActions),
+  TravelPathUpload,
   Auth,
 });
 

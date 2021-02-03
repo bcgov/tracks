@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router";
-import DetailPane, {DetailMap} from "../../../common/components/DetailPane";
+import DetailPane, {DetailMap} from "../../components/DetailPane";
 import {useDispatch, useSelector} from "react-redux";
 import {OperatorActions} from "../../../state/actions";
-import Loading from "../../../common/components/Loading";
+import Loading from "../../components/Loading";
 
 const OperatorDetail = () => {
     const params = useParams();

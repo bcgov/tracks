@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import ListComponent from "../../../common/components/ListComponent";
-import Loading from "../../../common/components/Loading";
+import ListComponent from "../../components/ListComponent";
+import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
 import {TravelPathActions} from "../../../state/actions";
-import CreateTravelPathDialog from "../../../common/components/CreateTravelPathDialog";
+import CreateTravelPathDialog from "../../components/CreateTravelPathDialog";
+import {Button} from "@material-ui/core";
 
 const TravelPathList = () => {
   const detailRoute = `/operator/travel_paths/view/:id`;
@@ -52,11 +53,13 @@ const TravelPathList = () => {
   return (
     <>
       <h2>My Travel Paths</h2>
-      {/*<CreateTravelPathDialog referenceData={referenceData} open={modalOpen} handleClose={handleClose} />*/}
+      <CreateTravelPathDialog referenceData={referenceData} open={modalOpen} handleClose={handleClose} />
 
       <ListComponent items={items} detailRoute={detailRoute}
                      headers={['Created', 'Mode', 'State', 'Start Date', 'End Date']}
                      rowRenderer={renderer} />
+
+      <Button onClick={() => setModalOpen(true)}>Create Travel Path</Button>
 
     </>
   );

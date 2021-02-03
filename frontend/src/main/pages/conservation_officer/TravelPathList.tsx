@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import ListComponent from "../../../common/components/ListComponent";
-import Loading from "../../../common/components/Loading";
+import ListComponent from "../../components/ListComponent";
+import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
 import {TravelPathActions} from "../../../state/actions";
+import CreateTravelPathDialog from 'src/main/components/CreateTravelPathDialog';
 
 const TravelPathList = () => {
   const detailRoute = `/operator/travel_paths/view/:id`;
@@ -16,6 +17,7 @@ const TravelPathList = () => {
 
   const items = useSelector(state => state.TravelPaths.items);
   const loading = useSelector(state => state.TravelPaths.loading);
+
   const dispatch = useDispatch();
   const load = () => dispatch({type: TravelPathActions.LIST_REQUEST, payload: {api: 'officer'}})
 

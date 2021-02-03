@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import ListComponent from "../../../common/components/ListComponent";
+import ListComponent from "../../components/ListComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {TenureActions} from "../../../state/actions";
-import Loading from "../../../common/components/Loading";
+import Loading from "../../components/Loading";
 
 const TenureList = () => {
 

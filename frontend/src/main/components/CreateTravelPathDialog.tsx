@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {
   Box,
   Button,
@@ -14,12 +14,9 @@ import {
   Select,
   Typography
 } from "@material-ui/core";
-
-import axios from "axios";
-import CONFIG from "../../config";
-import {AuthenticationContext} from "./AuthRequired";
-import {KeycloakInstance} from "keycloak-js";
 import FileSubmissionDrop from "./FileSubmissionDrop";
+import {useDispatch} from "react-redux";
+import {TRAVEL_PATH_UPLOAD_REQUEST} from "../../state/actions";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -36,12 +33,9 @@ const CreateTravelPathDialog = (props) => {
 
   const classes = useStyles();
 
-  const [files, setFiles] = useState([]);
-  const [fileUploadReferences, setFileUploadReferences] = useState([])
-  const [uploadInProgress, setUploadInProgress] = useState(false);
+  const dispatch = useDispatch();
 
-  const authContext = useContext(AuthenticationContext);
-  const keycloakInstance: KeycloakInstance = authContext.keycloakInstance;
+  const [files, setFiles] = useState([]);
 
   const [formState, setFormState] = useState({
     modeOfTransport: "",
@@ -62,67 +56,15 @@ const CreateTravelPathDialog = (props) => {
 
 
   const doUpload = () => {
-    // clear
-    setFileUploadReferences([]);
-
-    const uploadPromises = files.map((f, i) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-
-              const blob = reader.result;
-
-              keycloakInstance.updateToken(30).then(() => {
-                axios.get(`${CONFIG.API_BASE}/api/v1/operator/travel_paths/upload_request`, {
-                  headers: authContext.requestHeaders(),
-                }).then((response) => {
-                  const uploadMetadata = response.data;
-                  const currentUploadReferences = fileUploadReferences;
-                  currentUploadReferences[i] = {id: uploadMetadata.id};
-                  setFileUploadReferences(currentUploadReferences);
-                  axios.put(uploadMetadata.url, blob, {
-                    onUploadProgress: (event) => {
-                      // upload progess report. we could do something useful with this.
-                    }
-                  }).then(() => {
-                    resolve();
-                  }).catch((err) => reject(err));
-                });
-              });
-            }
-            reader.readAsArrayBuffer(f);
-          }
-        );
+    dispatch({
+      type: TRAVEL_PATH_UPLOAD_REQUEST, payload: {
+        files,
+        metadata: {
+          modeOfTransport: formState.modeOfTransport
+        }
       }
-    );
-
-    Promise.all(uploadPromises).then(() => {
-        // happy path
-        const payload = {
-          modeOfTransport: formState.modeOfTransport,
-          files: fileUploadReferences
-        };
-
-        keycloakInstance.updateToken(30).then(() => {
-          axios.post(`${CONFIG.API_BASE}/api/v1/operator/travel_paths`, payload, {
-            headers: authContext.requestHeaders(),
-          }).then(() => {
-            handleClose();
-          });
-        }).catch((err) => {
-          // @todo creation failed even though upload worked
-          // set error state and give friendly messages
-          handleClose();
-        });
-
-
-      }
-    ).catch((err) => {
-        // @todo
-        // set error state and give friendly messages
-        handleClose();
-      }
-    );
+    })
+    handleClose();
   };
 
   const filesControl = () => {
@@ -178,15 +120,15 @@ const CreateTravelPathDialog = (props) => {
             >
               <MenuItem disabled={true} value={""}>Tenures</MenuItem>
 
-              {referenceData.tenures.map((m, i) => (
-                <MenuItem key={`t-${i}`} value={m.id}>{m.reference}</MenuItem>
-              ))}
+              {/*{referenceData.tenures.map((m, i) => (*/}
+              {/*  <MenuItem key={`t-${i}`} value={m.id}>{m.reference}</MenuItem>*/}
+              {/*))}*/}
 
-              <MenuItem disabled={true} value={""}>Park Permits</MenuItem>
+              {/*<MenuItem disabled={true} value={""}>Park Permits</MenuItem>*/}
 
-              {referenceData.permits.map((m, i) => (
-                <MenuItem key={`p-${i}`} value={m.id}>{m.reference}</MenuItem>
-              ))}
+              {/*{referenceData.permits.map((m, i) => (*/}
+              {/*  <MenuItem key={`p-${i}`} value={m.id}>{m.reference}</MenuItem>*/}
+              {/*))}*/}
 
             </Select>
           </FormControl>

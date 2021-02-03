@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import {officersSaga, operatorsSaga, permitsSaga, reportsSaga, tenuresSaga, travelPathsSaga} from "./sagas";
 import logger from 'redux-logger';
 import authenticationSaga from "./sagas/auth";
+import travelPathUploadSaga from "./sagas/travel_path_uploads";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,5 +22,6 @@ sagaMiddleware.run(permitsSaga);
 sagaMiddleware.run(tenuresSaga);
 sagaMiddleware.run(operatorsSaga);
 sagaMiddleware.run(officersSaga);
+sagaMiddleware.run(travelPathUploadSaga);
 
 export default store;

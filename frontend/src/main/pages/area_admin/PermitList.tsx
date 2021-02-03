@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import ListComponent from "../../../common/components/ListComponent";
+import ListComponent from "../../components/ListComponent";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {PermitActions} from "../../../state/actions";
-import Loading from "../../../common/components/Loading";
+import Loading from "../../components/Loading";
 
 const PermitList = () => {
 

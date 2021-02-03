@@ -86,6 +86,7 @@ const travelPaths = {
 
       const result = await client.query(q);
       const travelPathID = result.rows[0]['id'];
+      console.log('got id: ' + travelPathID);
 
       // associate the files with this travel path
       for (const f of addRequest.files) {
@@ -97,6 +98,8 @@ const travelPaths = {
                    and id = $3`,
           values: [req.tracksContext.subject, req.tracksContext.organization, f.id, travelPathID],
         }
+        console.dir(f);
+        console.log('assoc ' + f.id);
         await client.query(q);
       }
 

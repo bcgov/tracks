@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import ListComponent from "../../../common/components/ListComponent";
-import Loading from "../../../common/components/Loading";
+import ListComponent from "../../components/ListComponent";
+import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
 import {ReportActions} from "../../../state/actions";
 import moment from "moment";
