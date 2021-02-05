@@ -1,26 +1,25 @@
+@import 'fonts';
 @import 'colours';
 
 .header {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: auto;
-
   border-bottom: 2px solid $BCgovGold;
   background-color: $BCgovBlue;
 
   .container {
     display: flex;
+    flex: 1 1 auto;
     align-items: center;
+    align-items: center;
+    justify-content: space-between;
     height: 70px;
-    padding-right: 1rem;
-    padding-left: 1rem;
   }
 }
 
 .home-link {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
-  color: #ffffff;
+  color: $mainNavFontColor;
   text-decoration: none;
 
   &__image {
@@ -32,5 +31,34 @@
     font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
+  }
+}
+
+button.log-out {
+  color: $mainNavFontColor; 
+  font-family: $font-family;
+  font-size: 1rem;
+}
+
+.profile-nav {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  color: $mainNavFontColor;
+
+  li {
+    display: inline-block;
+  }
+
+  .role-selector {
+    margin-right: 2rem;
+  }
+
+  .username {
+    margin-right: 0.75rem;
+    padding-right: 1rem;
+    border-right: 1px solid $mainNavFontColor;
   }
 }

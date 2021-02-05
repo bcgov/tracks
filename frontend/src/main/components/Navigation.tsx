@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/nav.scss'
 import {Link, useHistory} from 'react-router-dom';
-import RoleSelector from "./RoleSelector";
 import {useSelector} from 'react-redux';
-import CONFIG from '../../config';
 import {userHasAnyRole} from "../../state/utilities/authentication_helper";
 
 const Navigation = () => {
 
   const history = useHistory();
   const currentUserRoles = useSelector(state => state.Auth.roles);
-  const bestName = useSelector(state => state.Auth.bestName);
 
   const nav = (path, name, roles) => ({
     path,
@@ -48,8 +45,8 @@ const Navigation = () => {
   }, [history.location.pathname]);
 
   return (
-    <nav>
-      <ul>
+    <nav className="main-nav">
+      <ul className={'container'}>
         {navs.map((n, i) => {
           if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
             return (
@@ -64,7 +61,7 @@ const Navigation = () => {
           }
         })}
 
-        <li className={'filler'} />
+        {/* <li className={'filler'} />
         {CONFIG.DEVELOPMENT_MODE && <li className={'right'}>
           <RoleSelector />
         </li>}
@@ -74,7 +71,7 @@ const Navigation = () => {
           >
             {`Logout ${bestName}`}
           </button>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

@@ -4,14 +4,34 @@ footer {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: auto;
-  color: white;
-  padding: 2px;
-  line-height: 2;
-  border-bottom: 2px solid $BCgovGold;
-  background: $mainNavBg;
+  padding: 1rem;
+  background: $BCgovBlue;
+  border-top: 2px solid $BCgovGold;
+  font-size: 0.9375rem;
 
   nav ul {
-    justify-content: start;
-    background: $mainNavBg;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+
+    a {
+      display: block;
+      padding: 0;
+      color: $mainNavFontColor;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  li + li {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid rgba($mainNavFontColor, 0.5);
   }
 }

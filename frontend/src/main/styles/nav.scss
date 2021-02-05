@@ -1,70 +1,31 @@
 @import 'colours';
 
-nav {
+.main-nav {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: auto;
-
-  background-color: $mainNavBg;
-  color: #ddd;
-
-  padding: 0;
+  color: $mainNavBg;
+  background: $mainNavBg;
 
   ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
     padding: 0;
     list-style-type: none;
   }
 
   li {
     position: relative;
-    display: flex;
+    display: inline-block;
     align-items: center;
 
-    + li:not(.filler):not(.right):before {
-      content: "|";
-      opacity: 50%;
-    }
-
     a {
-      display: block;
-      padding: 0;
-      margin: 0 1rem;
-      color: $mainNavFontColor;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-
-      &.active {
-        border-bottom: 2px solid $BCgovGold;
-      }
-
-    }
-
-    button {
-      background: none !important;
-      border: none;
       display: block;
       padding: 1rem;
       color: $mainNavFontColor;
       text-decoration: none;
-      font-size: 16px;
-      cursor: pointer;
 
       &:hover {
         text-decoration: underline;
       }
     }
-
-    &.filler {
-      flex-grow: 1;
-    }
-
   }
-
 }

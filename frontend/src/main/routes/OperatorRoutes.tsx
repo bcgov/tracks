@@ -1,5 +1,6 @@
 import React from "react";
 
+import OperatorProfile from "../pages/operator/OperatorProfile";
 import TravelPathList from "../pages/operator/TravelPathList";
 import TravelPathDetail from "../pages/operator/TravelPathDetail";
 import TenureList from "../pages/operator/TenureList";
@@ -11,7 +12,7 @@ import ReportList from "../pages/operator/ReportList";
 
 const OperatorRoutes =
   [
-
+    {path: "/operator/home", component: OperatorProfile},
     {path: "/operator/travel_paths/list", component: TravelPathList},
     {path: "/operator/travel_paths/view/:id", component: TravelPathDetail},
     {path: "/operator/tenures/view/:id", component: TenureDetail},

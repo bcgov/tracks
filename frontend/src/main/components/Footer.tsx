@@ -35,7 +35,7 @@ const Footer = () => {
   return (
     <footer id="footer">
       <nav>
-        <ul>
+        <ul className={'container'}>
           {navs.map((n, i) => {
             if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
               return (
@@ -54,6 +54,5 @@ const Footer = () => {
     </footer>);
 
 }
-
 
 export default Footer;

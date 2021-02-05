@@ -6,7 +6,6 @@ import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import React from "react";
 import {hot} from "react-hot-loader";
-import {Paper} from "@material-ui/core";
 import SharedRoutes from "./routes/SharedRoutes";
 import AreaAdminRoutes from "./routes/AreaAdminRoutes";
 import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
@@ -14,7 +13,7 @@ import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
 const Main = (props) => {
   return (
     <main>
-      <Paper>
+      <div>
         <Switch>
           {
             AdminRoutes.map((r, i) => (
@@ -55,7 +54,7 @@ const Main = (props) => {
           <Route path="*" component={NotFound} />
 
         </Switch>
-      </Paper>
+      </div>
     </main>
   );
 };
