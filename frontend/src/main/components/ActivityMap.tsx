@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {GeoJSON, MapContainer, TileLayer} from 'react-leaflet';
-import '../styles/map.scss';
+import '../styles/components/map.scss';
 import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,7 @@ const tileLayers = [
   },
 ];
 
-const TravelPathMap = (props) => {
+const ActivityMap = (props) => {
   const [tileLayer, setTileLayer] = useState(tileLayers[0]);
 
   return (
@@ -37,12 +37,12 @@ const TravelPathMap = (props) => {
 
 };
 
-TravelPathMap.defaultProps = {
+ActivityMap.defaultProps = {
   center: [49, -123]
 }
 
-TravelPathMap.propTypes = {
+ActivityMap.propTypes = {
   geometry: PropTypes.any,
 }
 
-export default TravelPathMap;
+export default ActivityMap;

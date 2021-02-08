@@ -20,7 +20,7 @@ footer {
     a {
       display: block;
       padding: 0;
-      color: $mainNavFontColor;
+      color: $darkBackgroundText;
       text-decoration: none;
 
       &:hover {
@@ -32,6 +32,6 @@ footer {
   li + li {
     margin-left: 1rem;
     padding-left: 1rem;
-    border-left: 1px solid rgba($mainNavFontColor, 0.5);
+    border-left: 1px solid rgba($darkBackgroundText, 0.5);
   }
 }

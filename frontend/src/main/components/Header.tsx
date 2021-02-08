@@ -13,13 +13,13 @@ const Header = () => {
   return (
     <header id="header" className={'header'}>
       <div className={'container'}>
-        <Link to="/" className={'home-link'}>
-          <img className="home-link__image" src="/images/gov3_bc_logo.png" width={155} height={52}
+        <Link to="/" className={'homeLink'}>
+          <img src="/images/gov3_bc_logo.png" width={155} height={52}
               alt={'BC Government Logo'} id="logo" />
-          <span className="home-link__title">Tracks</span>
+          Tracks
         </Link>
-        <nav className="profile-nav">
-        <li className={'role-selector'}>
+        <nav className="profile">
+        <li className={'roleSelector'}>
           <RoleSelector />
         </li>
         <li className={'username'}>
@@ -27,7 +27,7 @@ const Header = () => {
           {bestName}
         </li>
         <li>
-          <Button className={'log-out'} color="primary"
+          <Button className={'logout'} color="primary"
             // onClick={() => authContext.keycloakInstance.logout()}
           >
             Log out

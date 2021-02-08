@@ -1,11 +1,19 @@
 import React from 'react';
-import '../styles/map.scss';
+import '../styles/components/map.scss';
 import 'leaflet/dist/leaflet.css';
-import TravelPathMap from "./TravelPathMap";
+import ActivityMap from "./ActivityMap";
 
-const TravelPathDetailComponent = (props) => {
+
+const ActivityDetailComponent = (props) => {
 
   const {travelPath} = props;
+
+  const hasGeometry = (travelPath.geometry !== null && travelPath.coordinates !== null);
+  let mapCenter = null;
+
+  if (hasGeometry) {
+    mapCenter = [travelPath.centroid.coordinates[1], travelPath.centroid.coordinates[0]];
+  }
 
   return (
     <>
@@ -31,9 +39,6 @@ const TravelPathDetailComponent = (props) => {
             <dt>Created At</dt>
             <dd>{travelPath.createdat}</dd>
 
-            <dt>Centroid</dt>
-            <dd> {JSON.stringify(travelPath.centroid.coordinates)}</dd>
-
             <dt>Length (meters)</dt>
             <dd>{Math.round(travelPath.meters / 100) * 100}</dd>
 
@@ -41,12 +46,15 @@ const TravelPathDetailComponent = (props) => {
 
         </div>
 
-        <TravelPathMap geometry={travelPath.geometry}
-                       center={[travelPath.centroid.coordinates[1], travelPath.centroid.coordinates[0]]} />
+        {hasGeometry && <ActivityMap geometry={travelPath.geometry}
+                                     center={mapCenter} />
+        }
+        {hasGeometry ||
+        <p>No coordinate data exists for this travel path (perhaps import failed or the track was empty)</p>}
       </div>
     </>
   );
 };
 
 
-export default TravelPathDetailComponent;
+export default ActivityDetailComponent;

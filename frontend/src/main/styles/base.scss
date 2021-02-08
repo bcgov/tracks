@@ -1,5 +1,9 @@
 @import 'fonts';
 @import 'colours';
+@import 'buttons';
+@import 'tables';
+@import 'vars';
+@import 'editing';
 
 * {
   box-sizing: border-box;
@@ -13,109 +17,42 @@ html, body, #root {
 
 body {
   font-size: 16px;
-  font-family: $font-family;
-  color: $font-color;
+  font-family: $fontFamily;
+  color: $text;
 }
 
 #root {
   height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 
 h1 {
   letter-spacing: -0.02rem;
 }
 
-main {
+#mainColumnLayout {
   position: relative;
   flex-grow: 1;
   flex-shrink: 0;
-  flex-basis: auto;
+  margin-left: 2vw;
+  margin-right: 2vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+main {
   background-color: #f7f8fa;
-}
-
-.container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding-right: 1rem;
+  width: 100%;
   padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-table.dataTable {
-  min-width: 80%;
-
-  border-collapse: collapse;
-  line-height: 2;
-
-  thead {
-    border-bottom: 4px solid darkgray;
-    text-align: left;
-  }
-
-  tbody {
-    tr {
-      &:nth-child(2n+1) {
-        background: $tableOddRowBackground;
-        color:   $tableOddRowForeground;
-      }
-      &:nth-child(2n) {
-        background: $tableEvenRowBackground;
-        color:   $tableEvenRowForeground;
-      }
-
-      td {
-        text-align: left;
-      }
-    }
-
-    border-bottom: 1px solid darkgray;
-  }
-}
-
-table.clickable {
-  tbody {
-    tr {
-      cursor: pointer;
-
-      &:hover:nth-child(2n+1)  {
-        background: $tableOddRowHoverBackground;
-        color: $tableOddRowHoverForeground;
-      }
-
-      &:hover:nth-child(2n) {
-        background: $tableEvenRowHoverBackground;
-        color: $tableEvenRowHoverForeground;
-      }
-    }
-  }
-}
-
-div.editPane {
-  padding: 1rem 1rem;
-  border: 2px solid black;
-  margin: 0 1rem ;
-  border-radius: 4px ;
-  width: 18rem;
-  line-height: 2;
-
-
-  .formGroup {
-    label {
-      margin-left: -4px;
-      position: relative;
-      top: 0.5rem
-    }
-
-    input,select {
-      width: 100%;
-    }
-  }
-}
 
 // Page Layouts
-.pg-title {
+.pageTitle {
   padding: 2rem 1rem;
   background-color: #ffffff;
 
@@ -124,23 +61,7 @@ div.editPane {
   }
 }
 
-.titlebar__meta {
-  margin: 0.5rem 0;
-  padding: 0;
-
-  li {
-    position: relative;
-    display: inline-block;
-  }
-
-  li + li {
-    margin-left: 1rem;
-    padding-left: 1rem;
-    border-left: 1px solid #999999;
-  }
-}
-
-.pg-body {
+.pageBody {
   padding: 2.5rem 1rem;
 
   h2 {
@@ -148,14 +69,14 @@ div.editPane {
   }
 }
 
-Button {
-  text-transform: none !important;
-  letter-spacing: 0 !important;
+dt {
+  font-weight: bold;
+}
+dd {
+  margin: 0 0 0 0.25rem;
 }
 
-.loading {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-}
+
+
+
+

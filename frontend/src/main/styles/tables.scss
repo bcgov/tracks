@@ -1,0 +1,49 @@
+table.dataTable {
+  min-width: 100%;
+
+  border-collapse: collapse;
+  line-height: 2;
+
+  thead {
+    border-bottom: 4px solid darkgray;
+    text-align: left;
+  }
+
+  tbody {
+    tr {
+      &:nth-child(2n+1) {
+        background: $tableOddRowBackground;
+        color: $tableOddRowForeground;
+      }
+
+      &:nth-child(2n) {
+        background: $tableEvenRowBackground;
+        color: $tableEvenRowForeground;
+      }
+
+      td {
+        text-align: left;
+      }
+    }
+
+    border-bottom: 1px solid darkgray;
+  }
+}
+
+table.clickable {
+  tbody {
+    tr {
+      cursor: pointer;
+
+      &:hover:nth-child(2n+1) {
+        background: $tableOddRowHoverBackground;
+        color: $tableOddRowHoverForeground;
+      }
+
+      &:hover:nth-child(2n) {
+        background: $tableEvenRowHoverBackground;
+        color: $tableEvenRowHoverForeground;
+      }
+    }
+  }
+}

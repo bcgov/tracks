@@ -7,7 +7,8 @@ import {
   AUTH_REFRESH_TOKEN,
   AUTH_REQUEST_COMPLETE,
   AUTH_REQUEST_ERROR,
-  AUTH_SIGNIN_REQUEST
+  AUTH_SIGNIN_REQUEST,
+  AUTH_UPDATE_TOKEN_STATE
 } from "../actions";
 
 declare const _KEYCLOAK_REALM: string;
@@ -26,14 +27,12 @@ const keycloakInstance = Keycloak(
 
 function* keepTokenFresh() {
 
-  console.dir('updating token (if needed)');
   yield keycloakInstance.updateToken(MIN_TOKEN_FRESHNESS);
+  yield put({type: AUTH_UPDATE_TOKEN_STATE});
 
   const expiresIn = keycloakInstance.tokenParsed['exp']
     - Math.ceil(new Date().getTime() / 1000)
     + keycloakInstance.timeSkew;
-
-  console.log('scheduling update in: ' + (expiresIn - GRACE_PERIOD));
 
   // wait until the time is right
   yield delay((expiresIn - GRACE_PERIOD) * 1000);

@@ -5,11 +5,11 @@ import {
   PermitActions,
   ReportActions,
   TenureActions,
-  TravelPathActions
+  ActivityActions
 } from "../actions";
 import CONFIG from "../../config";
 
-const travelPathsSaga = defaultSagaGenerator(TravelPathActions, `${CONFIG.API_BASE}/api/v1/:API/travel_paths`);
+const travelPathsSaga = defaultSagaGenerator(ActivityActions, `${CONFIG.API_BASE}/api/v1/:API/travel_paths`);
 const officersSaga = defaultSagaGenerator(OfficerActions, `${CONFIG.API_BASE}/api/v1/:API/officers`);
 const operatorsSaga = defaultSagaGenerator(OperatorActions, `${CONFIG.API_BASE}/api/v1/:API/operators`);
 const permitsSaga = defaultSagaGenerator(PermitActions, `${CONFIG.API_BASE}/api/v1/:API/permits`);

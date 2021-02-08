@@ -5,60 +5,62 @@
   border-bottom: 2px solid $BCgovGold;
   background-color: $BCgovBlue;
 
+  margin: 0;
+  padding-left: 2vw;
+  padding-right: 2vw;
+
   .container {
     display: flex;
     flex: 1 1 auto;
-    align-items: center;
     align-items: center;
     justify-content: space-between;
     height: 70px;
   }
 }
 
-.home-link {
+.homeLink {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
-  color: $mainNavFontColor;
+  color: $headerText;
   text-decoration: none;
 
-  &__image {
+  img {
     margin-right: 1.25rem;
     margin-bottom: 4px;
   }
 
-  &__title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+
 }
 
-button.log-out {
-  color: $mainNavFontColor; 
-  font-family: $font-family;
+button.logout {
+  color: $darkBackgroundText;
+  font-family: $fontFamily;
   font-size: 1rem;
 }
 
-.profile-nav {
+.profile {
   display: flex;
   align-items: center;
   margin: 0;
   padding: 0;
   list-style-type: none;
-  color: $mainNavFontColor;
+  color: $headerText;
 
   li {
     display: inline-block;
   }
 
-  .role-selector {
+  .roleSelector {
     margin-right: 2rem;
   }
 
   .username {
     margin-right: 0.75rem;
     padding-right: 1rem;
-    border-right: 1px solid $mainNavFontColor;
+    border-right: 1px solid $darkBackgroundText;
   }
 }

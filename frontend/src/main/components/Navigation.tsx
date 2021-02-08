@@ -16,8 +16,6 @@ const Navigation = () => {
   });
 
   const navs = [
-    nav('/', 'Home', []),
-
     nav('/admin/reports/list', 'Track Observation Reports', ['admin']),
     nav('/admin/organizations/list', 'Commercial Operators', ['admin']),
     nav('/admin/officers/list', 'Conservation Officers', ['admin']),
@@ -28,14 +26,12 @@ const Navigation = () => {
     nav('/area_admin/reports/list', 'Travel Path Reports', ['area_admin']),
     nav('/area_admin/permits/list', 'Park Permits', ['area_admin']),
 
-    nav('/operator/travel_paths/list', 'Travel Paths', ['commercial_operator']),
+    nav('/operator/profile', 'Profile', ['commercial_operator']),
+    nav('/operator/activities/list', 'Activities', ['commercial_operator']),
     nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
-    nav('/operator/permits/list', 'My Park Permits', ['commercial_operator']),
-    nav('/operator/tenures/list', 'My Tenures', ['commercial_operator']),
 
     nav('/officer/travel_paths/list', 'My Travel Paths', ['conservation_officer']),
     nav('/officer/reports/list', 'Track Observation Reports', ['conservation_officer']),
-
   ];
 
   const [activeLink, setActiveLink] = useState(null);
@@ -45,7 +41,7 @@ const Navigation = () => {
   }, [history.location.pathname]);
 
   return (
-    <nav className="main-nav">
+    <nav className="primary">
       <ul className={'container'}>
         {navs.map((n, i) => {
           if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
@@ -60,18 +56,6 @@ const Navigation = () => {
             return null;
           }
         })}
-
-        {/* <li className={'filler'} />
-        {CONFIG.DEVELOPMENT_MODE && <li className={'right'}>
-          <RoleSelector />
-        </li>}
-        <li className={'right'}>
-          <button
-            // onClick={() => authContext.keycloakInstance.logout()}
-          >
-            {`Logout ${bestName}`}
-          </button>
-        </li> */}
       </ul>
     </nav>
   );

@@ -8,6 +8,12 @@ import {
 
 class TravelPathUploadState {
 
+  constructor() {
+    this.uploading = false;
+    this.error = false;
+    this.success = false;
+  }
+
   uploading: boolean;
   error: boolean;
   success: boolean;

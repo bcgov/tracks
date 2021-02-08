@@ -1,15 +1,17 @@
 $linkBackground: #003366;
 $logoBackground: #003366;
 
-$foreground: #494949;
-
 $BCgovBlue: #003366;
 $BCgovGold: #fade81;
 
-$font-color: #313132;
+$headerText: #ffffff;
+$darkBackgroundText: #dddddd;
 
-$mainNavBg: #38598a;
-$mainNavFontColor: #ffffff;
+$text: #313132;
+$mutedText: lighten($text, 30%);
+
+$mainNavBg: #ffffff;
+$mainNavFontColor: #222222;
 
 $tableEvenRowBackground: #ebebfc;
 $tableEvenRowForeground: #333333;

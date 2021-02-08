@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect} from 'react';
-import '../styles/auth.scss';
+import '../styles/components/auth.scss';
 import {withRouter} from 'react-router';
 import {useDispatch, useSelector} from 'react-redux';
 import {AUTH_INITIALIZE_REQUEST, AUTH_SIGNIN_REQUEST} from "../../state/actions";

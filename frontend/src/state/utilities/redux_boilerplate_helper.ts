@@ -5,6 +5,8 @@ import {getAuthHeaders} from "./authentication_helper";
 class BusinessObjectActionNames {
 
   constructor(basename: string) {
+    this.LIST_UNLOAD = `${basename}_LIST_UNLOAD`;
+    this.DETAIL_UNLOAD = `${basename}_DETAIL_UNLOAD`;
     this.LIST_REQUEST = `${basename}_LIST_REQUEST`;
     this.DETAIL_REQUEST = `${basename}_DETAIL_REQUEST`;
     this.LIST_REQUEST_COMPLETE = `${basename}_LIST_REQUEST_COMPLETE`;
@@ -14,6 +16,8 @@ class BusinessObjectActionNames {
   }
 
   LIST_REQUEST: string;
+  LIST_UNLOAD: string;
+  DETAIL_UNLOAD: string;
   DETAIL_REQUEST: string;
   LIST_REQUEST_COMPLETE: string;
   DETAIL_REQUEST_COMPLETE: string;
@@ -43,8 +47,22 @@ const initialState = new DefaultState();
 const defaultReducer = (actionsObject) => (state = initialState, action) => {
   switch (action.type) {
 
+    case actionsObject.LIST_UNLOAD: {
+      return {
+        ...state,
+        items: [],
+      };
+    }
+
+    case actionsObject.DETAIL_UNLOAD: {
+      return {
+        ...state,
+        item: null,
+      };
+    }
     case actionsObject.LIST_REQUEST: {
       return {
+        ...state,
         loading: true,
         error: false,
         items: []
@@ -53,6 +71,7 @@ const defaultReducer = (actionsObject) => (state = initialState, action) => {
 
     case actionsObject.DETAIL_REQUEST: {
       return {
+        ...state,
         loading: true,
         error: false,
         item: null

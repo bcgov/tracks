@@ -6,15 +6,20 @@ import {ReportActions} from "../../../state/actions";
 import moment from "moment";
 
 const ReportList = () => {
-  const detailRoute = `/operator/reports/view/:id`;
+  // const detailRoute = `/operator/reports/view/:id`;
 
   const items = useSelector(state => state.Reports.items);
   const loading = useSelector(state => state.Reports.loading);
   const dispatch = useDispatch();
-  const load = () => dispatch({type: ReportActions.LIST_REQUEST, payload: {api: 'operator'}})
+  const load = () => dispatch({type: ReportActions.LIST_REQUEST, payload: {api: 'operator'}});
+  const unload = () => dispatch({type: ReportActions.LIST_UNLOAD});
+
 
   useEffect(() => {
     load();
+    return () => {
+      unload();
+    }
   }, []);
 
   if (loading || items === undefined) {
@@ -32,10 +37,9 @@ const ReportList = () => {
   )
   return (
     <>
-      <h2>My Travel Path Reports</h2>
+      <h2>Travel Path Reports</h2>
 
       <ListComponent items={items}
-        //detailRoute={detailRoute}
                      headers={['State', 'Tenure or Park Permit', 'Period Start', 'Period End', 'Last Updated']}
                      rowRenderer={renderer} />
 

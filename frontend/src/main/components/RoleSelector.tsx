@@ -13,7 +13,7 @@ const RoleSelector = () => {
   const history = useHistory();
 
   return (
-    <div>
+    <>
       <span> Acting as </span>
 
       <select
@@ -30,7 +30,7 @@ const RoleSelector = () => {
         }
       </select>
 
-    </div>
+    </>
   );
 };
 

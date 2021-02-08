@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import ListComponent from "../../components/ListComponent";
-import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {OperatorActions} from "../../../state/actions";
 import Loading from "../../components/Loading";
+import ButtonBar from "../../components/ButtonBar";
+import {Button} from "@material-ui/core";
 
 const OperatorList = () => {
   const detailRoute = `/admin/organizations/view/:id`;
@@ -34,13 +35,18 @@ const OperatorList = () => {
 
   return (
     <>
-      <h2>Organizations</h2>
+      <h2>Commercial Operators</h2>
+      <ButtonBar>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => history.push('/admin/organizations/add')}
+        >Create New</Button>
+      </ButtonBar>
       <ListComponent items={items}
                      detailRoute={detailRoute}
                      headers={['Name', 'Region', 'Type', 'Last Activity Date', 'Status']}
                      rowRenderer={renderer} />
-
-      <Link to={'/admin/organizations/add'}>Create New Commercial Operator</Link>
     </>
   );
 };

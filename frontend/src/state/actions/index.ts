@@ -8,9 +8,11 @@ const AUTH_INITIALIZE_REQUEST = 'AUTH_INITIALIZE_REQUEST';
 const AUTH_INITIALIZE_COMPLETE = 'AUTH_INITIALIZE_COMPLETE';
 const AUTH_SIGNIN_REQUEST = 'AUTH_SIGNIN_REQUEST';
 const AUTH_REFRESH_TOKEN = 'AUTH_REFRESH_TOKEN';
+const AUTH_UPDATE_TOKEN_STATE = 'AUTH_UPDATE_TOKEN_STATE';
 
 export {
   AUTH_REFRESH_TOKEN,
+  AUTH_UPDATE_TOKEN_STATE,
   AUTH_SIGNIN_REQUEST,
   AUTH_SIGNOUT_REQUEST,
   AUTH_INITIALIZE_REQUEST,
@@ -20,7 +22,7 @@ export {
   AUTH_ACT_AS
 };
 
-const TravelPathActions = new BusinessObjectActionNames('TRAVEL_PATH');
+const ActivityActions = new BusinessObjectActionNames('ACTIVITY');
 const PermitActions = new BusinessObjectActionNames('PERMIT');
 const TenureActions = new BusinessObjectActionNames('TENURE');
 const OfficerActions = new BusinessObjectActionNames('OFFICER');
@@ -28,7 +30,7 @@ const ReportActions = new BusinessObjectActionNames('REPORT');
 const OperatorActions = new BusinessObjectActionNames('OPERATOR');
 
 export {
-  TravelPathActions,
+  ActivityActions,
   PermitActions,
   TenureActions,
   OfficerActions,

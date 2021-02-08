@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateTravelPathDialog = (props) => {
-  const {referenceData, open, handleClose} = props;
+const CreateActivityDialog = (props) => {
+  const {modes, tenures, permits, open, handleClose} = props;
 
   const classes = useStyles();
 
@@ -45,8 +45,26 @@ const CreateTravelPathDialog = (props) => {
 
   const handleUpdate = (event) => {
     const currentState = formState;
-    currentState[event.target.name] = event.target.value;
-    setFormState(formState);
+    let matches = null;
+
+    switch (event.target.name) {
+      case 'tenureOrPermit':
+        matches = event.target.value.match(/p-(\d+)/);
+        if (matches !== null) {
+          currentState['parksPermit'] = matches[1];
+          currentState['tenure'] = '';
+        }
+        matches = event.target.value.match(/t-(\d+)/);
+        if (matches !== null) {
+          currentState['tenure'] = matches[1];
+          currentState['parksPermit'] = '';
+        }
+        break;
+      default:
+        currentState[event.target.name] = event.target.value;
+    }
+
+    setFormState(currentState);
   }
 
 
@@ -56,11 +74,21 @@ const CreateTravelPathDialog = (props) => {
 
 
   const doUpload = () => {
+    const torpMetadata = {};
+
+    if (formState.parksPermit !== null && formState.parksPermit !== '') {
+      torpMetadata['permit'] = formState.parksPermit;
+    } else if (formState.tenure !== null && formState.tenure !== '') {
+      torpMetadata['tenure'] = formState.tenure;
+    }
+
+
     dispatch({
       type: TRAVEL_PATH_UPLOAD_REQUEST, payload: {
         files,
         metadata: {
-          modeOfTransport: formState.modeOfTransport
+          modeOfTransport: formState.modeOfTransport,
+          ...torpMetadata
         }
       }
     })
@@ -105,7 +133,7 @@ const CreateTravelPathDialog = (props) => {
               name="modeOfTransport"
               onChange={handleUpdate}>
               <MenuItem disabled={true} value={""}>Select</MenuItem>
-              {referenceData.modes.map((m, i) => (
+              {modes.map((m, i) => (
                 <MenuItem key={i} value={m}>{m}</MenuItem>
               ))}
             </Select>
@@ -114,21 +142,25 @@ const CreateTravelPathDialog = (props) => {
 
           <FormControl className={classes.formControl}>
             <InputLabel id="label-related-select">Tenure or BC Parks Permit</InputLabel>
+
             <Select
+              defaultValue={``}
+              name="tenureOrPermit"
               labelId="label-related-select"
               id="related-select"
+              onChange={handleUpdate}
             >
               <MenuItem disabled={true} value={""}>Tenures</MenuItem>
 
-              {/*{referenceData.tenures.map((m, i) => (*/}
-              {/*  <MenuItem key={`t-${i}`} value={m.id}>{m.reference}</MenuItem>*/}
-              {/*))}*/}
+              {tenures.map((m, i) => (
+                <MenuItem key={`t-${m.id}`} value={`t-${m.id}`}>{m.reference}</MenuItem>
+              ))}
 
-              {/*<MenuItem disabled={true} value={""}>Park Permits</MenuItem>*/}
+              <MenuItem disabled={true} value={""}>Park Permits</MenuItem>
 
-              {/*{referenceData.permits.map((m, i) => (*/}
-              {/*  <MenuItem key={`p-${i}`} value={m.id}>{m.reference}</MenuItem>*/}
-              {/*))}*/}
+              {permits.map((m, i) => (
+                <MenuItem key={`p-${m.id}`} value={`p-${m.id}`}>{m.reference}</MenuItem>
+              ))}
 
             </Select>
           </FormControl>
@@ -153,4 +185,4 @@ const CreateTravelPathDialog = (props) => {
   )
 }
 
-export default CreateTravelPathDialog;
+export default CreateActivityDialog;

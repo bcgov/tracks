@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import ListComponent from "../../components/ListComponent";
 import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
-import {TravelPathActions} from "../../../state/actions";
-import CreateTravelPathDialog from 'src/main/components/CreateTravelPathDialog';
+import {ActivityActions} from "../../../state/actions";
+import CreateActivityDialog from '../../components/CreateActivityDialog';
 
 const TravelPathList = () => {
   const detailRoute = `/operator/travel_paths/view/:id`;
@@ -19,7 +19,7 @@ const TravelPathList = () => {
   const loading = useSelector(state => state.TravelPaths.loading);
 
   const dispatch = useDispatch();
-  const load = () => dispatch({type: TravelPathActions.LIST_REQUEST, payload: {api: 'officer'}})
+  const load = () => dispatch({type: ActivityActions.LIST_REQUEST, payload: {api: 'officer'}})
 
   useEffect(() => {
     load();
@@ -53,7 +53,7 @@ const TravelPathList = () => {
   return (
     <>
       <h2>My Travel Paths</h2>
-      {/*<CreateTravelPathDialog referenceData={referenceData} open={modalOpen} handleClose={handleClose} />*/}
+      {/*<CreateActivityDialog referenceData={referenceData} open={modalOpen} handleClose={handleClose} />*/}
 
       <ListComponent items={items} detailRoute={detailRoute}
                      headers={['Created', 'Mode', 'State', 'Start Date', 'End Date']}

@@ -1,6 +1,6 @@
 import {keycloakInstance} from "../sagas/auth";
 import CONFIG from "../../config";
-import {AUTH_ACT_AS, AUTH_INITIALIZE_COMPLETE, AUTH_REQUEST_COMPLETE} from "../actions";
+import {AUTH_ACT_AS, AUTH_INITIALIZE_COMPLETE, AUTH_REQUEST_COMPLETE, AUTH_UPDATE_TOKEN_STATE} from "../actions";
 
 
 class Actor {
@@ -142,6 +142,12 @@ const Auth = (state = initialState, action) => {
       return {
         ...state,
         authenticated,
+        ...loadCurrentStateFromKeycloak(state)
+      }
+    }
+    case AUTH_UPDATE_TOKEN_STATE: {
+      return {
+        ...state,
         ...loadCurrentStateFromKeycloak(state)
       }
     }

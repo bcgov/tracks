@@ -1,7 +1,7 @@
 import React from 'react';
 import CONFIG from "../../../config";
 import {useParams} from "react-router";
-import TravelPathMap from "../../components/TravelPathMap";
+import ActivityMap from "../../components/ActivityMap";
 import {useHistory} from "react-router-dom";
 
 const TravelPathDetail = () => {
@@ -44,7 +44,7 @@ const TravelPathDetail = () => {
 
         </div>
 
-        <TravelPathMap geometry={it.geometry} center={[it.centroid.coordinates[1], it.centroid.coordinates[0]]} />
+        <ActivityMap geometry={it.geometry} center={[it.centroid.coordinates[1], it.centroid.coordinates[0]]} />
       </div>
       {(history.length >= 1) &&
       <button onClick={() => history.goBack()}>Go back</button>

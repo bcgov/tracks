@@ -1,0 +1,46 @@
+@import '../fonts';
+@import '../colours';
+
+div.contextualMetadata {
+
+  padding-left: 2vw;
+
+  width: 100%;
+  margin: 0;
+  line-height: 1.4;
+
+  h1 {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    list-style-type: none;
+
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      color: $mutedText;
+      margin: 0;
+      padding: 0;
+
+      &:not(:last-child) {
+        &:after {
+          content: '|';
+          padding-left: 0.25rem;
+          padding-right: 0.25rem;
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: $mutedText;
+      }
+
+
+    }
+
+  }
+}
