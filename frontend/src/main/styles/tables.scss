@@ -1,49 +1,18 @@
-table.dataTable {
-  min-width: 100%;
-
+table {
+  width: 100%;
+  table-layout: fixed;
+  background: #ffffff;
   border-collapse: collapse;
-  line-height: 2;
+  font-size: 0.875rem;
 
-  thead {
-    border-bottom: 4px solid darkgray;
+  th, td {
+    padding: 1rem;
     text-align: left;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
   }
 
-  tbody {
-    tr {
-      &:nth-child(2n+1) {
-        background: $tableOddRowBackground;
-        color: $tableOddRowForeground;
-      }
-
-      &:nth-child(2n) {
-        background: $tableEvenRowBackground;
-        color: $tableEvenRowForeground;
-      }
-
-      td {
-        text-align: left;
-      }
-    }
-
-    border-bottom: 1px solid darkgray;
-  }
-}
-
-table.clickable {
-  tbody {
-    tr {
-      cursor: pointer;
-
-      &:hover:nth-child(2n+1) {
-        background: $tableOddRowHoverBackground;
-        color: $tableOddRowHoverForeground;
-      }
-
-      &:hover:nth-child(2n) {
-        background: $tableEvenRowHoverBackground;
-        color: $tableEvenRowHoverForeground;
-      }
-    }
+  th {
+    background: #f7f8fa;
   }
 }

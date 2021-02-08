@@ -14,13 +14,17 @@ const PageStructure = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Header />
-        <AuthRequired>
-          <ContextualMetadata/>
-          <div id={"mainColumnLayout"}>
-            <Navigation />
-            <Main />
-          </div>
-        </AuthRequired>
+        <div className={'appBody'}>
+          <AuthRequired>
+            <ContextualMetadata/>
+            <div className={'container'} id={"mainColumnLayout"}>
+              <div className={'containerInner'}>
+                <Navigation />
+                <Main />
+              </div>
+            </div>
+          </AuthRequired>
+        </div>
         <Footer />
       </BrowserRouter>
     </Provider>

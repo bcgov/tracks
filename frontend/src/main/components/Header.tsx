@@ -4,6 +4,8 @@ import RoleSelector from "./RoleSelector";
 import Button from '@material-ui/core/Button';
 import {useSelector} from 'react-redux';
 import CONFIG from '../../config';
+import Icon from '@mdi/react'
+import { mdiAccountCircle  } from '@mdi/js'
 import "../styles/header.scss";
 
 const Header = () => {
@@ -22,9 +24,17 @@ const Header = () => {
         <li className={'roleSelector'}>
           <RoleSelector />
         </li>
-        <li className={'username'}>
+        <li>
           {CONFIG.DEVELOPMENT_MODE}
-          {bestName}
+          <div className={'username'}>
+            <Icon path={mdiAccountCircle }
+              title="User Profile"
+              size={1}>
+            </Icon>
+            <span>
+              {bestName}
+            </span>
+          </div>
         </li>
         <li>
           <Button className={'logout'} color="primary"
