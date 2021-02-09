@@ -41,8 +41,8 @@ const Navigation = () => {
   }, [history.location.pathname]);
 
   return (
-    <nav className="primary">
-      <ul className={'container'}>
+    <nav className={'sideNav'}>
+      <ul>
         {navs.map((n, i) => {
           if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
             return (
