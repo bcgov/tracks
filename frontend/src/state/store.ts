@@ -1,7 +1,15 @@
 import {applyMiddleware, compose, createStore} from "redux";
 import {rootReducer} from "./reducers";
 import createSagaMiddleware from 'redux-saga';
-import {officersSaga, operatorsSaga, permitsSaga, reportsSaga, tenuresSaga, travelPathsSaga} from "./sagas";
+import {
+  officersSaga,
+  operatorsSaga,
+  permitsSaga,
+  reportsSaga,
+  tenuresSaga,
+  activitiesSaga,
+  reportingPeriodsSaga
+} from "./sagas";
 import logger from 'redux-logger';
 import authenticationSaga from "./sagas/auth";
 import travelPathUploadSaga from "./sagas/travel_path_uploads";
@@ -30,12 +38,13 @@ const store = createStore(rootReducer,
 // run the sagas
 sagaMiddleware.run(authenticationSaga);
 
-sagaMiddleware.run(travelPathsSaga);
+sagaMiddleware.run(activitiesSaga);
 sagaMiddleware.run(reportsSaga);
 sagaMiddleware.run(permitsSaga);
 sagaMiddleware.run(tenuresSaga);
 sagaMiddleware.run(operatorsSaga);
 sagaMiddleware.run(officersSaga);
+sagaMiddleware.run(reportingPeriodsSaga);
 sagaMiddleware.run(travelPathUploadSaga);
 
 export default store;

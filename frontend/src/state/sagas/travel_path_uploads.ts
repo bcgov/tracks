@@ -7,7 +7,7 @@ import {
   TRAVEL_PATH_UPLOAD_COMPLETE,
   TRAVEL_PATH_UPLOAD_ERROR,
   TRAVEL_PATH_UPLOAD_REQUEST,
-  TRAVEL_PATH_UPLOAD_STARTED, ActivityActions
+  TRAVEL_PATH_UPLOAD_STARTED
 } from "../actions";
 
 function* handleUploadRequest(action) {
@@ -20,7 +20,7 @@ function* handleUploadRequest(action) {
     const uploadedFiles = [];
 
     for (const f of files) {
-      const response = yield axios.get(`${CONFIG.API_BASE}/api/v1/operator/travel_paths/upload_request`, {
+      const response = yield axios.get(`${CONFIG.API_BASE}/api/v1/operator/activities/upload_request`, {
         headers: yield select(getAuthHeaders),
       });
 
@@ -34,7 +34,7 @@ function* handleUploadRequest(action) {
       });
     }
 
-    axios.post(`${CONFIG.API_BASE}/api/v1/operator/travel_paths`, {
+    axios.post(`${CONFIG.API_BASE}/api/v1/operator/activities`, {
       ...metadata,
       files: uploadedFiles
     }, {

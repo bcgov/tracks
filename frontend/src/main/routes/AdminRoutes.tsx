@@ -6,6 +6,7 @@ import OfficerEdit from "../pages/admin/OfficerEdit";
 import OfficerDetail from "../pages/admin/OfficerDetail";
 import OfficerList from "../pages/admin/OfficerList";
 import ReportList from "../pages/admin/ReportList";
+import ReportingPeriodList from "../pages/admin/ReportingPeriodList";
 
 const AdminRoutes =
   [
@@ -15,8 +16,8 @@ const AdminRoutes =
     {path: "/admin/officers/list", component: OfficerList},
     {path: "/admin/officers/view/:id", component: OfficerDetail},
     {path: "/admin/officers/edit/:id", component: OfficerEdit},
-    {path: "/admin/reports/list", component: ReportList}
-
+    {path: "/admin/reports/list", component: ReportList},
+    {path: "/admin/reporting_periods/list", component: ReportingPeriodList}
   ]
 
 export default AdminRoutes;

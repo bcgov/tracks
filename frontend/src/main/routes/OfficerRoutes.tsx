@@ -1,15 +1,13 @@
 import React from "react";
-import TravelPathList from "../pages/conservation_officer/TravelPathList";
-import TravelPathDetail from "../pages/conservation_officer/TravelPathDetail";
-import TravelPathAdd from "../pages/conservation_officer/TravelPathAdd";
+import ActivityList from "../pages/conservation_officer/ActivityList";
+import ActivityDetail from "../pages/conservation_officer/ActivityDetail";
 import ReportList from "../pages/conservation_officer/ReportList";
 
 
 const OfficerRoutes =
   [
-    {path: "/officer/travel_paths/list", component: TravelPathList},
-    {path: "/officer/travel_paths/add", component: TravelPathAdd},
-    {path: "/officer/travel_paths/view/:id", component: TravelPathDetail},
+    {path: "/officer/activities/list", component: ActivityList},
+    {path: "/officer/activities/view/:id", component: ActivityDetail},
     {path: "/officer/reports/list", component: ReportList},
   ];
 

@@ -23,13 +23,13 @@ const app = express()
 
   .get(`${prefix}/officer/reports`, stubapi.conservation_officer.reports.list)
 
-  .get(`${prefix}/officer/travel_paths`, stubapi.conservation_officer.travel_paths.list)
+  .get(`${prefix}/officer/activities`, stubapi.conservation_officer.activities.list)
 
   .get(`${prefix}/operator/reports`, stubapi.commercial_operator.reports.list)
 
-  .get(`${prefix}/operator/travel_paths`, stubapi.commercial_operator.travel_paths.list)
+  .get(`${prefix}/operator/activities`, stubapi.commercial_operator.activities.list)
 
-  .get(`${prefix}/operator/travel_paths/:id`, stubapi.commercial_operator.travel_paths.view)
+  .get(`${prefix}/operator/activities/:id`, stubapi.commercial_operator.activities.view)
 
   .get(`${prefix}/operator/permits`, stubapi.commercial_operator.permits.list)
 

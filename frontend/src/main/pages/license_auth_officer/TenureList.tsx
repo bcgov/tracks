@@ -1,23 +1,22 @@
 import React, {useEffect} from 'react';
 import ListComponent from "../../components/ListComponent";
 import {useDispatch, useSelector} from "react-redux";
-import {TenureActions} from "../../../state/actions";
+import {ReportActions, TenureActions} from "../../../state/actions";
 import Loading from "../../components/Loading";
 import ButtonBar from "../../components/ButtonBar";
 import {Button} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
+import moment from "moment";
+import {useList} from "../../../state/utilities/use_list";
+import FriendlyTime from "../../components/FriendlyTime";
 
 const TenureList = () => {
 
   const items = useSelector(state => state.Tenures.items);
   const loading = useSelector(state => state.Tenures.loading);
-  const dispatch = useDispatch();
-  const load = () => dispatch({type: TenureActions.LIST_REQUEST, payload: {api: 'license_auth_officer'}})
   const history = useHistory();
 
-  useEffect(() => {
-    load();
-  }, []);
+  useList(TenureActions, 'license_auth_officer');
 
   if (loading || items === undefined) {
     return (<Loading />);
@@ -28,14 +27,14 @@ const TenureList = () => {
       <td key='n'>{it.organizationname}</td>,
       <td key='ref'>{it.reference}</td>,
       <td key='st'>{it.subtenures}</td>,
-      <td key='sd'>{it.startdate}</td>,
-      <td key='ed'>{it.enddate}</td>
+      <td key='sd'><FriendlyTime value={it.startdate}/></td>,
+      <td key='ed'><FriendlyTime value={it.enddate}/></td>
     ]
   )
 
   return (
     <>
-      <h2>My Tenures</h2>
+      <h2>Tenure Assignments</h2>
       <ButtonBar>
         <Button
           variant="contained"

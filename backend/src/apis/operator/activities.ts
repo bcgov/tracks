@@ -12,7 +12,7 @@ class TravelPathAddRequest {
   files: AddFile[];
 }
 
-const travelPaths = {
+const activities = {
 
   list: async (req: JWTEnhancedRequest, res: Response): Promise<Response> => {
 
@@ -25,8 +25,9 @@ const travelPaths = {
                       tp.mode_of_transport   as mode,
                       ST_Length(tp.geometry) as meters,
                       tp.start_time          as startTime,
+                      tp.end_time            as endTime,
                       tp.processing_state    as processingState
-               from travel_path as tp
+               from activity as tp
                where tp.organization_id = $1
                order by createdAt desc`,
         values: [org]
@@ -78,7 +79,7 @@ const travelPaths = {
       await client.query('BEGIN TRANSACTION');
 
       let q = {
-        text: `insert into travel_path(user_sub, organization_id, mode_of_transport)
+        text: `insert into activity(user_sub, organization_id, mode_of_transport)
                values ($1, $2, $3)
                returning id`,
         values: [req.tracksContext.subject, req.tracksContext.organization, addRequest.modeOfTransport]
@@ -92,7 +93,7 @@ const travelPaths = {
       for (const f of addRequest.files) {
         q = {
           text: `update file_upload
-                 set travel_path_id = $4
+                 set activity_id = $4
                  where user_sub = $1
                    and organization_id = $2
                    and id = $3`,
@@ -130,7 +131,7 @@ const travelPaths = {
                       tp.created_at                                as createdAt,
                       tp.start_time                                as startTime,
                       tp.processing_state                          as processingState
-               from travel_path as tp
+               from activity as tp
                where tp.id = $1
                  and tp.organization_id = $2`,
         values: [id, org]
@@ -148,4 +149,4 @@ const travelPaths = {
   }
 
 }
-export {travelPaths};
+export {activities};

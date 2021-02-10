@@ -1,28 +1,20 @@
 import React, {useEffect} from 'react';
 import ListComponent from "../../components/ListComponent";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {OfficerActions} from "../../../state/actions";
 import Loading from "../../components/Loading";
 import {useHistory} from "react-router-dom";
 import {Button} from "@material-ui/core";
 import ButtonBar from "../../components/ButtonBar";
+import {useList} from "../../../state/utilities/use_list";
 
 const OfficerList = () => {
 
   const items = useSelector(state => state.Officers.items);
   const loading = useSelector(state => state.Officers.loading);
-  const dispatch = useDispatch();
-  const load = () => dispatch({type: OfficerActions.LIST_REQUEST, payload: {api: 'admin'}})
-  const unload = () => dispatch({type: OfficerActions.LIST_UNLOAD})
+  useList(OfficerActions, 'admin');
 
   const history = useHistory();
-
-  useEffect(() => {
-    load();
-    return () => {
-      unload();
-    };
-  }, []);
 
   const detailRoute = `/admin/officers/view/:id`;
 

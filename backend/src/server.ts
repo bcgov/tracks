@@ -9,25 +9,25 @@ import {CONFIG} from "./config";
 import {jwksMiddleware} from "./jwt";
 import {common} from "./apis/common";
 import {users} from "./apis/admin/users";
-import {tenures} from "./apis/admin/tenures";
-import {permits} from "./apis/admin/permits";
 import {regions} from "./apis/admin/regions";
 import {officers} from './apis/admin/officers';
 import {reports} from './apis/admin/reports';
 
-import {travelPaths as officerTravelPaths} from "./apis/officers/travel_paths";
-import {reports as officerReports} from './apis/officers/reports';
+import {activities as officerActivities} from "./apis/officer/activities";
+import {reports as officerReports} from './apis/officer/reports';
 
-import {travelPaths as orgTravelPaths} from "./apis/operators/travel_paths";
-import {reports as orgReports} from './apis/operators/reports';
-import {tenures as orgTenures} from "./apis/operators/tenures";
-import {permits as orgPermits} from "./apis/operators/permits";
+import {activities as operatorTravelPaths} from "./apis/operator/activities";
+import {reports as operatorReports} from './apis/operator/reports';
+import {tenures as operatorTenures} from "./apis/operator/tenures";
+import {permits as operatorPermits} from "./apis/operator/permits";
 
-import {reports as licenseAuthOfficersReports} from './apis/license_auth_officers/reports';
-import {tenures as licenseAuthOfficersTenures} from './apis/license_auth_officers/tenures';
+import {reports as licenseAuthOfficerReports} from './apis/license_auth_officer/reports';
+import {tenures as licenseAuthOfficerTenures} from './apis/license_auth_officer/tenures';
 
 import {reports as areaAdminReports} from './apis/area_admin/reports';
 import {permits as areaAdminPermits} from './apis/area_admin/permits';
+
+import {reportingPeriods} from "./apis/shared/reporting_periods";
 
 
 import {MinioService} from "./services/minio_service";
@@ -83,16 +83,6 @@ const app = express()
     requireOrganizationMapping: true
   }), regions.list)
 
-  .get(`${prefix}/admin/permits`, jwks.protect({
-    requireRole: 'admin',
-    requireOrganizationMapping: true
-  }), permits.list)
-
-  .get(`${prefix}/admin/tenures`, jwks.protect({
-    requireRole: 'admin',
-    requireOrganizationMapping: true
-  }), tenures.list)
-
   .get(`${prefix}/admin/users`, jwks.protect({
     requireRole: 'admin',
     requireOrganizationMapping: true
@@ -103,70 +93,50 @@ const app = express()
     requireOrganizationMapping: true
   }), officerReports.list)
 
-  .get(`${prefix}/officer/travel_paths`, jwks.protect({
+  .get(`${prefix}/officer/activities`, jwks.protect({
     requireRole: 'conservation_officer',
     requireOrganizationMapping: true
-  }), officerTravelPaths.list)
+  }), officerActivities.list)
 
-  .get(`${prefix}/officer/travel_paths/:id`, jwks.protect({
+  .get(`${prefix}/officer/activities/:id`, jwks.protect({
     requireRole: 'conservation_officer',
     requireOrganizationMapping: true
-  }), officerTravelPaths.view)
-
-  .get(`${prefix}/officer/operator_travel_paths`, jwks.protect({
-    requireRole: 'conservation_officer',
-    requireOrganizationMapping: true
-  }), officerTravelPaths.operatorTravelPaths)
-
-  .get(`${prefix}/officer/operator_travel_paths/:id`, jwks.protect({
-    requireRole: 'conservation_officer',
-    requireOrganizationMapping: true
-  }), officerTravelPaths.view)
+  }), officerActivities.view)
 
   .get(`${prefix}/operator/reports`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgReports.list)
+  }), operatorReports.list)
 
-  .get(`${prefix}/operator/travel_paths/upload_request`, jwks.protect({
+  .get(`${prefix}/operator/activities/upload_request`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgTravelPaths.generateUploadRequest)
+  }), operatorTravelPaths.generateUploadRequest)
 
-  .get(`${prefix}/operator/travel_paths`, jwks.protect({
+  .get(`${prefix}/operator/activities`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgTravelPaths.list)
+  }), operatorTravelPaths.list)
 
-  .get(`${prefix}/operator/travel_paths/:id`, jwks.protect({
+  .get(`${prefix}/operator/activities/:id`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgTravelPaths.view)
+  }), operatorTravelPaths.view)
 
-  .post(`${prefix}/operator/travel_paths`, jwks.protect({
+  .post(`${prefix}/operator/activities`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgTravelPaths.add)
+  }), operatorTravelPaths.add)
 
   .get(`${prefix}/operator/permits`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgPermits.list)
-
-  .get(`${prefix}/operator/permits/:id`, jwks.protect({
-    requireRole: 'commercial_operator',
-    requireOrganizationMapping: true
-  }), orgPermits.view)
+  }), operatorPermits.list)
 
   .get(`${prefix}/operator/tenures`, jwks.protect({
     requireRole: 'commercial_operator',
     requireOrganizationMapping: true
-  }), orgTenures.list)
-
-  .get(`${prefix}/operator/tenures/:id`, jwks.protect({
-    requireRole: 'commercial_operator',
-    requireOrganizationMapping: true
-  }), orgTenures.view)
+  }), operatorTenures.list)
 
   .get(`${prefix}/area_admin/reports`, jwks.protect({
     requireRole: 'area_admin',
@@ -181,14 +151,23 @@ const app = express()
   .get(`${prefix}/license_auth_officer/reports`, jwks.protect({
     requireRole: 'license_auth_officer',
     requireOrganizationMapping: true
-  }), licenseAuthOfficersReports.list)
+  }), licenseAuthOfficerReports.list)
 
   .get(`${prefix}/license_auth_officer/tenures`, jwks.protect({
     requireRole: 'license_auth_officer',
     requireOrganizationMapping: true
-  }), licenseAuthOfficersTenures.list)
+  }), licenseAuthOfficerTenures.list)
+
+
+  .get(`${prefix}/shared/reporting_periods`, jwks.protect({
+    requireAnyRole: ['license_auth_officer', 'admin', 'area_admin', 'commercial_operator', 'conservation_officer'],
+    requireOrganizationMapping: true
+  }), reportingPeriods.list)
+
 
   .get('*', common.notFound);
+
+app.options('*', cors());
 
 const server = http.createServer(app);
 const minio = MinioService;

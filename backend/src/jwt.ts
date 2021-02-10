@@ -31,6 +31,10 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
 
   function retrieveKey(header, callback) {
     jwks.getSigningKey(header.kid, function (err, key) {
+      if (err) {
+        throw err;
+      }
+
       const signingKey = key.getPublicKey();
       callback(null, signingKey);
     });
@@ -38,7 +42,7 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
 
   return {
 
-    protect: (protectionOptions?: { requireRole: string | null; requireOrganizationMapping: boolean }) => (async (req: JWTEnhancedRequest, response: Response, next: () => void) => {
+    protect: (protectionOptions?: { requireRole?: string | null; requireAnyRole?: string[] | null; requireOrganizationMapping: boolean }) => (async (req: JWTEnhancedRequest, response: Response, next: () => void) => {
 
       const authHeader = req.header('Authorization');
       if (!authHeader) {
@@ -96,6 +100,25 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
             return;
           }
         }
+
+
+        if (protectionOptions && protectionOptions.requireAnyRole) {
+          let passed = false;
+          for (const r of protectionOptions.requireAnyRole) {
+            console.dir(r);
+            if (req.tracksContext.hasRole(r)) {
+              passed = true;
+              break;
+            }
+          }
+
+          if (!passed) {
+            response.status(401).send();
+            return;
+          }
+
+        }
+
 
         if (protectionOptions && protectionOptions.requireOrganizationMapping) {
           if (!req.tracksContext.organization) {

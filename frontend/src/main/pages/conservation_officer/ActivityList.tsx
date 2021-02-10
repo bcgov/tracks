@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import ListComponent from "../../components/ListComponent";
 import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
-import {ActivityActions} from "../../../state/actions";
+import {ActivityActions, ReportActions} from "../../../state/actions";
 import CreateActivityDialog from '../../components/CreateActivityDialog';
+import {useList} from "../../../state/utilities/use_list";
+import FriendlyTime from "../../components/FriendlyTime";
 
-const TravelPathList = () => {
-  const detailRoute = `/operator/travel_paths/view/:id`;
+const ActivityList = () => {
+  const detailRoute = `/operator/activities/view/:id`;
 
   const [referenceData, setReferenceData] = useState({
     modes: ['WALK', 'CYCLE', 'FLY', 'HORSEBACK', 'WATERCRAFT', 'MOTOR VEHICLE (ON ROAD)', 'MOTOR VEHICLE (OFFROAD)', 'MIXED'],
@@ -14,21 +16,10 @@ const TravelPathList = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
+  const items = useSelector(state => state.Activities.items);
+  const loading = useSelector(state => state.Activities.loading);
 
-  const items = useSelector(state => state.TravelPaths.items);
-  const loading = useSelector(state => state.TravelPaths.loading);
-
-  const dispatch = useDispatch();
-  const load = () => dispatch({type: ActivityActions.LIST_REQUEST, payload: {api: 'officer'}})
-
-  useEffect(() => {
-    load();
-  }, []);
-
-  useEffect(() => {
-    // update();
-
-  }, []);
+  useList(ActivityActions, 'officer');
 
   const handleClose = () => {
     setModalOpen(false);
@@ -42,17 +33,23 @@ const TravelPathList = () => {
 
   const renderer = (it) => (
     [
-      <td key={'d'}>{it.createdat}</td>,
+      <td key={'d'}>
+        <FriendlyTime value={it.createdat} time from/>
+      </td>,
       <td key={'m'}>{it.mode}</td>,
       <td key={'ps'}>{it.processingstate}</td>,
-      <td key={'sd'}>{it.startdate}</td>,
-      <td key={'ed'}>{it.enddate}</td>
+      <td key={'sd'}>
+        <FriendlyTime value={it.starttime} time/>
+      </td>,
+      <td key={'ed'}>
+        <FriendlyTime value={it.endtime} time/>
+      </td>
     ]
   )
 
   return (
     <>
-      <h2>My Travel Paths</h2>
+      <h2>Activities</h2>
       {/*<CreateActivityDialog referenceData={referenceData} open={modalOpen} handleClose={handleClose} />*/}
 
       <ListComponent items={items} detailRoute={detailRoute}
@@ -64,4 +61,4 @@ const TravelPathList = () => {
 };
 
 
-export default TravelPathList;
+export default ActivityList;

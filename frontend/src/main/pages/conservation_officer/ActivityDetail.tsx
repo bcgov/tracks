@@ -4,9 +4,8 @@ import {useParams} from "react-router";
 import ActivityMap from "../../components/ActivityMap";
 import {useHistory} from "react-router-dom";
 
-const TravelPathDetail = () => {
+const ActivityDetail = () => {
 
-  const path = `${CONFIG.API_BASE}/api/v1/officer/travel_paths/:id`;
   const params = useParams();
   const history = useHistory();
 
@@ -59,4 +58,4 @@ const TravelPathDetail = () => {
   );
 };
 
-export default TravelPathDetail;
+export default ActivityDetail;

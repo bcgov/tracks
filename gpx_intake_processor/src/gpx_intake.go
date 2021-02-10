@@ -50,7 +50,7 @@ func testMinioConnection(client *minio.Client) error {
 }
 
 func flagProcessingFailed(db *sql.DB, id int) {
-	db.Query(`UPDATE travel_path set processing_state = 'FAILED' where id = $1`,
+	db.Query(`UPDATE activity set processing_state = 'FAILED' where id = $1`,
 		id)
 	// we ignore the potential db error since this is the interesting one anyway
 }
@@ -61,6 +61,8 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 
 	response, err := client.GetObject(context.Background(), bucketName, minioIdentifier, minio.GetObjectOptions{})
 	if err != nil {
+		log.Printf("Error downloading file from minio: %+v: %s\n", minioIdentifier, err)
+		flagProcessingFailed(db, id)
 		return err
 	}
 
@@ -78,15 +80,49 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 		flagProcessingFailed(db, id)
 		return err
 	}
-	stmt, err := db.Prepare(`UPDATE travel_path set geometry = $1, processing_state = 'READY' where id = $2`)
+	stmt, err := db.Prepare(`UPDATE activity set geometry = $1,
+                    start_time = $3,
+                    end_time = $4,
+                    processing_state = 'READY' where id = $2`)
+
 	if err != nil {
 		return err
 	}
 
 	defer tx.Rollback()
 
+	var earliestPoint *time.Time = nil
+	var latestPoint *time.Time = nil
+
 	for _, trk := range track.Trk {
 		log.Printf("examining track: %+v\n", trk)
+
+		for _, trkseg := range trk.TrkSeg {
+			log.Printf("examining track segment: %+v\n", trkseg)
+
+			// they should be in order, but check anyway
+			for _, trkpnt := range trkseg.TrkPt {
+
+				if earliestPoint == nil {
+					earliestPoint = &(trkpnt.Time)
+				}
+				if latestPoint == nil {
+					latestPoint = &(trkpnt.Time)
+				}
+				if trkpnt.Time.Before(*earliestPoint) {
+					earliestPoint = &(trkpnt.Time)
+				}
+				if trkpnt.Time.After(*latestPoint) {
+					latestPoint = &(trkpnt.Time)
+				}
+			}
+		}
+
+		log.Printf("trackpoint processing complete")
+
+		if earliestPoint != nil && latestPoint != nil {
+			log.Printf("time range %s to %s\n", *earliestPoint, *latestPoint)
+		}
 
 		ewkbhexGeom, err := ewkbhex.Encode(trk.Geom(geom.XY), ewkbhex.NDR)
 		if err != nil {
@@ -94,7 +130,7 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 			return err
 		}
 
-		stmt.Exec(ewkbhexGeom, id)
+		stmt.Exec(ewkbhexGeom, id, earliestPoint, latestPoint)
 
 		err = stmt.Close()
 		if err != nil {
@@ -120,7 +156,7 @@ func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id i
 
 func findAll(db *sql.DB, client *minio.Client) error {
 	rows, err := db.Query(`
-		SELECT f.id as id, f.minio_identifier as minio_identifier, tp.id as travel_path from file_upload f join travel_path tp on f.travel_path_id = tp.id where tp.processing_state = 'NEW';
+		SELECT f.id as id, f.minio_identifier as minio_identifier, tp.id as activity from file_upload f join activity tp on f.activity_id = tp.id where tp.processing_state = 'NEW';
 	`)
 	if err != nil {
 		return err
@@ -131,15 +167,15 @@ func findAll(db *sql.DB, client *minio.Client) error {
 	for rows.Next() {
 		var fileID int
 		var minioID string
-		var travelPathID int
+		var activityID int
 
-		if err := rows.Scan(&fileID, &minioID, &travelPathID); err != nil {
+		if err := rows.Scan(&fileID, &minioID, &activityID); err != nil {
 			return err
 		}
 
 		log.Printf("Will process file id: %+v, (%+v)\n", fileID, minioID)
 
-		if err := processEntry(db, client, minioID, travelPathID); err != nil {
+		if err := processEntry(db, client, minioID, activityID); err != nil {
 			log.Printf("Error processing file %s\n", err)
 			return err
 		}

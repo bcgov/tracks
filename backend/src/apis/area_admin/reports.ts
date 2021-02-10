@@ -11,13 +11,14 @@ const reports = {
                       r.state      as state,
                       pp.reference as parkPermit,
                       t.reference  as tenure,
-                      r.period_start_date,
-                      r.period_end_date,
+                      rp.start_date,
+                      rp.end_date,
                       r.updated_at
                from report r
                         inner join organization o on r.organization_id = o.id
                         left join permit pp on r.park_permit_id = pp.id
                         left join tenure t on r.tenure_id = t.id
+                        left join reporting_period rp on r.reporting_period_id = rp.id
                where state = 'SUBMITTED'
                  and r.type = 'TRAVEL PATH REPORT'
                  and park_permit_id is not null`

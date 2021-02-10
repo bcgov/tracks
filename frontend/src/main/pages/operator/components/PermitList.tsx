@@ -4,21 +4,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {PermitActions} from "../../../../state/actions";
 import Loading from "../../../components/Loading";
 import moment from "moment";
+import {useList} from "../../../../state/utilities/use_list";
 
 const PermitList = () => {
 
     const items = useSelector(state => state.Permits.items);
     const loading = useSelector(state => state.Permits.loading);
-    const dispatch = useDispatch();
-    const load = () => dispatch({type: PermitActions.LIST_REQUEST, payload: {api: 'operator'}})
-    const unload = () => dispatch({type: PermitActions.LIST_UNLOAD});
 
-    useEffect(() => {
-      load();
-      return () => unload();
-    }, []);
+    useList(PermitActions, 'operator');
 
-    if (loading || items === undefined) {
+  if (loading || items === undefined) {
       return (<Loading />);
     }
 

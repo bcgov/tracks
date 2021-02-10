@@ -133,7 +133,7 @@ const data = {
         "updated_at": "2021-01-27T09:51:24.880Z"
       }]
     },
-    travel_paths: {
+    activities: {
       list: [{
         "id": "1",
         "createdat": "2021-01-26T09:26:45.115Z",
@@ -198,7 +198,7 @@ const data = {
         "updated_at": "2021-01-27T09:53:17.641Z"
       }]
     },
-    travel_paths: {
+    activities: {
       list: [{
         "id": "1",
         "createdat": "2021-01-26T09:26:45.115Z",
@@ -257,12 +257,12 @@ const stubapis = {
         return res.status(200).send(data.commercial_operator.reports.list)
       },
     },
-    travel_paths: {
+    activities: {
       list: async (req, res): Promise<Response> => {
-        return res.status(200).send(data.commercial_operator.travel_paths.list)
+        return res.status(200).send(data.commercial_operator.activities.list)
       },
       view: async (req, res): Promise<Response> => {
-        return res.status(200).send(data.commercial_operator.travel_paths.view)
+        return res.status(200).send(data.commercial_operator.activities.view)
       },
     },
     permits: {
@@ -282,9 +282,9 @@ const stubapis = {
         return res.status(200).send(data.conservation_officer.reports.list)
       },
     },
-    travel_paths: {
+    activities: {
       list: async (req, res): Promise<Response> => {
-        return res.status(200).send(data.conservation_officer.travel_paths.list)
+        return res.status(200).send(data.conservation_officer.activities.list)
       },
     }
   }
