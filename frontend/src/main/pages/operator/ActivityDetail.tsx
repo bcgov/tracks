@@ -32,7 +32,7 @@ const ActivityDetail = () => {
 
   return (
     <>
-      <h2>Activity Detail</h2>
+      <h2>Travel Path Report Details</h2>
       <ActivityDetailComponent travelPath={item} />
       {(history.length >= 1) &&
       <button onClick={() => history.goBack()}>Go back</button>}

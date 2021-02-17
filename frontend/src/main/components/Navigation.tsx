@@ -28,8 +28,8 @@ const Navigation = () => {
     nav('/area_admin/permits/list', 'Park Permit Assignments', ['area_admin']),
 
     nav('/operator/profile', 'Profile', ['commercial_operator']),
-    nav('/operator/activities/list', 'Activities', ['commercial_operator']),
-    nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
+    nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator']),
+    // nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
 
     nav('/officer/activities/list', 'Activities', ['conservation_officer']),
     nav('/officer/reports/list', 'Track Observation Reports', ['conservation_officer']),

@@ -72,7 +72,7 @@ const ActivityList = () => {
 
   return (
     <>
-      <h2>Activities</h2>
+      <h2>Travel Path Reports</h2>
 
       <CreateActivityDialog modes={referenceData.modes}
                             tenures={tenures}
@@ -85,7 +85,7 @@ const ActivityList = () => {
           variant="contained"
           color="primary"
           onClick={() => setModalOpen(true)}
-        >Create Activity</Button>
+        >Create Travel Path Report</Button>
       </ButtonBar>
 
       <ListComponent items={items} detailRoute={detailRoute}
