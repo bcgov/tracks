@@ -22,7 +22,9 @@ const RequestRoleBinding = (props) => {
       <div className={'containerInner'}>
 
         <div>
+          {actingAs &&
           <h1>Welcome to TRACKS, {actingAs.name}</h1>
+          }
 
           <Typography variant={'h5'}>New User</Typography>
 
