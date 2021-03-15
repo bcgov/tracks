@@ -5,6 +5,7 @@ import {withRouter} from 'react-router';
 import {useDispatch, useSelector} from 'react-redux';
 import {AUTH_INITIALIZE_REQUEST, AUTH_SIGNIN_REQUEST} from "../../state/actions";
 import Loading from "./Loading";
+import RequestRoleBinding from "../pages/RequestRoleBinding";
 
 const AuthRequired = (props) => {
   const {children} = props;
@@ -13,6 +14,8 @@ const AuthRequired = (props) => {
 
   const initialized = useSelector(state => state.Auth.initialized);
   const authenticated = useSelector(state => state.Auth.authenticated);
+
+  const roleBound = useSelector(state => state.Auth.roles).length > 0;
 
   const signin = () => dispatch({type: AUTH_SIGNIN_REQUEST});
   const initialize = () => dispatch({type: AUTH_INITIALIZE_REQUEST});
@@ -28,11 +31,18 @@ const AuthRequired = (props) => {
   }
 
   if (authenticated) {
-    return (
-      <>
-        {children}
-      </>
-    );
+    if (roleBound) {
+      return (
+        <>
+          {children}
+        </>
+      );
+    } else {
+      return (
+        <RequestRoleBinding />
+      )
+    }
+
   }
 
   return (

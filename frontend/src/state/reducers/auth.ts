@@ -46,6 +46,14 @@ class AuthState {
     if (CONFIG.DEVELOPMENT_MODE) {
       this.developmentTools = {
         availableActors: [
+          new Actor('bceid/unbound1', 'Unbound BCeID User #1', null, []),
+          new Actor('bceid/unbound2', 'Unbound BCeID User #2', null, []),
+          new Actor('bceid/unbound3', 'Unbound BCeID User #3', null, []),
+
+          new Actor('idir/unbound1', 'Unbound BCeID User #1', null, []),
+          new Actor('idir/unbound2', 'Unbound BCeID User #2', null, []),
+          new Actor('idir/unbound3', 'Unbound BCeID User #3', null, []),
+
           new Actor('admin', 'System Administrator', {
             name: 'Government of British Columbia',
             id: 1
