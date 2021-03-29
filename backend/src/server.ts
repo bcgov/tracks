@@ -9,6 +9,7 @@ import {CONFIG} from "./config";
 import {jwksMiddleware} from "./jwt";
 import {common} from "./apis/common";
 import {users} from "./apis/admin/users";
+import {userSignup} from './apis/admin/user_signup';
 import {regions} from "./apis/admin/regions";
 import {officers} from './apis/admin/officers';
 import {reports} from './apis/admin/reports';
@@ -31,6 +32,7 @@ import {reportingPeriods} from "./apis/shared/reporting_periods";
 
 
 import {MinioService} from "./services/minio_service";
+import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
 
 const prefix = '/api/v1';
 
@@ -87,6 +89,16 @@ const app = express()
     requireRole: 'admin',
     requireOrganizationMapping: true
   }), users.list)
+
+  .get(`${prefix}/admin/onboarding`, jwks.protect({
+    requireRole: 'admin',
+    requireOrganizationMapping: true
+  }), userSignup.bindingRequests)
+
+  .post(`${prefix}/admin/onboarding`, jwks.protect({
+    requireRole: 'admin',
+    requireOrganizationMapping: true
+  }), userSignup.action)
 
   .get(`${prefix}/officer/reports`, jwks.protect({
     requireRole: 'conservation_officer',
@@ -164,6 +176,9 @@ const app = express()
     requireOrganizationMapping: true
   }), reportingPeriods.list)
 
+  .post(`${prefix}/signup`, jwks.protect({
+    requireOrganizationMapping: false
+  }), sharedUserSignup.requestBinding)
 
   .get('*', common.notFound);
 

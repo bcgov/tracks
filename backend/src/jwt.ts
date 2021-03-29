@@ -13,6 +13,7 @@ interface JWTEnhancedRequest extends Request {
     email: string | null;
     hasRole: (string) => boolean;
   };
+
   tracksContext: {
     organization: number;
     subject: string | null;
@@ -83,6 +84,7 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
         if (CONFIG.DEVELOPMENT_MODE && req.header('X-Subject-Override') && decoded.roles.includes('developer')) {
           subject = req.header('X-Subject-Override');
         }
+
         if (CONFIG.DEVELOPMENT_MODE && req.header('X-Roles-Override') && decoded.roles.includes('developer')) {
           roles = req.header('X-Roles-Override').split(/\s+/);
         }

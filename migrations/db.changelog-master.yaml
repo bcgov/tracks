@@ -168,3 +168,10 @@ databaseChangeLog:
          -  sqlFile:
               path: 0012u_add_reporting_periods.sql
               relativeToChangelogFile: true
+  -  changeSet:
+       id:  13
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0013u_add_role_binding_request.sql
+              relativeToChangelogFile: true

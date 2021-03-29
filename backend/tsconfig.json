@@ -19,7 +19,7 @@
     ]
   },
   "exclude": [
-    "**/*.test.ts",
+//    "**/*.test.ts",
     "build/*",
     "public/*"
   ],

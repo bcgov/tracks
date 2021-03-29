@@ -10,7 +10,7 @@ const UserService = {
     });
 
     if (queryResult.rowCount === 0) {
-      throw new Error('No such user');
+      return null;
     }
     return queryResult.rows[0].id;
   }

@@ -8,12 +8,13 @@ import {
   reportsSaga,
   tenuresSaga,
   activitiesSaga,
-  reportingPeriodsSaga
+  reportingPeriodsSaga, onboardingRequestsSaga
 } from "./sagas";
 import logger from 'redux-logger';
 import authenticationSaga from "./sagas/auth";
 import travelPathUploadSaga from "./sagas/travel_path_uploads";
 import persistState from 'redux-sessionstorage';
+import signupSaga from "./sagas/signup";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -46,5 +47,7 @@ sagaMiddleware.run(operatorsSaga);
 sagaMiddleware.run(officersSaga);
 sagaMiddleware.run(reportingPeriodsSaga);
 sagaMiddleware.run(travelPathUploadSaga);
+sagaMiddleware.run(signupSaga);
+sagaMiddleware.run(onboardingRequestsSaga);
 
 export default store;

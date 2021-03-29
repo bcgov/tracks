@@ -1,6 +1,7 @@
 import {combineReducers} from "redux";
 import {Auth} from "./auth";
 import {TravelPathUpload} from "./travel_path_uploads";
+import {Signup} from "./signup";
 
 import {
   OfficerActions,
@@ -8,8 +9,10 @@ import {
   PermitActions,
   ReportActions,
   TenureActions,
-  ActivityActions, ReportingPeriodActions
+  ActivityActions,
+  ReportingPeriodActions, OnboardingRequestActions
 } from "../actions";
+
 import {defaultReducer} from "../utilities/redux_boilerplate_helper";
 
 const rootReducer = combineReducers({
@@ -20,8 +23,10 @@ const rootReducer = combineReducers({
   Operators: defaultReducer(OperatorActions),
   Officers: defaultReducer(OfficerActions),
   ReportingPeriods: defaultReducer(ReportingPeriodActions),
+  OnboardingRequests: defaultReducer(OnboardingRequestActions),
   TravelPathUpload,
   Auth,
+  Signup
 });
 
 export {rootReducer};

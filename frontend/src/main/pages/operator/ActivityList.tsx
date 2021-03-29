@@ -18,7 +18,9 @@ const ActivityList = () => {
   });
 
   const [modalOpen, setModalOpen] = useState(false);
-
+  const handleClose = () => {
+    setModalOpen(false);
+  }
   const items = useSelector(state => state.Activities.items);
   const loading = useSelector(state => state.Activities.loading);
 
@@ -46,9 +48,7 @@ const ActivityList = () => {
     }
   }, [uploading]);
 
-  const handleClose = () => {
-    setModalOpen(false);
-  }
+
 
   if ((loading || items === undefined) || tenuresLoading || permitsLoading) {
     return (<Loading />);

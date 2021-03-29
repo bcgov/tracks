@@ -15,6 +15,13 @@ const CONFIG = {
 
   JWKS_URL: process.env.JWKS_URL || 'http://localhost:8888/auth/realms/tracks/protocol/openid-connect/certs',
 
+
+  KEYCLOAK_BASE_URL: process.env.KEYCLOAK_BASE_URL || 'http://localhost:8888',
+  KEYCLOAK_REALM: process.env.KEYCLOAK_REALM || 'tracks',
+  KEYCLOAK_CLIENT: process.env.KEYCLOAK_CLIENT || 'tracks-web',
+  KEYCLOAK_SA: process.env.KEYCLOAK_SA,
+  KEYCLOAK_SA_SECRET: process.env.KEYCLOAK_SA_SECRET,
+
   RABBIT_MQ_HOST: process.env.RABBIT_MQ_HOST || 'localhost',
   RABBIT_MQ_VHOST: process.env.RABBIT_MQ_VHOST || 'tracks',
   RABBIT_MQ_USER: process.env.RABBIT_MQ_USER || 'rabbitmq',
@@ -28,8 +35,14 @@ const CONFIG = {
 
   // values from docker-compose file. for local testing only.
   MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY || 'ccfc0d5a7a8f589ed8bc65b50a255d64',
-  MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || '7f99fccf96804f9456f05ad8bf926dba'
+  MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || '7f99fccf96804f9456f05ad8bf926dba',
 
+  SMTP_ENABLED: process.env.SMTP_ENABLED === 'true' || false,
+  SMTP_HOST: process.env.SMTP_HOST || 'localhost',
+  SMTP_PORT: process.env.SMTP_PORT || '587',
+  SMTP_MAIL_FROM: process.env.SMTP_MAIL_FROM || 'tracks@gov.bc.ca',
+  SMTP_USERNAME: process.env.SMTP_MAIL_FROM || '',
+  SMTP_PASSWORD: process.env.SMTP_PASSWORD || ''
 
 };
 

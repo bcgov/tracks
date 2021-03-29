@@ -29,6 +29,7 @@ const OfficerActions = new BusinessObjectActionNames('OFFICER');
 const ReportActions = new BusinessObjectActionNames('REPORT');
 const OperatorActions = new BusinessObjectActionNames('OPERATOR');
 const ReportingPeriodActions = new BusinessObjectActionNames('REPORTING_PERIOD');
+const OnboardingRequestActions = new BusinessObjectActionNames('ONBOARDING_REQUEST');
 
 export {
   ActivityActions,
@@ -37,7 +38,8 @@ export {
   OfficerActions,
   ReportActions,
   OperatorActions,
-  ReportingPeriodActions
+  ReportingPeriodActions,
+  OnboardingRequestActions
 };
 
 const TRAVEL_PATH_UPLOAD_REQUEST = 'TRAVEL_PATH_UPLOAD_REQUEST';
@@ -51,3 +53,16 @@ export {
   TRAVEL_PATH_UPLOAD_REQUEST,
   TRAVEL_PATH_UPLOAD_STARTED
 };
+
+const SIGNUP_REQUEST_BINDING_SUBMIT = 'SIGNUP_REQUEST_BINDING_SUBMIT';
+const SIGNUP_REQUEST_BINDING_STARTED = 'SIGNUP_REQUEST_BINDING_STARTED';
+const SIGNUP_REQUEST_BINDING_COMPLETE = 'SIGNUP_REQUEST_BINDING_COMPLETE';
+const SIGNUP_REQUEST_BINDING_ERROR = 'SIGNUP_REQUEST_BINDING_ERROR';
+
+export {
+  SIGNUP_REQUEST_BINDING_SUBMIT,
+  SIGNUP_REQUEST_BINDING_ERROR,
+  SIGNUP_REQUEST_BINDING_COMPLETE,
+  SIGNUP_REQUEST_BINDING_STARTED
+};
+

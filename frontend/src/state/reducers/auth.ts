@@ -33,6 +33,9 @@ class AuthState {
     availableActors: Actor[];
   } | null;
 
+  username: string;
+  idir: boolean;
+
   bestName: string;
   requestHeaders: {
     authorization: string;
@@ -50,9 +53,9 @@ class AuthState {
           new Actor('bceid/unbound2', 'Unbound BCeID User #2', null, []),
           new Actor('bceid/unbound3', 'Unbound BCeID User #3', null, []),
 
-          new Actor('idir/unbound1', 'Unbound BCeID User #1', null, []),
-          new Actor('idir/unbound2', 'Unbound BCeID User #2', null, []),
-          new Actor('idir/unbound3', 'Unbound BCeID User #3', null, []),
+          new Actor('idir/unbound1', 'Unbound IDIR User #1', null, []),
+          new Actor('idir/unbound2', 'Unbound IDIR User #2', null, []),
+          new Actor('idir/unbound3', 'Unbound IDIR User #3', null, []),
 
           new Actor('admin', 'System Administrator', {
             name: 'Government of British Columbia',
@@ -103,6 +106,13 @@ function loadCurrentStateFromKeycloak(previousState: AuthState): object {
       }
     }
   }
+  let username = null;
+  let idir = false;
+
+  if (keycloakInstance.idTokenParsed) {
+    username = keycloakInstance.idTokenParsed['preferred_username'];
+    idir = username.toLowerCase().startsWith('idir');
+  }
 
   let roles = [];
   if (keycloakInstance.resourceAccess != null) {
@@ -127,7 +137,9 @@ function loadCurrentStateFromKeycloak(previousState: AuthState): object {
   return {
     bestName,
     headers,
-    roles
+    roles,
+    username,
+    idir
   };
 
 }

@@ -15,7 +15,7 @@ const AuthRequired = (props) => {
   const initialized = useSelector(state => state.Auth.initialized);
   const authenticated = useSelector(state => state.Auth.authenticated);
 
-  const roleBound = useSelector(state => state.Auth.roles).length > 0;
+  const roles = useSelector(state => state.Auth.roles);
 
   const signin = () => dispatch({type: AUTH_SIGNIN_REQUEST});
   const initialize = () => dispatch({type: AUTH_INITIALIZE_REQUEST});
@@ -31,7 +31,7 @@ const AuthRequired = (props) => {
   }
 
   if (authenticated) {
-    if (roleBound) {
+    if (roles.length > 0) {
       return (
         <>
           {children}

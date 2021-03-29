@@ -20,6 +20,7 @@ const Navigation = () => {
     nav('/admin/reports/list', 'Track Observation Reports', ['admin']),
     nav('/admin/organizations/list', 'Commercial Operators', ['admin']),
     nav('/admin/officers/list', 'Conservation Officers', ['admin']),
+    nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin']),
 
     nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer']),
     nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer']),
