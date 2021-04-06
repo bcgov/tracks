@@ -1,7 +1,6 @@
 import jwksRsa from 'jwks-rsa';
 import {Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
-import {CONFIG} from "./config";
 import UserService from "./services/user_service";
 
 interface JWTEnhancedRequest extends Request {
@@ -78,16 +77,8 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
           hasRole: (role) => (decoded.roles && decoded.roles.length > 0 && decoded.roles.includes(role))
         };
 
-        let subject = decoded.sub;
-        let roles = decoded.roles;
-
-        if (CONFIG.DEVELOPMENT_MODE && req.header('X-Subject-Override') && decoded.roles.includes('developer')) {
-          subject = req.header('X-Subject-Override');
-        }
-
-        if (CONFIG.DEVELOPMENT_MODE && req.header('X-Roles-Override') && decoded.roles.includes('developer')) {
-          roles = req.header('X-Roles-Override').split(/\s+/);
-        }
+        const subject = decoded.sub;
+        const roles = decoded.roles;
 
         req.tracksContext = {
           hasRole: (role) => (roles && roles.length > 0 && roles.includes(role)),

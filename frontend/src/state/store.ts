@@ -13,28 +13,11 @@ import {
 import logger from 'redux-logger';
 import authenticationSaga from "./sagas/auth";
 import travelPathUploadSaga from "./sagas/travel_path_uploads";
-import persistState from 'redux-sessionstorage';
 import signupSaga from "./sagas/signup";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const slicer = (paths: string[]) => {
-  return (state: any) => {
-    if (state.hasOwnProperty('developmentTools')) {
-      return
-      {
-        Auth: {
-          actingAs: (state.Auth !== undefined) ? state.Auth.developmentTools.actingAs : null
-        }
-      }
-    }
-    return {};
-  }
-}
-
-const store = createStore(rootReducer,
-  compose(applyMiddleware(sagaMiddleware, logger), persistState(null, {slicer}))
-);
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
 
 // run the sagas
 sagaMiddleware.run(authenticationSaga);

@@ -44,7 +44,6 @@
     "test": "jest src/**/*.ts",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "start": "nodemon",
-    "stub": "nodemon --config nodemon.stub.json",
     "build": "tsc",
     "serve": "node build/server.js"
   }

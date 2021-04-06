@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const RequestRoleBinding = (props) => {
-  const {actingAs, currentUserRoles, bestName} = props;
   const classes = useStyles();
   const dispatch = useDispatch();
 

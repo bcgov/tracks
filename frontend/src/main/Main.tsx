@@ -1,11 +1,11 @@
+import React from "react";
+import {hot} from "react-hot-loader";
 import {Route, Switch} from "react-router";
+import LandingPage from "./pages/LandingPage";
+import NotFound from "./pages/NotFound";
 import AdminRoutes from "./routes/AdminRoutes";
 import OperatorRoutes from "./routes/OperatorRoutes";
 import OfficerRoutes from "./routes/OfficerRoutes";
-import LandingPage from "./pages/LandingPage";
-import NotFound from "./pages/NotFound";
-import React from "react";
-import {hot} from "react-hot-loader";
 import SharedRoutes from "./routes/SharedRoutes";
 import AreaAdminRoutes from "./routes/AreaAdminRoutes";
 import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
