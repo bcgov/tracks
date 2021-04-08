@@ -18,7 +18,7 @@ const CONFIG = {
 
   KEYCLOAK_BASE_URL: process.env.KEYCLOAK_BASE_URL || 'http://localhost:8888',
   KEYCLOAK_REALM: process.env.KEYCLOAK_REALM || 'tracks',
-  KEYCLOAK_CLIENT: process.env.KEYCLOAK_CLIENT || 'tracks-web',
+  KEYCLOAK_CLIENT: process.env.KEYCLOAK_CLIENT || 'tracks-ui',
   KEYCLOAK_SA: process.env.KEYCLOAK_SA,
   KEYCLOAK_SA_SECRET: process.env.KEYCLOAK_SA_SECRET,
 
