@@ -50,8 +50,8 @@ function loadCurrentStateFromKeycloak(previousState: AuthState): object {
 
   let roles = [];
   if (keycloakInstance.resourceAccess != null) {
-    if (keycloakInstance.resourceAccess['tracks-web'] !== undefined) {
-      roles = keycloakInstance.resourceAccess['tracks-web'].roles;
+    if (keycloakInstance.resourceAccess['tracks-ui'] !== undefined) {
+      roles = keycloakInstance.resourceAccess['tracks-ui'].roles;
     }
   }
   const headers = {

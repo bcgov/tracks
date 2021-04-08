@@ -14,8 +14,8 @@ const OnboardingList = () => {
   const loading = useSelector(state => state.OnboardingRequests.loading);
 
   const organizations = [
-    {id: 2, name: 'Government of British Columbia'},
-    {id: 1, name: 'Commercial Operator 1'},
+    {id: 1, name: 'Government of British Columbia'},
+    {id: 2, name: 'Commercial Operator 1'},
     {id: 3, name: 'Commercial Operator 2'},
   ]
 
