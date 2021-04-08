@@ -27,10 +27,6 @@ const RequestRoleBinding = (props) => {
   const {idir} = props;
   const auth = useSelector(state => state.Auth);
 
-  if (CONFIG.DEVELOPMENT_MODE) {
-    return (<p>This page does not function in developer mode</p>);
-  }
-
   const bceIdRoles = [
     {
       value: 'commercial_operator',

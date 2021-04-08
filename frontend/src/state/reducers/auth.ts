@@ -45,7 +45,7 @@ function loadCurrentStateFromKeycloak(previousState: AuthState): object {
 
   if (keycloakInstance.idTokenParsed) {
     username = keycloakInstance.idTokenParsed['preferred_username'];
-    idir = username.toLowerCase().startsWith('idir');
+    idir = username.toLowerCase().endsWith('@idir');
   }
 
   let roles = [];
