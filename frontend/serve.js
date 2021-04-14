@@ -18,6 +18,13 @@ app.use('/', expressStaticGzip('public/build', {
   setHeaders: cacheHeaders,
 
 }));
+
+app.use('/config', expressStaticGzip('public/config', {
+  index: false,
+  maxAge: 3600 * 1000,
+  setHeaders: cacheHeaders,
+}));
+
 app.use('/', expressStaticGzip('assets/', {
   index: false,
   maxAge: 1000 * 3600,

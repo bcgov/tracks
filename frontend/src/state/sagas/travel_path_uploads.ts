@@ -1,6 +1,5 @@
 // clear
 import axios from "axios";
-import CONFIG from "../../config";
 import {put, select, takeLatest} from "redux-saga/effects";
 import {getAuthHeaders} from "../utilities/authentication_helper";
 import {
@@ -20,7 +19,7 @@ function* handleUploadRequest(action) {
     const uploadedFiles = [];
 
     for (const f of files) {
-      const response = yield axios.get(`${CONFIG.API_BASE}/api/v1/operator/activities/upload_request`, {
+      const response = yield axios.get(`${window.CONFIG.API_BASE}/api/v1/operator/activities/upload_request`, {
         headers: yield select(getAuthHeaders),
       });
 
@@ -34,7 +33,7 @@ function* handleUploadRequest(action) {
       });
     }
 
-    axios.post(`${CONFIG.API_BASE}/api/v1/operator/activities`, {
+    axios.post(`${window.CONFIG.API_BASE}/api/v1/operator/activities`, {
       ...metadata,
       files: uploadedFiles
     }, {

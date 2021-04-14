@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  config.js: |
+      window.CONFIG = {
+        "API_BASE": "http://tracks{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}/api",
+    {{ if .Values.keycloak.useExternal }}
+        "KEYCLOAK_URL": {{ .Values.keycloak.externalUrl | quote }},
+    {{ else }}
+        "KEYCLOAK_URL": "http://keycloak{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}",
+    {{ end }}
+        "KEYCLOAK_REALM": "tracks-dev",
+        "KEYCLOAK_CLIENT_ID": "tracks-web"
+      }

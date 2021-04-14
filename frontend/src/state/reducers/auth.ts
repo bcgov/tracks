@@ -1,6 +1,5 @@
 import {keycloakInstance} from "../sagas/auth";
-import CONFIG from "../../config";
-import {AUTH_ACT_AS, AUTH_INITIALIZE_COMPLETE, AUTH_REQUEST_COMPLETE, AUTH_UPDATE_TOKEN_STATE} from "../actions";
+import {AUTH_INITIALIZE_COMPLETE, AUTH_REQUEST_COMPLETE, AUTH_UPDATE_TOKEN_STATE} from "../actions";
 
 class AuthState {
   initialized: boolean;

@@ -1,0 +1,20 @@
+# domain for created ingresses
+domainSuffix: .iron.mapleleaf.intranet
+
+hostSuffix: -localdev
+environment: localdev
+
+keycloak:
+  useExternal: true
+  externalUrl: "http://keycloak.mapleleaf.intranet:8080/auth"
+
+frontend:
+  image: frontend:latest
+backend:
+  image: backend:latest
+database:
+  pvc:
+    size: "5Gi"
+minio:
+  pvc:
+    size: "1Gi"

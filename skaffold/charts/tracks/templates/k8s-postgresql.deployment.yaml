@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      name: database
+      labels:
+        app: database
+    spec:
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: database-pvc
+      containers:
+        - name: database
+          image: postgres:13-alpine
+          resources:
+            requests:
+              cpu: 500m
+              memory: "500M"
+            limits:
+              cpu: 4
+              memory: "1000M"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: password
+            - name: POSTGRES_DB
+              value: 'tracks'
+          volumeMounts:
+            - mountPath: "/var/lib/postgresql/data"
+              name: pgdata
+              subPath: data
+  selector:
+    matchLabels:
+      app: database

@@ -2,7 +2,6 @@ const Webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 require('dotenv').config();
 
@@ -91,12 +90,6 @@ const config = {
       chunkFilename: '[id].css',
     }),
     new CompressionPlugin(),
-    new Webpack.DefinePlugin({
-      _API_BASE: 'API_BASE' in process.env ? JSON.stringify(process.env.API_BASE) : '\'http://localhost:6005\'',
-      _KEYCLOAK_CLIENT_ID: 'KEYCLOAK_CLIENT_ID' in process.env ? JSON.stringify(process.env.KEYCLOAK_CLIENT_ID) : '\'tracks-web\'',
-      _KEYCLOAK_URL: 'KEYCLOAK_URL' in process.env ? JSON.stringify(process.env.KEYCLOAK_URL) : '\'http://localhost:8888/auth/\'',
-      _KEYCLOAK_REALM: 'KEYCLOAK_REALM' in process.env ? JSON.stringify(process.env.KEYCLOAK_REALM) : '\'tracks\'',
-    }),
     new HtmlWebpackPlugin({
       chunks: ['mainBundle'],
       filename: 'generated_index.html',

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      name: frontend
+      labels:
+        app: frontend
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: frontend-config
+            items:
+              - key: "config.js"
+                path: "config.js"
+      containers:
+        - name: frontend
+          image: {{ .Values.frontend.image }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: "400M"
+            limits:
+              cpu: 100m
+              memory: "400M"
+          args:
+            - "npm"
+            - "run"
+            - "serve"
+          volumeMounts:
+            - name: config
+              mountPath: "/opt/app/public/config"
+              readOnly: true
+          ports:
+            - containerPort: 5001
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5001
+            timeoutSeconds: 1
+            initialDelaySeconds: 2
+            periodSeconds: 20
+  selector:
+    matchLabels:
+      app: frontend

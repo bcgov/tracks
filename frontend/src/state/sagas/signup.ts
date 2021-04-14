@@ -1,6 +1,5 @@
 // clear
 import axios from "axios";
-import CONFIG from "../../config";
 import {put, select, takeLatest} from "redux-saga/effects";
 import {getAuthHeaders} from "../utilities/authentication_helper";
 import {
@@ -17,7 +16,7 @@ function* handleRequestRoleBinding(action) {
   yield put({type: SIGNUP_REQUEST_BINDING_STARTED});
 
   try {
-    yield axios.post(`${CONFIG.API_BASE}/api/v1/signup`, {
+    yield axios.post(`${window.CONFIG.API_BASE}/api/v1/signup`, {
       ...request,
     }, {
       headers: yield select(getAuthHeaders),

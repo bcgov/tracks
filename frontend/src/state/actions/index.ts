@@ -1,6 +1,5 @@
 import {BusinessObjectActionNames} from "../utilities/redux_boilerplate_helper";
 
-const AUTH_ACT_AS = 'AUTH_ACT_AS';
 const AUTH_REQUEST_COMPLETE = 'AUTH_REQUEST_COMPLETE';
 const AUTH_REQUEST_ERROR = 'AUTH_REQUEST_ERROR';
 const AUTH_SIGNOUT_REQUEST = 'AUTH_SIGNOUT_REQUEST';
@@ -18,8 +17,7 @@ export {
   AUTH_INITIALIZE_REQUEST,
   AUTH_INITIALIZE_COMPLETE,
   AUTH_REQUEST_COMPLETE,
-  AUTH_REQUEST_ERROR,
-  AUTH_ACT_AS
+  AUTH_REQUEST_ERROR
 };
 
 const ActivityActions = new BusinessObjectActionNames('ACTIVITY');

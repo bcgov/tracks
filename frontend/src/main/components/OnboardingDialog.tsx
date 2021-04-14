@@ -16,8 +16,6 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import FriendlyTime from "./FriendlyTime";
 import axios from "axios";
-import CONFIG from "../../config";
-
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -57,7 +55,7 @@ const OnboardingDialog = (props) => {
     };
 
     //@todo move to saga
-    axios.post(`${CONFIG.API_BASE}/api/v1/admin/onboarding`,
+    axios.post(`${window.CONFIG.API_BASE}/api/v1/admin/onboarding`,
       payload,
       {
         headers: authHeaders,

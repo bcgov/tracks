@@ -1,5 +1,4 @@
 import React from "react";
-import {hot} from "react-hot-loader";
 import {Route, Switch} from "react-router";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
@@ -10,7 +9,7 @@ import SharedRoutes from "./routes/SharedRoutes";
 import AreaAdminRoutes from "./routes/AreaAdminRoutes";
 import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
 
-const Main = (props) => {
+const Main = () => {
   return (
     <main>
       <div>
@@ -59,4 +58,4 @@ const Main = (props) => {
   );
 };
 
-export default hot(module)(Main);
+export default Main;

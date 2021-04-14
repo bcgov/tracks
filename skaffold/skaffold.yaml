@@ -1,0 +1,34 @@
+apiVersion: skaffold/v2beta13
+kind: Config
+build:
+  cluster:
+    concurrency: 3
+    resources:
+      requests:
+        cpu: 1
+        ephemeralStorage: 2Gi
+        memory: 2Gi
+      limits:
+        cpu: 1
+        ephemeralStorage: 2Gi
+        memory: 4Gi
+  artifacts:
+  - image: frontend
+    context: ../frontend
+    kaniko:
+      env:
+        - name: KEYCLOAK_URL
+          value: http://keycloak.iron.mapleleaf.intranet
+        - name: API_BASE
+          value: http://tracks-localdev.iron.mapleleaf.intranet/api
+      dockerfile: Dockerfile
+      cache:
+        repo: ""
+deploy:
+  helm:
+    releases:
+      - name: skaffold-helm-release
+        chartPath: ./charts/tracks
+        artifactOverrides:
+          frontend:
+            image: frontend
