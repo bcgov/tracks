@@ -43,7 +43,6 @@
     "check-types": "tsc",
     "test": "jest src/**/*.ts",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
-    "start": "nodemon",
     "build": "tsc",
     "serve": "node build/server.js"
   }

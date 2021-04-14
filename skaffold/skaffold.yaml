@@ -2,10 +2,10 @@ apiVersion: skaffold/v2beta13
 kind: Config
 build:
   cluster:
-    concurrency: 3
+    concurrency: 1
     resources:
       requests:
-        cpu: 1
+        cpu: 10m
         ephemeralStorage: 2Gi
         memory: 2Gi
       limits:
@@ -16,11 +16,24 @@ build:
   - image: frontend
     context: ../frontend
     kaniko:
-      env:
-        - name: KEYCLOAK_URL
-          value: http://keycloak.iron.mapleleaf.intranet
-        - name: API_BASE
-          value: http://tracks-localdev.iron.mapleleaf.intranet/api
+      dockerfile: Dockerfile
+      cache:
+        repo: ""
+  - image: backend
+    context: ../backend
+    kaniko:
+      dockerfile: Dockerfile
+      cache:
+        repo: ""
+  - image: migrator
+    context: ../migrations
+    kaniko:
+      dockerfile: Dockerfile
+      cache:
+        repo: ""
+  - image: gpx_intake_processor
+    context: ../gpx_intake_processor
+    kaniko:
       dockerfile: Dockerfile
       cache:
         repo: ""
@@ -32,3 +45,9 @@ deploy:
         artifactOverrides:
           frontend:
             image: frontend
+          backend:
+            image: backend
+          migrator:
+            image: migrator
+          gpx_intake_processor:
+            image: gpx_intake_processor
