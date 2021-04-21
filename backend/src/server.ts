@@ -13,6 +13,7 @@ import {userSignup} from './apis/admin/user_signup';
 import {regions} from "./apis/admin/regions";
 import {officers} from './apis/admin/officers';
 import {reports} from './apis/admin/reports';
+import {dataExports} from './apis/admin/exports';
 
 import {activities as officerActivities} from "./apis/officer/activities";
 import {reports as officerReports} from './apis/officer/reports';
@@ -27,6 +28,7 @@ import {tenures as licenseAuthOfficerTenures} from './apis/license_auth_officer/
 
 import {reports as areaAdminReports} from './apis/area_admin/reports';
 import {permits as areaAdminPermits} from './apis/area_admin/permits';
+import {dataExports as areaAdminDataExports} from './apis/area_admin/exports';
 
 import {reportingPeriods} from "./apis/shared/reporting_periods";
 
@@ -74,6 +76,17 @@ const app = express()
     requireRole: 'admin',
     requireOrganizationMapping: true
   }), officers.view)
+
+
+  .post(`${prefix}/exports`, jwks.protect({
+    requireRole: 'admin',
+    requireOrganizationMapping: true
+  }), dataExports.request)
+
+  .get(`${prefix}/exports/:id`, jwks.protect({
+    requireRole: 'admin',
+    requireOrganizationMapping: true
+  }), dataExports.detail)
 
   .get(`${prefix}/admin/reports`, jwks.protect({
     requireRole: 'admin',
@@ -160,6 +173,18 @@ const app = express()
     requireOrganizationMapping: true
   }), areaAdminPermits.list)
 
+  .post(`${prefix}/area_admin/exports`, jwks.protect({
+    requireRole: 'area_admin',
+    requireOrganizationMapping: true
+  }), areaAdminDataExports.request)
+
+
+  .get(`${prefix}/area_admin/exports/{id}`, jwks.protect({
+    requireRole: 'area_admin',
+    requireOrganizationMapping: true
+  }), areaAdminDataExports.detail)
+
+
   .get(`${prefix}/license_auth_officer/reports`, jwks.protect({
     requireRole: 'license_auth_officer',
     requireOrganizationMapping: true
@@ -179,6 +204,8 @@ const app = express()
   .post(`${prefix}/signup`, jwks.protect({
     requireOrganizationMapping: false
   }), sharedUserSignup.requestBinding)
+
+  .get('/health', common.healthCheck)
 
   .get('*', common.notFound);
 

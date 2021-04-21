@@ -1,7 +1,8 @@
 # domain for created ingresses
 domainSuffix: .iron.mapleleaf.intranet
+# domainSuffix: .fvgke.mapleleafsoftware.io
 
-hostSuffix: -localdev
+hostSuffix: ""
 environment: localdev
 
 keycloak:
@@ -12,6 +13,10 @@ frontend:
   image: frontend:latest
 backend:
   image: backend:latest
+migrator:
+  image: migrator:latest
+gpx_intake_processor:
+  image: gpx_intake_processor:latest
 database:
   pvc:
     size: "5Gi"

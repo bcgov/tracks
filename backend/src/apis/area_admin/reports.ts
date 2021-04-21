@@ -19,7 +19,7 @@ const reports = {
                         left join permit pp on r.park_permit_id = pp.id
                         left join tenure t on r.tenure_id = t.id
                         left join reporting_period rp on r.reporting_period_id = rp.id
-               where state = 'SUBMITTED'
+               where state in ('SUBMITTED', 'ACCEPTED', 'REJECTED')
                  and r.type = 'TRAVEL PATH REPORT'
                  and park_permit_id is not null`
       });

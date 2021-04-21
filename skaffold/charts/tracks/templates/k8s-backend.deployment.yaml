@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      name: backend
+      labels:
+        app: backend
+    spec:
+      initContainers:
+        - name: migrator
+          image: {{ .Values.migrator.image }}
+          resources:
+            requests:
+              cpu: 250m
+              memory: "1200M"
+            limits:
+              cpu: 1
+              memory: "1200M"
+          env:
+            - name: TRACKS_DB_NAME
+              value: tracks
+            - name: TRACKS_DB_HOST
+              value: database
+            - name: TRACKS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: username
+            - name: TRACKS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: password
+      containers:
+        - name: backend
+          image: {{ .Values.backend.image }}
+          resources:
+            requests:
+              cpu: 250m
+              memory: "400M"
+            limits:
+              cpu: 250m
+              memory: "400M"
+          args:
+            - "npm"
+            - "run"
+            - "serve"
+          env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-access
+                  key: access_key
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-access
+                  key: secret_key
+            - name: MINIO_HOST
+              value: minio{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}
+            - name: MINIO_PORT
+              value: '80'
+            - name: MINIO_USE_SSL
+              value: 'false'
+            - name: TRACKS_DB_NAME
+              value: tracks
+            - name: TRACKS_DB_HOST
+              value: database
+            - name: TRACKS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: username
+            - name: TRACKS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: password
+            - name: JWKS_URL
+              value: http://keycloak.mapleleaf.intranet:8080/auth/realms/tracks-dev/protocol/openid-connect/certs
+            - name: KEYCLOAK_BASE_URL
+              value: http://keycloak.mapleleaf.intranet:8080
+            - name: KEYCLOAK_REALM
+              value: tracks-dev
+            - name: KEYCLOAK_CLIENT
+              value: tracks-web
+            - name: KEYCLOAK_SA
+              value: tracks-web-sa
+            - name: KEYCLOAK_SA_SECRET
+              value: asdf
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 6005
+            timeoutSeconds: 1
+            initialDelaySeconds: 2
+            periodSeconds: 20
+  selector:
+    matchLabels:
+      app: backend
+
+

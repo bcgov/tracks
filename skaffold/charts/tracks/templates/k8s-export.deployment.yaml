@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: export-processor
+spec:
+  replicas: 1
+  minReadySeconds: 2
+  template:
+    metadata:
+      name: export-processor
+      labels:
+        app: export-processor
+    spec:
+      containers:
+        - name: export-processor
+          image: {{ .Values.export_processor.image }}
+          resources:
+            requests:
+              cpu: 250m
+              memory: "200M"
+            limits:
+              cpu: 250m
+              memory: "1500M"
+          env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-access
+                  key: access_key
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-access
+                  key: secret_key
+            - name: MINIO_ENDPOINT
+              value: minio{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}
+            - name: MINIO_PORT
+              value: '80'
+            - name: MINIO_USE_SSL
+              value: 'false'
+            - name: DATABASE_NAME
+              value: tracks
+            - name: DATABASE_HOST
+              value: database
+            - name: MINIO_BUCKET_NAME
+              value: export
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: password
+  selector:
+    matchLabels:
+      app: export-processor
+
+

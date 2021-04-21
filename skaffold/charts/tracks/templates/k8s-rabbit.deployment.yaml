@@ -16,10 +16,10 @@ spec:
           image: rabbitmq:3.7-management
           resources:
             requests:
-              cpu: 1
+              cpu: 250m
               memory: "200M"
             limits:
-              cpu: 1
+              cpu: 250m
               memory: "400M"
           ports:
             - name: amqp

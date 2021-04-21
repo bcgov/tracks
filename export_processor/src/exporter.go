@@ -1,17 +1,17 @@
 package main
 
 import (
+	"archive/zip"
+	"bytes"
 	"context"
 	"database/sql"
+	"encoding/csv"
 	"flag"
 	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	geom "github.com/twpayne/go-geom"
-	"github.com/twpayne/go-gpx"
 	_ "github.com/twpayne/go-geom/encoding/ewkb"
-	"github.com/twpayne/go-geom/encoding/ewkbhex"
 	_ "github.com/twpayne/go-geom/encoding/geojson"
 	"log"
 	"os"
@@ -30,7 +30,7 @@ var (
 	minioUseSSL      bool   = false
 	minioAccessKey   string = "ccfc0d5a7a8f589ed8bc65b50a255d64"
 	minioSecretKey   string = "7f99fccf96804f9456f05ad8bf926dba"
-	bucketName       string = "gpx"
+	bucketName       string = "export"
 )
 
 func testMinioConnection(client *minio.Client) error {
@@ -54,113 +54,102 @@ func testMinioConnection(client *minio.Client) error {
 }
 
 func flagProcessingFailed(db *sql.DB, id int) {
-	db.Query(`UPDATE activity set processing_state = 'FAILED' where id = $1`,
+	db.Query(`UPDATE export_request set status = 'ERROR' where id = $1`,
 		id)
 	// we ignore the potential db error since this is the interesting one anyway
 }
 
-func processEntry(db *sql.DB, client *minio.Client, minioIdentifier string, id int) error {
+func generateReportCSV(db *sql.DB, id int) error {
+	buf := new(bytes.Buffer)
+	w := csv.NewWriter(buf)
 
-	log.Printf("Downloading file from minio: %+v\n", minioIdentifier)
+	header := []string {
+		"Report ID",
+		"Commercial Operator",
+		"Reporting Period",
+		"Report Date"
+	}
 
-	response, err := client.GetObject(context.Background(), bucketName, minioIdentifier, minio.GetObjectOptions{})
-	if err != nil {
-		log.Printf("Error downloading file from minio: %+v: %s\n", minioIdentifier, err)
-		flagProcessingFailed(db, id)
+	if err := w.Write(header); err != null {
 		return err
 	}
 
-	track, err := gpx.Read(response)
+	w.Flush()
 
-	if err != nil {
-		flagProcessingFailed(db, id)
+	if err := w.Error(); err != nil {
 		return err
 	}
 
-	log.Printf("Read, preparing to commit tracks: %+v\n", track)
+	return buf
+}
+
+func processEntry(db *sql.DB, client *minio.Client, id int) error {
 
 	tx, err := db.Begin()
 	if err != nil {
 		flagProcessingFailed(db, id)
 		return err
 	}
-	stmt, err := db.Prepare(`UPDATE activity set geometry = $1,
-                    start_time = $3,
-                    end_time = $4,
-                    processing_state = 'READY' where id = $2`)
+	stmt, err := db.Prepare(`UPDATE export_request set status = 'PROCESSING' where id = $1`)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	stmt.Exec(id)
 
+	var minioId string
+	rows, err := db.Query(`SELECT e.minio_identifier as id from export_request e where e.id = $1`, id)
 	if err != nil {
 		return err
 	}
 
-	defer tx.Rollback()
-
-	var earliestPoint *time.Time = nil
-	var latestPoint *time.Time = nil
-
-	for _, trk := range track.Trk {
-		log.Printf("examining track: %+v\n", trk)
-
-		for _, trkseg := range trk.TrkSeg {
-			log.Printf("examining track segment: %+v\n", trkseg)
-
-			// they should be in order, but check anyway
-			for _, trkpnt := range trkseg.TrkPt {
-
-				if earliestPoint == nil {
-					earliestPoint = &(trkpnt.Time)
-				}
-				if latestPoint == nil {
-					latestPoint = &(trkpnt.Time)
-				}
-				if trkpnt.Time.Before(*earliestPoint) {
-					earliestPoint = &(trkpnt.Time)
-				}
-				if trkpnt.Time.After(*latestPoint) {
-					latestPoint = &(trkpnt.Time)
-				}
-			}
-		}
-
-		log.Printf("trackpoint processing complete")
-
-		if earliestPoint != nil && latestPoint != nil {
-			log.Printf("time range %s to %s\n", *earliestPoint, *latestPoint)
-		}
-
-		ewkbhexGeom, err := ewkbhex.Encode(trk.Geom(geom.XY), ewkbhex.NDR)
-		if err != nil {
-			flagProcessingFailed(db, id)
+	for rows.Next() {
+		if err := rows.Scan(&minioId); err != nil {
 			return err
 		}
-
-		stmt.Exec(ewkbhexGeom, id, earliestPoint, latestPoint)
-
-		err = stmt.Close()
-		if err != nil {
-			flagProcessingFailed(db, id)
-			return err
-		}
-
 	}
 
-	log.Printf("Processing complete for %+v\n", minioIdentifier)
+	stmt, err = db.Prepare(`UPDATE export_request set status = 'READY' where id = $1`)
+	stmt.Exec(id)
+
+	buf := new(bytes.Buffer)
+	w := zip.NewWriter(buf)
+
+	reportFile, err := w.Create("report.csv")
+	if err != nil {
+		return err
+	}
+	reportData, err := generateReportCSV(db, id)
+	if err != nil {
+		return err
+	}
+	reportFile.Write(reportData)
+
+	err = w.Close()
+	if err != nil {
+		log.Printf("Error creating zip archive %s\n", err)
+		return err
+	}
+
+	_, err = client.PutObject(context.Background(), bucketName, minioId, buf, int64(buf.Len()), minio.PutObjectOptions{ContentType: "application/zip"})
+	if err != nil {
+		log.Printf("Error uploading to Minio %s\n", err)
+		return err
+	}
 
 	err = tx.Commit()
-
 	if err != nil {
 		log.Printf("Error committing transaction %s\n", err)
 		return err
 	}
 
 	log.Printf("TX COMMIT\n")
-
 	return nil
 }
 
 func findAll(db *sql.DB, client *minio.Client) error {
 	rows, err := db.Query(`
-		SELECT f.id as id, f.minio_identifier as minio_identifier, tp.id as activity from file_upload f join activity tp on f.activity_id = tp.id where tp.processing_state = 'NEW';
+		SELECT e.id as id from export_request e where e.status = 'PENDING';
 	`)
 	if err != nil {
 		return err
@@ -169,18 +158,15 @@ func findAll(db *sql.DB, client *minio.Client) error {
 	defer rows.Close()
 
 	for rows.Next() {
-		var fileID int
-		var minioID string
-		var activityID int
-
-		if err := rows.Scan(&fileID, &minioID, &activityID); err != nil {
+		var exportId int
+		if err := rows.Scan(&exportId); err != nil {
 			return err
 		}
 
-		log.Printf("Will process file id: %+v, (%+v)\n", fileID, minioID)
+		log.Printf("Will now process export id: %+v\n", exportId)
 
-		if err := processEntry(db, client, minioID, activityID); err != nil {
-			log.Printf("Error processing file %s\n", err)
+		if err := processEntry(db, client, exportId); err != nil {
+			log.Printf("Error processing export %s\n", err)
 			return err
 		}
 	}
@@ -227,7 +213,7 @@ func run() error {
 		if err := findAll(db, client); err != nil {
 			return err
 		}
-		time.Sleep(1 * time.Minute)
+		time.Sleep(20 * time.Second)
 	}
 }
 

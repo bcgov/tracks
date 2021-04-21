@@ -3,13 +3,14 @@ kind: Config
 build:
   cluster:
     concurrency: 1
+    # pullSecretName: kaniko-secret
     resources:
       requests:
-        cpu: 10m
+        cpu: 1
         ephemeralStorage: 2Gi
         memory: 2Gi
       limits:
-        cpu: 1
+        cpu: 2
         ephemeralStorage: 2Gi
         memory: 4Gi
   artifacts:
@@ -37,6 +38,12 @@ build:
       dockerfile: Dockerfile
       cache:
         repo: ""
+  - image: export_processor
+    context: ../export_processor
+    kaniko:
+      dockerfile: Dockerfile
+      cache:
+        repo: ""
 deploy:
   helm:
     releases:
@@ -51,3 +58,5 @@ deploy:
             image: migrator
           gpx_intake_processor:
             image: gpx_intake_processor
+          export_processor:
+            image: export_processor

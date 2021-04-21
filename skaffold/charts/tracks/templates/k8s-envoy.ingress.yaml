@@ -4,7 +4,7 @@ metadata:
   name: envoy
   annotations:
     # this needs to be 'public', not 'nginx', for newer versions of mk8s
-    kubernetes.io/ingress.class: public
+    # kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
