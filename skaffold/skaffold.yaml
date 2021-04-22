@@ -1,49 +1,29 @@
 apiVersion: skaffold/v2beta13
 kind: Config
 build:
-  cluster:
-    concurrency: 1
-    # pullSecretName: kaniko-secret
-    resources:
-      requests:
-        cpu: 1
-        ephemeralStorage: 2Gi
-        memory: 2Gi
-      limits:
-        cpu: 2
-        ephemeralStorage: 2Gi
-        memory: 4Gi
+  local:
+    concurrency: 0
   artifacts:
-  - image: frontend
-    context: ../frontend
-    kaniko:
-      dockerfile: Dockerfile
-      cache:
-        repo: ""
-  - image: backend
-    context: ../backend
-    kaniko:
-      dockerfile: Dockerfile
-      cache:
-        repo: ""
-  - image: migrator
-    context: ../migrations
-    kaniko:
-      dockerfile: Dockerfile
-      cache:
-        repo: ""
-  - image: gpx_intake_processor
-    context: ../gpx_intake_processor
-    kaniko:
-      dockerfile: Dockerfile
-      cache:
-        repo: ""
-  - image: export_processor
-    context: ../export_processor
-    kaniko:
-      dockerfile: Dockerfile
-      cache:
-        repo: ""
+    - image: frontend
+      context: ../frontend
+      docker:
+        dockerfile: Dockerfile
+    - image: backend
+      context: ../backend
+      docker:
+        dockerfile: Dockerfile
+    - image: migrator
+      context: ../migrations
+      docker:
+        dockerfile: Dockerfile
+    - image: gpx_intake_processor
+      context: ../gpx_intake_processor
+      docker:
+        dockerfile: Dockerfile
+    - image: export_processor
+      context: ../export_processor
+      docker:
+        dockerfile: Dockerfile
 deploy:
   helm:
     releases:
@@ -60,3 +40,51 @@ deploy:
             image: gpx_intake_processor
           export_processor:
             image: export_processor
+profiles:
+  - name: kanikoBuild
+    build:
+      tagPolicy:
+        dateTime: { }
+      cluster:
+        concurrency: 4
+        # pullSecretName: kaniko-secret
+        resources:
+          requests:
+            cpu: 1
+            ephemeralStorage: 2Gi
+            memory: 2Gi
+          limits:
+            cpu: 2
+            ephemeralStorage: 2Gi
+            memory: 4Gi
+      artifacts:
+        - image: frontend
+          context: ../frontend
+          kaniko:
+            dockerfile: Dockerfile
+            cache:
+              repo: ""
+        - image: backend
+          context: ../backend
+          kaniko:
+            dockerfile: Dockerfile
+            cache:
+              repo: ""
+        - image: migrator
+          context: ../migrations
+          kaniko:
+            dockerfile: Dockerfile
+            cache:
+              repo: ""
+        - image: gpx_intake_processor
+          context: ../gpx_intake_processor
+          kaniko:
+            dockerfile: Dockerfile
+            cache:
+              repo: ""
+        - image: export_processor
+          context: ../export_processor
+          kaniko:
+            dockerfile: Dockerfile
+            cache:
+              repo: ""

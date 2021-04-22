@@ -9,14 +9,25 @@ const dataExports = {
     const {reportIds} = req.body;
 
     try {
-      const queryResult = await pool.query({
-        text: `insert into export_request ( user_sub, minio_identifier ) values ($1, $2) returning id`,
+      let queryResult = await pool.query({
+        text: `insert into export_request (user_sub, minio_identifier)
+               values ($1, $2)
+               returning id`,
         values: [req.tracksContext.subject, uuidv4()]
       });
 
-      console.dir(queryResult.rows);
+      const exportId = queryResult.rows[0].id;
 
-      return res.status(200).send(queryResult.rows[0].id);
+      for (const reportId of reportIds) {
+
+        queryResult = await pool.query({
+          text: `insert into export_request_report (export_request_id, report_id)
+                 values ($1, $2)`,
+          values: [exportId, reportId]
+        });
+      }
+
+      return res.status(200).send({"id": exportId});
     } catch (err) {
       return res.status(500).send();
     }

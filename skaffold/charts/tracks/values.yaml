@@ -1,13 +1,12 @@
 # domain for created ingresses
-domainSuffix: .iron.mapleleaf.intranet
-# domainSuffix: .fvgke.mapleleafsoftware.io
+# domainSuffix: .intranet
 
 hostSuffix: ""
 environment: localdev
 
 keycloak:
   useExternal: true
-  externalUrl: "http://keycloak.mapleleaf.intranet:8080/auth"
+  externalUrl: "http://keycloak/auth"
 
 frontend:
   image: frontend:latest

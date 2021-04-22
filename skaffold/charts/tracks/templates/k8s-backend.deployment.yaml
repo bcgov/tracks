@@ -82,9 +82,9 @@ spec:
                   name: database-credentials
                   key: password
             - name: JWKS_URL
-              value: http://keycloak.mapleleaf.intranet:8080/auth/realms/tracks-dev/protocol/openid-connect/certs
+              value: http://keycloak/auth/realms/tracks-dev/protocol/openid-connect/certs
             - name: KEYCLOAK_BASE_URL
-              value: http://keycloak.mapleleaf.intranet:8080
+              value: http://keycloak
             - name: KEYCLOAK_REALM
               value: tracks-dev
             - name: KEYCLOAK_CLIENT
@@ -92,7 +92,7 @@ spec:
             - name: KEYCLOAK_SA
               value: tracks-web-sa
             - name: KEYCLOAK_SA_SECRET
-              value: asdf
+              value: unset
           readinessProbe:
             httpGet:
               path: /health

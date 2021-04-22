@@ -59,20 +59,56 @@ func flagProcessingFailed(db *sql.DB, id int) {
 	// we ignore the potential db error since this is the interesting one anyway
 }
 
-func generateReportCSV(db *sql.DB, id int) error {
-	buf := new(bytes.Buffer)
-	w := csv.NewWriter(buf)
-
-	header := []string {
-		"Report ID",
-		"Commercial Operator",
-		"Reporting Period",
-		"Report Date"
-	}
-
-	if err := w.Write(header); err != null {
+func generateReportCSVs(db *sql.DB, writer *zip.Writer , id int) error {
+	reportBuf := new(bytes.Buffer)
+	w := csv.NewWriter(reportBuf)
+	reportFile, err := writer.Create("report.csv")
+	if err != nil {
 		return err
 	}
+
+	header := []string{"Report ID", "Commercial Operator", "Reporting Period Start Date", "Reporting Period End Date", "Tenure", "Park Permit", "Report Date"}
+
+	if err := w.Write(header); err != nil {
+		return err
+	}
+
+	rows, err := db.Query(`select r.id, o.name, rp.start_date, rp.start_date, COALESCE(t.reference, ''), COALESCE(p.reference, ''), r.created_at from 
+report r inner join organization o on o.id = r.organization_id left join reporting_period rp on r.reporting_period_id = rp.id
+left join tenure t on r.tenure_id = t.id left join permit p on r.park_permit_id = p.id where r.id in (
+    select er.report_id from export_request_report er where er.export_request_id = $1)`, id)
+
+	if err != nil {
+		return err
+	}
+
+	for rows.Next() {
+		var reportId int64
+		var organizationName string
+		var startDate string
+		var endDate string
+		var tenure string
+		var permit string
+		var reportDate string
+
+		if err := rows.Scan(&reportId, &organizationName, &startDate, &endDate, &tenure, &permit, &reportDate); err != nil {
+			return err
+		}
+
+		w.Write([]string{
+			strconv.FormatInt(reportId, 10),
+			organizationName,
+			startDate,
+			endDate,
+			tenure,
+			permit,
+			reportDate,
+		})
+
+
+	}
+
+	reportFile.Write(reportBuf.Bytes())
 
 	w.Flush()
 
@@ -80,7 +116,7 @@ func generateReportCSV(db *sql.DB, id int) error {
 		return err
 	}
 
-	return buf
+	return nil
 }
 
 func processEntry(db *sql.DB, client *minio.Client, id int) error {
@@ -115,15 +151,9 @@ func processEntry(db *sql.DB, client *minio.Client, id int) error {
 	buf := new(bytes.Buffer)
 	w := zip.NewWriter(buf)
 
-	reportFile, err := w.Create("report.csv")
-	if err != nil {
+	if err = generateReportCSVs(db, w, id); err != nil {
 		return err
 	}
-	reportData, err := generateReportCSV(db, id)
-	if err != nil {
-		return err
-	}
-	reportFile.Write(reportData)
 
 	err = w.Close()
 	if err != nil {
@@ -131,7 +161,8 @@ func processEntry(db *sql.DB, client *minio.Client, id int) error {
 		return err
 	}
 
-	_, err = client.PutObject(context.Background(), bucketName, minioId, buf, int64(buf.Len()), minio.PutObjectOptions{ContentType: "application/zip"})
+	minioFilename := fmt.Sprintf("report-%s.zip", minioId)
+	_, err = client.PutObject(context.Background(), bucketName, minioFilename, buf, int64(buf.Len()), minio.PutObjectOptions{ContentType: "application/zip"})
 	if err != nil {
 		log.Printf("Error uploading to Minio %s\n", err)
 		return err
