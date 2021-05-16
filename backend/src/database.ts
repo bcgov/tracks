@@ -1,5 +1,6 @@
 import pg, {QueryConfig} from 'pg';
 import {CONFIG} from "./config";
+import {Request, Response} from 'express';
 
 const pool = new pg.Pool({
   user: CONFIG.TRACKS_DB_USER,
@@ -22,24 +23,54 @@ pool.on('connect', (): void => {
   //console.log(`postgresql client connected`);
 });
 
-async function query(queryConfig: QueryConfig) {
-  const client = await pool.connect();
-
-  try {
-    await client.query('BEGIN TRANSACTION');
-    const result = await client.query(queryConfig);
-    await client.query('COMMIT');
-    return result;
-  } catch (err) {
-    console.log(`Error in database query: ${err}, rolling back`);
-    await client.query('ROLLBACK');
-    throw err;
-  } finally {
-    client.release();
+interface TransactionalRequest extends Request {
+  database: {
+    query: (QueryConfig) => any,
+    rollback: () => void,
   }
 }
 
-export {
-  pool,
-  query
+const DatabaseMiddleware = {
+  transactional: () => (async (req: TransactionalRequest, response: Response, next: () => void) => {
+      const client = await pool.connect();
+      let shouldRollback = false;
+      await client.query('BEGIN TRANSACTION');
+
+      req.database = {
+        rollback: () => {
+          shouldRollback = true;
+        },
+        query: async (queryConfig: QueryConfig) => {
+          try {
+            return await client.query(queryConfig);
+          } catch (err) {
+            console.log(`Error in database query: ${err}, scheduling rollback`);
+            shouldRollback = true;
+            throw err;
+          }
+        }
+      };
+
+      next();
+
+      console.log('finalizing connection')
+      try {
+        if (shouldRollback) {
+          await client.query('ROLLBACK');
+        } else {
+          await client.query('COMMMIT');
+        }
+      } finally {
+        client.release();
+      }
+
+    }
+  )
 }
+
+
+export {
+  DatabaseMiddleware,
+  TransactionalRequest
+}
+

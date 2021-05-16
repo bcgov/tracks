@@ -41,7 +41,7 @@
   },
   "scripts": {
     "check-types": "tsc",
-    "test": "jest src/**/*.ts",
+    "test": "jest tantalis_service",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "build": "tsc",
     "serve": "node build/server.js"

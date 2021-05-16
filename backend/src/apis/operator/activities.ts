@@ -1,7 +1,6 @@
 import {Response} from 'express';
-import {pool} from "../../database";
-import {JWTEnhancedRequest} from "../../jwt";
 import {MinioService} from "../../services/minio_service";
+import {TracksRequest} from "../../tracks";
 
 class AddFile {
   id: string;
@@ -14,39 +13,33 @@ class TravelPathAddRequest {
 
 const activities = {
 
-  list: async (req: JWTEnhancedRequest, res: Response): Promise<Response> => {
+  list: async (req: TracksRequest, res: Response): Promise<Response> => {
 
     const org = req.tracksContext.organization;
 
-    try {
-      const queryResult = await pool.query({
-        text: `select tp.id                  as id,
-                      tp.created_at          as createdAt,
-                      tp.mode_of_transport   as mode,
-                      ST_Length(tp.geometry) as meters,
-                      tp.start_time          as startTime,
-                      tp.end_time            as endTime,
-                      tp.processing_state    as processingState
-               from activity as tp
-               where tp.organization_id = $1
-               order by createdAt desc`,
-        values: [org]
-      });
+    const queryResult = await req.database.query({
+      text: `select tp.id                  as id,
+                    tp.created_at          as createdAt,
+                    tp.mode_of_transport   as mode,
+                    ST_Length(tp.geometry) as meters,
+                    tp.start_time          as startTime,
+                    tp.end_time            as endTime,
+                    tp.processing_state    as processingState
+             from activity as tp
+             where tp.organization_id = $1
+             order by createdAt desc`,
+      values: [org]
+    });
 
-      return res.status(200).send(queryResult.rows);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).send();
-    }
+    return res.status(200).send(queryResult.rows);
   },
 
-  generateUploadRequest: async (req: JWTEnhancedRequest, res: Response): Promise<Response> => {
+  generateUploadRequest: async (req: TracksRequest, res: Response): Promise<Response> => {
 
     const insertFileUpload = async (minioIdentifier) => {
-      const result = await pool.query({
+      const result = await req.database.query({
         text: `insert into file_upload(user_sub, organization_id, minio_identifier)
-               values ($1, $2, $3)
-               returning id`,
+               values ($1, $2, $3) returning id`,
         values: [req.tracksContext.subject, req.tracksContext.organization, minioIdentifier]
       });
       return result.rows[0]['id'];
@@ -62,90 +55,65 @@ const activities = {
 
       return res.status(200).send(data);
     } catch (err) {
-      console.log(err);
-      return res.status(500).send();
+      req.database.rollback();
+      throw(err);
     }
   },
 
 
-  add: async (req: JWTEnhancedRequest, res: Response): Promise<Response> => {
+  add: async (req: TracksRequest, res: Response): Promise<Response> => {
     const addRequest: TravelPathAddRequest = req.body;
     //@todo validate. also confirm uuids match previous file uploads
 
-    const client = await pool.connect();
+    let q = {
+      text: `insert into activity(user_sub, organization_id, mode_of_transport)
+             values ($1, $2, $3) returning id`,
+      values: [req.tracksContext.subject, req.tracksContext.organization, addRequest.modeOfTransport]
+    };
 
-    // we have more than one statement to execute. use the database client directly, bypassing convenience method so we can be transactional
-    try {
-      await client.query('BEGIN TRANSACTION');
+    const result = await req.database.query(q);
+    const travelPathID = result.rows[0]['id'];
 
-      let q = {
-        text: `insert into activity(user_sub, organization_id, mode_of_transport)
-               values ($1, $2, $3)
-               returning id`,
-        values: [req.tracksContext.subject, req.tracksContext.organization, addRequest.modeOfTransport]
-      };
-
-      const result = await client.query(q);
-      const travelPathID = result.rows[0]['id'];
-      console.log('got id: ' + travelPathID);
-
-      // associate the files with this travel path
-      for (const f of addRequest.files) {
-        q = {
-          text: `update file_upload
-                 set activity_id = $4
-                 where user_sub = $1
-                   and organization_id = $2
-                   and id = $3`,
-          values: [req.tracksContext.subject, req.tracksContext.organization, f.id, travelPathID],
-        }
-        console.dir(f);
-        console.log('assoc ' + f.id);
-        await client.query(q);
+    // associate the files with this travel path
+    for (const f of addRequest.files) {
+      q = {
+        text: `update file_upload
+               set activity_id = $4
+               where user_sub = $1
+                 and organization_id = $2
+                 and id = $3`,
+        values: [req.tracksContext.subject, req.tracksContext.organization, f.id, travelPathID],
       }
-
-      await client.query('COMMIT');
-      return res.status(200).send(result);
-    } catch (err) {
-      console.log(`Error in database query: ${err}, rolling back`);
-      await client.query('ROLLBACK');
-      return res.status(500).send();
-    } finally {
-      client.release();
+      await req.database.query(q);
     }
 
+    return res.status(200).send(result);
   },
 
-  view: async (req: JWTEnhancedRequest, res: Response): Promise<Response> => {
+  view: async (req: TracksRequest, res: Response): Promise<Response> => {
 
     const id = req.params['id'];
     const org = req.tracksContext.organization;
 
-    try {
-      const queryResult = await pool.query({
-        text: `select tp.id                                        as id,
-                      ST_AsGEOJSON(tp.geometry)::json              AS geometry,
-                      ST_AsGEOJSON(ST_Centroid(tp.geometry))::json as centroid,
-                      tp.mode_of_transport                         as mode,
-                      ST_Length(tp.geometry)                       as meters,
-                      tp.created_at                                as createdAt,
-                      tp.start_time                                as startTime,
-                      tp.processing_state                          as processingState
-               from activity as tp
-               where tp.id = $1
-                 and tp.organization_id = $2`,
-        values: [id, org]
-      });
+    const queryResult = await req.database.query({
+      text: `select tp.id                  as id,
+                    ST_AsGEOJSON(tp.geometry)::json              AS geometry, ST_AsGEOJSON(ST_Centroid(tp.geometry))::json as centroid, tp.mode_of_transport as mode,
+                    ST_Length(tp.geometry) as meters,
+                    tp.created_at          as createdAt,
+                    tp.start_time          as startTime,
+                    tp.processing_state    as processingState
+             from activity as tp
+             where tp.id = $1
+               and tp.organization_id = $2`,
+      values: [id, org]
+    });
 
-      if (queryResult.rowCount === 0) {
-        return res.status(404).send();
-      } else {
-        return res.status(200).send(queryResult.rows[0]);
-      }
-    } catch (err) {
-      console.log(err);
-      return res.status(500).send();
+    if (queryResult.rowCount === 0) {
+      return res.status(404).send();
+    } else {
+      return res.status(200).send(queryResult.rows[0]);
     }
+
   }
 
 }

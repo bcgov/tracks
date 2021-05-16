@@ -7,5 +7,5 @@ WORKDIR /opt/app
 
 COPY . .
 
-ENTRYPOINT ./run_migration.sh
+ENTRYPOINT ["sh", "run_migration.sh"]
 

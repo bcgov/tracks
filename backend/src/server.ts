@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import express from 'express';
 import morgan from 'morgan';
 import {organizations} from "./apis/admin/organizations";
-import {pool} from "./database";
 import {CONFIG} from "./config";
 import {jwksMiddleware} from "./jwt";
 import {common} from "./apis/common";
