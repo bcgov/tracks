@@ -44,8 +44,8 @@ spec:
               cpu: 250m
               memory: "400M"
             limits:
-              cpu: 250m
-              memory: "400M"
+              cpu: 500m
+              memory: "1000M"
           args:
             - "npm"
             - "run"
@@ -62,9 +62,9 @@ spec:
                   name: minio-access
                   key: secret_key
             - name: MINIO_HOST
-              value: minio{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}
+              value: minio
             - name: MINIO_PORT
-              value: '80'
+              value: '9000'
             - name: MINIO_USE_SSL
               value: 'false'
             - name: TRACKS_DB_NAME
@@ -82,24 +82,26 @@ spec:
                   name: database-credentials
                   key: password
             - name: JWKS_URL
-              value: http://keycloak/auth/realms/tracks-dev/protocol/openid-connect/certs
+              value: {{ .Values.config.jwksUrl }}
             - name: KEYCLOAK_BASE_URL
-              value: http://keycloak
+              value: {{ .Values.config.keycloakBaseUrl }}
             - name: KEYCLOAK_REALM
               value: tracks-dev
             - name: KEYCLOAK_CLIENT
-              value: tracks-web
+              value: tracks-ui
             - name: KEYCLOAK_SA
-              value: tracks-web-sa
+              value: tracks-sa
             - name: KEYCLOAK_SA_SECRET
-              value: unset
+              value: {{ .Values.config.keycloakSASecret }}
           readinessProbe:
             httpGet:
               path: /health
               port: 6005
             timeoutSeconds: 1
-            initialDelaySeconds: 2
-            periodSeconds: 20
+            initialDelaySeconds: 1
+            periodSeconds: 7
+            successThreshold: 1
+            failureThreshold: 5
   selector:
     matchLabels:
       app: backend

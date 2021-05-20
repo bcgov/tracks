@@ -1,8 +1,6 @@
-import {pool} from "../database";
-
 const UserService = {
 
-  mapSubjectToOrganizationId: async (subject: string) => {
+  mapSubjectToOrganizationId: async (pool, subject: string) => {
 
     const queryResult = await pool.query({
       text: 'select organization_id as id from user_mapping where sub = $1',

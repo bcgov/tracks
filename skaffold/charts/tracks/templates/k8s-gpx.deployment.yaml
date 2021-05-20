@@ -33,9 +33,9 @@ spec:
                   name: minio-access
                   key: secret_key
             - name: MINIO_ENDPOINT
-              value: minio{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}
+              value: minio
             - name: MINIO_PORT
-              value: '80'
+              value: '9000'
             - name: MINIO_USE_SSL
               value: 'false'
             - name: DATABASE_NAME

@@ -2,6 +2,7 @@ import jwksRsa from 'jwks-rsa';
 import {Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
 import UserService from "./services/user_service";
+import {TracksRequest} from "./tracks";
 
 interface JWTEnhancedRequest extends Request {
   jwtClaims: {
@@ -42,7 +43,7 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
 
   return {
 
-    protect: (protectionOptions?: { requireRole?: string | null; requireAnyRole?: string[] | null; requireOrganizationMapping: boolean }) => (async (req: JWTEnhancedRequest, response: Response, next: () => void) => {
+    protect: (protectionOptions?: { requireRole?: string | null; requireAnyRole?: string[] | null; requireOrganizationMapping: boolean }) => (async (req: TracksRequest, response: Response, next: () => void) => {
 
       const authHeader = req.header('Authorization');
       if (!authHeader) {
@@ -82,7 +83,7 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
 
         req.tracksContext = {
           hasRole: (role) => (roles && roles.length > 0 && roles.includes(role)),
-          organization: await UserService.mapSubjectToOrganizationId(subject),
+          organization: await UserService.mapSubjectToOrganizationId(req.database.pool, subject),
           subject: subject,
           roles: roles,
         };

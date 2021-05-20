@@ -1,0 +1,80 @@
+{{ if .Values.keycloak.deploy }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: keycloak
+      labels:
+        app: keycloak
+    spec:
+      volumes:
+        - name: realm
+          configMap:
+            name: keycloak-realm
+            items:
+              - key: "realm.json"
+                path: "realm.json"
+      containers:
+        - name: keycloak
+          image: jboss/keycloak:13.0.0
+          resources:
+            requests:
+              cpu: 100m
+              memory: "1000M"
+            limits:
+              cpu: "1"
+              memory: "2000M"
+          volumeMounts:
+            - name: realm
+              mountPath: "/tmp/import"
+              readOnly: true
+          env:
+            - name: PROXY_ADDRESS_FORWARDING
+              value: "true"
+            - name: DB_VENDOR
+              value: POSTGRES
+            - name: DB_ADDR
+              value: postgres-keycloak
+            - name: DB_DATABASE
+              value: keycloak
+            - name: DB_USER
+              value: keycloak
+            - name: DB_PASSWORD
+              value: keycloak
+            - name: DB_PORT
+              value: "5432"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: admin
+            - name: KEYCLOAK_LOGLEVEL
+              value: WARN
+            - name: ROOT_LOGLEVEL
+              value: FATAL
+          args: ['-Dkeycloak.migration.action=import','-Dkeycloak.migration.provider=singleFile','-Dkeycloak.migration.file=/tmp/import/realm.json','-Dkeycloak.migration.strategy=IGNORE_EXISTING', '-bmanagement 0.0.0.0']
+          ports:
+            - containerPort: 8080
+            - containerPort: 9990
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9990
+            timeoutSeconds: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 20
+      initContainers:
+        - name: init-psql-keycloak
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nslookup postgres-keycloak; do echo waiting for postgres; sleep 5; done;']
+  selector:
+    matchLabels:
+      app: keycloak
+{{ end }}

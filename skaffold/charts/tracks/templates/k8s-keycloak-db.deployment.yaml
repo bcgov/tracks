@@ -1,0 +1,46 @@
+{{ if .Values.keycloak.deploy }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: postgres-keycloak
+      labels:
+        app: postgres-keycloak
+    spec:
+      containers:
+        - name: postgresql-keycloak
+          image: postgres:13.0-alpine
+          resources:
+            requests:
+              cpu: 100m
+              memory: "200M"
+            limits:
+              cpu: 500m
+              memory: "500M"
+          env:
+            - name: POSTGRES_DB
+              value: keycloak
+            - name: POSTGRES_USER
+              value: keycloak
+            - name: POSTGRES_PASSWORD
+              value: keycloak
+          ports:
+            - containerPort: 5432
+          readinessProbe:
+            exec:
+              command: ["psql", "-w", "-U", "keycloak", "-d", "keycloak", "-c", "SELECT 1"]
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          livenessProbe:
+            exec:
+              command: ["psql", "-w", "-U", "keycloak", "-d", "keycloak", "-c", "SELECT 1"]
+            initialDelaySeconds: 45
+            timeoutSeconds: 2
+  selector:
+    matchLabels:
+      app: postgres-keycloak
+{{ end }}

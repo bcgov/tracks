@@ -9,8 +9,8 @@ data:
     {{ if .Values.keycloak.useExternal }}
         "KEYCLOAK_URL": {{ .Values.keycloak.externalUrl | quote }},
     {{ else }}
-        "KEYCLOAK_URL": "http://keycloak{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}",
+        "KEYCLOAK_URL": "http://keycloak{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}/auth",
     {{ end }}
         "KEYCLOAK_REALM": "tracks-dev",
-        "KEYCLOAK_CLIENT_ID": "tracks-web"
+        "KEYCLOAK_CLIENT_ID": "tracks-ui"
       }

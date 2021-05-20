@@ -17,7 +17,14 @@ liquibase {
       username project.ext.dbUser
       password project.ext.dbPassword
     }
+    fixtures {
+      changeLogFile 'db.changelog-fixtures.yaml'
+      url project.ext.dbUrl
+      username project.ext.dbUser
+      password project.ext.dbPassword
+    }
   }
+  runList = project.ext.runList
 }
 
 repositories {

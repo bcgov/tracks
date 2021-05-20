@@ -25,52 +25,64 @@ pool.on('connect', (): void => {
 
 interface TransactionalRequest extends Request {
   database: {
+    pool: typeof pool,
     query: (QueryConfig) => any,
     rollback: () => void,
   }
 }
 
-const DatabaseMiddleware = {
-  transactional: () => (async (req: TransactionalRequest, response: Response, next: () => void) => {
-      const client = await pool.connect();
-      let shouldRollback = false;
-      await client.query('BEGIN TRANSACTION');
+const DatabaseMiddleware = () => {
 
-      req.database = {
-        rollback: () => {
-          shouldRollback = true;
-        },
-        query: async (queryConfig: QueryConfig) => {
-          try {
-            return await client.query(queryConfig);
-          } catch (err) {
-            console.log(`Error in database query: ${err}, scheduling rollback`);
+  pool.connect().then((client) => {
+    console.log('Database connection ok');
+    client.release();
+  }).catch(err => {
+    console.error(`database connection error: ${err}`);
+    throw(err);
+  });
+
+  return {
+
+    transactional: () => (async (req: TransactionalRequest, response: Response, next: () => void) => {
+        const client = await pool.connect();
+        let shouldRollback = false;
+        await client.query('BEGIN TRANSACTION');
+
+        req.database = {
+          pool,
+          rollback: () => {
             shouldRollback = true;
-            throw err;
+          },
+          query: async (queryConfig: QueryConfig) => {
+            try {
+              return await client.query(queryConfig);
+            } catch (err) {
+              console.log(`Error in database query: ${err}, scheduling rollback`);
+              shouldRollback = true;
+              throw err;
+            }
           }
-        }
-      };
+        };
 
-      next();
+        next();
 
-      console.log('finalizing connection')
-      try {
-        if (shouldRollback) {
-          await client.query('ROLLBACK');
-        } else {
-          await client.query('COMMMIT');
+        try {
+          if (shouldRollback) {
+            await client.query('ROLLBACK');
+          } else {
+            await client.query('COMMIT');
+          }
+        } finally {
+          client.release();
         }
-      } finally {
-        client.release();
+
       }
-
-    }
-  )
-}
+    )
+  }
+};
 
 
 export {
   DatabaseMiddleware,
   TransactionalRequest
 }
-

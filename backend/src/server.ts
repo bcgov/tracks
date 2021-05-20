@@ -31,20 +31,24 @@ import {dataExports as areaAdminDataExports} from './apis/area_admin/exports';
 
 import {reportingPeriods} from "./apis/shared/reporting_periods";
 
-
 import {MinioService} from "./services/minio_service";
 import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
+import {DatabaseMiddleware} from "./database";
 
 const prefix = '/api/v1';
-
-
 const jwks = jwksMiddleware({jwksUri: CONFIG.JWKS_URL});
+const databaseMiddleware = DatabaseMiddleware();
 
 const app = express()
   .use(helmet())
   .use(cors())
-  .use(morgan('tiny'))
+  .use(morgan('combined'))
   .use(express.json())
+  .use(databaseMiddleware.transactional())
+  .use(function (err, req, res, next) {
+    console.error(err.stack)
+    res.status(500).send({status: 'Error'})
+  })
 
   .get(`${prefix}/admin/organizations`, jwks.protect({
     requireRole: 'admin',
@@ -208,6 +212,8 @@ const app = express()
 
   .get('*', common.notFound);
 
+
+
 app.options('*', cors());
 
 const server = http.createServer(app);
@@ -216,18 +222,10 @@ const minio = MinioService;
 server.listen(CONFIG.LISTEN_PORT, () => {
   console.log(`listening on port ${CONFIG.LISTEN_PORT}`);
 
-  pool.connect().then((client) => {
-    console.log('Database connection ok');
-    client.release();
-  }).catch(err => {
-    console.error(`database connection error: ${err}, shutting down`);
-    server.close();
-  });
-
-  minio.testConnection().catch(err => {
-    console.error(err);
-    console.error('Minio connection failed. Check configuration');
-    server.close();
-  });
+  // minio.testConnection().catch(err => {
+  //   console.error(err);
+  //   console.error('Minio connection failed. Check configuration');
+  //   server.close();
+  // });
 
 });

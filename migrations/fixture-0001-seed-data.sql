@@ -1,29 +1,21 @@
-create type organization_type as enum ('COMMERCIAL OPERATOR', 'GOVERNMENT');
+insert into region (name, active) values ('Lower Mainland', True);
+insert into region (name, active) values ('Vancouver Island', True);
 
-create table organization
-(
-    id     bigint            not null primary key generated always as identity,
-    name   varchar(255)      not null unique,
-    active boolean           not null default true,
-    type   organization_type not null default 'COMMERCIAL OPERATOR'
-);
+insert into organization (name, region_id) values ('Demo Commercial Operator 1', 1);
+insert into organization (name, region_id) values ('Demo Commercial Operator 2', (select id from region where name like 'Lower Mainland'));
 
-create table user_mapping
-(
-    sub          varchar(64) not null primary key,
-    organization bigint      not null references organization (id) on delete restrict on update restrict
-);
+insert into organization (name, active, type, region_id)  values ('Government of British Columbia', true, 'GOVERNMENT', (select id from region where name like 'British Columbia'));
 
-create type travel_path_processing_state as enum ('NEW', 'PROCESSING', 'READY', 'FAILED');
+insert into tenure (reference, start_date, end_date, organization_id) values ('REF1230', now() - interval '1 years 9 days', '2023-12-31', (select id from organization where name like 'Demo Commercial Operator 1'));
+insert into tenure (reference, start_date, end_date, organization_id) values ('REF84635248', now() - interval '4 years 9 days', '2020-12-31', (select id from organization where name like 'Demo Commercial Operator 1'));
+insert into tenure (reference, start_date, end_date, organization_id) values ('UNKNOWN', now() + interval '2 months', '2023-12-31', (select id from organization where name like 'Demo Commercial Operator 2'));
+insert into tenure (reference, start_date, end_date, organization_id) values ('REF1091', now(), '2027-12-31', (select id from organization where name like 'Demo Commercial Operator 2'));
+insert into tenure (reference, start_date, end_date, organization_id) values ('REF390812809', now() - interval '3 days', '2021-12-31', (select id from organization where name like 'Demo Commercial Operator 2'));
 
-create table travel_path
-(
-    id               bigint                       not null primary key generated always as identity,
-    processing_state travel_path_processing_state not null default 'NEW',
-    created_at       timestamp without time zone  not null default now(),
-    start_time       timestamp without time zone  null,
-    gpx_file_data    bytea                        null,
-    geometry         geography(MULTILINESTRING)   null,
-    organization     bigint                       not null references organization (id) on delete restrict on update restrict,
-    "user"           varchar(64)                  not null references user_mapping (sub) on delete restrict on update cascade
-);
+insert into subtenure (reference, start_date, end_date, tenure_id, organization_id) values ('REF1091-ST1', now() + interval '2 days', '202-12-31', (select id from tenure where reference =  'REF1091'), (select id from organization where name like 'Demo Commercial Operator 1'));
+insert into permit (reference, start_date, end_date, organization_id) values ('PP00003', now() - interval '1 year', '2027-12-31', (select id from organization where name like 'Demo Commercial Operator 2'));
+insert into permit (reference, start_date, end_date, organization_id) values ('PP00007', now() - interval '1 year', '2032-12-31', (select id from organization where name like 'Demo Commercial Operator 2'));
+insert into permit (reference, start_date, end_date, organization_id) values ('PP00045', now() + interval '1 year', '2032-12-31', (select id from organization where name like 'Demo Commercial Operator 2'));
+insert into permit (reference, start_date, end_date, organization_id) values ('PP00004', now() - interval '1 year', '2025-12-31', (select id from organization where name like 'Demo Commercial Operator 1'));
+
+insert into user_mapping(username, sub, organization_id) values ('adminuser', '04613e8b-0eb4-4f18-beff-8574726de9c1', (select id from organization where name like 'Government of British Columbia'));

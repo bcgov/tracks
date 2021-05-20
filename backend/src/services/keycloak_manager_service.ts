@@ -48,6 +48,7 @@ class KeycloakManagerService {
       });
       return tokenResponse.data['access_token'];
     } catch (err) {
+      console.error(err);
       throw new Error("invalid response from keycloak");
     }
 
@@ -185,9 +186,6 @@ class KeycloakManagerService {
     const payload = [
       {id: role.id, name: role.name}
     ];
-
-    console.dir(url);
-    console.dir(payload);
 
     await axios.post(url,
       payload,{
