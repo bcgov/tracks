@@ -10,10 +10,11 @@ const buildPath = path.resolve(__dirname, 'public', 'build');
 const mainPath = path.resolve(__dirname, 'src', 'main/entry.tsx');
 
 const config = {
-  mode: "production",
+  mode: 'production',
   entry: {
     mainBundle: [
-      '@babel/polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       mainPath,
     ],
   },
@@ -46,8 +47,22 @@ const config = {
   module: {
     rules: [{
       test: /\.[jt]sx?$/,
-      loader: 'babel-loader',
-      exclude: [nodeModulesPath],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-typescript',
+            '@babel/preset-react'
+          ],
+          plugins: [
+            '@babel/proposal-class-properties',
+            '@babel/proposal-object-rest-spread',
+            '@babel/plugin-proposal-nullish-coalescing-operator',
+            '@babel/plugin-proposal-optional-chaining'
+          ]
+        }
+      }
     }, {
       test: /\.(s?)css$/,
       use: [{
@@ -93,8 +108,7 @@ const config = {
     new HtmlWebpackPlugin({
       chunks: ['mainBundle'],
       filename: 'generated_index.html',
-      templateParameters: {
-      },
+      templateParameters: {},
       template: path.resolve(__dirname, 'templates/main.html'),
     }),
   ],

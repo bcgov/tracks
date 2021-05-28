@@ -3,12 +3,13 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: keycloak
-  annotations: {}
+  annotations: { }
     # this needs to be 'public', not 'nginx', for newer versions of mk8s
-    # kubernetes.io/ingress.class: public
+  # kubernetes.io/ingress.class: public
 spec:
   rules:
     - host: keycloak{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}
+      {{ if .Values.ingress.useTLS }}
       http:
         paths:
           - path: /
@@ -16,4 +17,13 @@ spec:
             backend:
               serviceName: keycloak
               servicePort: 8080
+      {{ else }}
+      https:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: keycloak
+              servicePort: 8080
+      {{ end }}
 {{ end }}

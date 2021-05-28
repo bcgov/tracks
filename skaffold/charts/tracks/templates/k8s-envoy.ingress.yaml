@@ -9,6 +9,7 @@ metadata:
 spec:
   rules:
     - host: tracks{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}
+      {{ if .Values.ingress.useTLS }}
       http:
         paths:
           - path: /
@@ -16,4 +17,12 @@ spec:
             backend:
               serviceName: envoy
               servicePort: 10000
-
+      {{ else }}
+      https:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: envoy
+              servicePort: 10000
+      {{ end }}

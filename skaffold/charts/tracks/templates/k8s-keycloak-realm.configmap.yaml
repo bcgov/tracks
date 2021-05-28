@@ -2790,7 +2790,7 @@ data:
         "enabled" : true,
         "alwaysDisplayInConsole" : false,
         "clientAuthenticatorType" : "client-secret",
-        "redirectUris" : [ "http://tracks.local/*" ],
+        "redirectUris" : [ "http://tracks.local/*", "http://tracks{{.Values.domainSuffix}}/*", "https://tracks.local/*", "https://tracks{{.Values.domainSuffix}}/*" ],
         "webOrigins" : [ "+" ],
         "notBefore" : 0,
         "bearerOnly" : false,

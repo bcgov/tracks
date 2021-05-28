@@ -2,6 +2,9 @@ domainSuffix: .local
 hostSuffix: ""
 environment: localdev
 
+ingress:
+  useTLS: true
+
 config:
   jwksUrl: http://keycloak:8080/auth/realms/tracks-dev/protocol/openid-connect/certs
   keycloakBaseUrl: http://keycloak:8080

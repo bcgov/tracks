@@ -9,7 +9,11 @@ data:
     {{ if .Values.keycloak.useExternal }}
         "KEYCLOAK_URL": {{ .Values.keycloak.externalUrl | quote }},
     {{ else }}
+      {{ if .Values.ingress.useTLS }}
+        "KEYCLOAK_URL": "https://keycloak{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}/auth",
+      {{ else }}
         "KEYCLOAK_URL": "http://keycloak{{ .Values.hostSuffix }}{{ .Values.domainSuffix }}/auth",
+      {{ end }}
     {{ end }}
         "KEYCLOAK_REALM": "tracks-dev",
         "KEYCLOAK_CLIENT_ID": "tracks-ui"

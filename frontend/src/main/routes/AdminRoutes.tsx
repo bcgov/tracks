@@ -8,6 +8,7 @@ import OfficerList from "../pages/admin/OfficerList";
 import ReportList from "../pages/admin/ReportList";
 import ReportingPeriodList from "../pages/admin/ReportingPeriodList";
 import OnboardingList from "../pages/admin/OnboardingList";
+import PinPickerDemo from "../pages/admin/PinPickerDemo";
 
 const AdminRoutes =
   [
@@ -19,7 +20,8 @@ const AdminRoutes =
     {path: "/admin/officers/edit/:id", component: OfficerEdit},
     {path: "/admin/reports/list", component: ReportList},
     {path: "/admin/reporting_periods/list", component: ReportingPeriodList},
-    {path: "/admin/onboarding/list", component: OnboardingList}
+    {path: "/admin/onboarding/list", component: OnboardingList},
+    {path: "/admin/pinpicker", component: PinPickerDemo}
   ]
 
 export default AdminRoutes;

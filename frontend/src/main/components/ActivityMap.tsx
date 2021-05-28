@@ -2,6 +2,12 @@ import React, {useState} from 'react';
 import {GeoJSON, MapContainer, TileLayer} from 'react-leaflet';
 import '../styles/components/map.scss';
 import 'leaflet/dist/leaflet.css';
+
+// explicitly import resources -- react-leaflet doesn't for some reason
+import 'leaflet/dist/images/marker-icon.png';
+import 'leaflet/dist/images/marker-icon-2x.png';
+import 'leaflet/dist/images/marker-shadow.png';
+
 import PropTypes from 'prop-types';
 
 const tileLayers = [
@@ -21,6 +27,7 @@ const ActivityMap = (props) => {
         id="mapDemo"
         center={props.center}
         zoom={11}
+        scrollWheelZoom={false}
       >
         <TileLayer
           attribution={tileLayer.attribution}

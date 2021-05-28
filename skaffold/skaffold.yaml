@@ -30,7 +30,7 @@ deploy:
       - name: skaffold-helm-release
         chartPath: ./charts/tracks
         setValueTemplates:
-          domainSuffix: .local
+          domainSuffix: .iron.mapleleaf.intranet
           rabbit.deploy: false
           keycloak.deploy: true
         artifactOverrides:
