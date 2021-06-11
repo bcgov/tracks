@@ -208,6 +208,10 @@ const app = express()
     requireOrganizationMapping: false
   }), sharedUserSignup.requestBinding)
 
+  .get(`${prefix}/signup_requested`, jwks.protect({
+    requireOrganizationMapping: false
+  }), sharedUserSignup.hasBindingRequest)
+
   .get('/health', common.healthCheck)
 
   .get('*', common.notFound);

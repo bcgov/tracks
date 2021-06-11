@@ -14,6 +14,7 @@ import {
 } from "../actions";
 
 import {defaultReducer} from "../utilities/redux_boilerplate_helper";
+import {CheckSignup} from "./check_signup";
 
 const rootReducer = combineReducers({
   Activities: defaultReducer(ActivityActions),
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   Officers: defaultReducer(OfficerActions),
   ReportingPeriods: defaultReducer(ReportingPeriodActions),
   OnboardingRequests: defaultReducer(OnboardingRequestActions),
+  CheckSignup,
   TravelPathUpload,
   Auth,
   Signup

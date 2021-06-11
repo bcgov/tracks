@@ -1,7 +1,19 @@
-import {Response} from 'express';
+import {query, Response} from 'express';
 import {TracksRequest} from "../../tracks";
 
 const userSignup = {
+
+  hasBindingRequest: async (req: TracksRequest, res: Response): Promise<Response> => {
+
+    const queryResult = await req.database.query({
+      text: `select count(*) as rowcount from role_binding_request where sub = $1`,
+      values: [req.jwtClaims.sub]
+    });
+
+    const hasRequest: boolean = Number.parseInt(queryResult.rows[0]['rowcount']) > 0;
+
+    return res.status(200).send({ hasRequest });
+  },
 
   requestBinding: async (req: TracksRequest, res: Response): Promise<Response> => {
 

@@ -23,11 +23,14 @@ const OnboardingList = () => {
     request: null
   });
   const [modalOpen, setModalOpen] = useState(false);
+  const [updateCount, setUpdateCount] = useState(0);
+
   const handleClose = () => {
     setModalOpen(false);
+    setUpdateCount(updateCount+1);
   }
 
-  useList(OnboardingRequestActions, 'admin');
+  useList(OnboardingRequestActions, 'admin', [updateCount]);
 
   if (loading || items === undefined) {
     return (<Loading />);

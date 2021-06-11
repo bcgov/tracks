@@ -42,7 +42,10 @@ const CONFIG = {
   SMTP_PORT: process.env.SMTP_PORT || '587',
   SMTP_MAIL_FROM: process.env.SMTP_MAIL_FROM || 'tracks@gov.bc.ca',
   SMTP_USERNAME: process.env.SMTP_MAIL_FROM || '',
-  SMTP_PASSWORD: process.env.SMTP_PASSWORD || ''
+  SMTP_PASSWORD: process.env.SMTP_PASSWORD || '',
+
+  TANTALIS_USERNAME: process.env.TANTALIS_USERNAME || 'unset',
+  TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD || 'unset'
 
 };
 

@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ButtonBar from "../components/ButtonBar";
 import {Button, FormControl, Input, InputLabel, makeStyles, MenuItem, Select, Typography} from "@material-ui/core";
 import FormGroup from "../components/FormGroup";
 import {connect, useDispatch, useSelector} from "react-redux";
-import {SIGNUP_REQUEST_BINDING_SUBMIT} from "../../state/actions";
-import CONFIG from "../../config";
+import {CHECK_SIGNUP_STATUS_REQUEST, SIGNUP_REQUEST_BINDING_SUBMIT} from "../../state/actions";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -24,7 +24,7 @@ const RequestRoleBinding = (props) => {
     requestedRole: 'commercial_operator'
   });
 
-  const {idir} = props;
+  const {idir, loading, saving, signupRequested} = props;
   const auth = useSelector(state => state.Auth);
 
   const bceIdRoles = [
@@ -57,6 +57,14 @@ const RequestRoleBinding = (props) => {
 
   const [roles, setRoles] = useState(idir ? idirRoles : bceIdRoles);
 
+  // dispatch a request to see if we've already tried to register
+  useEffect(() => {
+    dispatch({
+      type: CHECK_SIGNUP_STATUS_REQUEST
+    });
+  }, [saving]);
+
+
   const sendRequest = () => {
     dispatch({
       type: SIGNUP_REQUEST_BINDING_SUBMIT, payload: {
@@ -71,11 +79,10 @@ const RequestRoleBinding = (props) => {
   const handleChange = (event) => {
     const updatedState = {
       ...formState,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     };
     setFormState(updatedState)
   }
-
 
   const bceidMessage = () => (
     <p>Your Business BCeID is not yet associated with a Commercial Recreation Operator profile. To
@@ -100,13 +107,28 @@ const RequestRoleBinding = (props) => {
 
   }
 
+  if (loading || saving ) {
+    return (<Loading />);
+  }
+
+  if (signupRequested) {
+    return (
+      <div className={'container'} id={"mainColumnLayout"}>
+        <div className={'containerInner'}>
+          <h4>Your request to join is pending...</h4>
+        </div>
+      </div>
+
+    )
+  }
+
+
   return (
     <div className={'container'} id={"mainColumnLayout"}>
       <div className={'containerInner'}>
 
         <div>
           <Typography variant={'h5'}>New User</Typography>
-
           <div>
             {idir && idirMessage()}
             {!idir && bceidMessage()}
@@ -133,9 +155,9 @@ const RequestRoleBinding = (props) => {
               </Select>
             </FormControl>
 
-              <p>
-                {roleHelp()}
-              </p>
+            <p>
+              {roleHelp()}
+            </p>
 
             <br />
             <FormControl className={classes.formControl}>
@@ -165,14 +187,16 @@ const RequestRoleBinding = (props) => {
 
 };
 
-RequestRoleBinding.defaultProps = {
-};
+RequestRoleBinding.defaultProps = {};
 
 const mapStateToProps = (state) => {
   const mappedProps = {
     currentUserRoles: state.Auth.roles,
     bestName: state.Auth.bestName,
-    idir: state.Auth.idir
+    idir: state.Auth.idir,
+    signupRequested: state.CheckSignup.signupRequested,
+    loading: state.CheckSignup.loading,
+    saving: state.Signup.loading
   };
 
   return mappedProps;
