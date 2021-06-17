@@ -4,6 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: database-pvc
 spec:
+  storageClassName: nfs-client
   accessModes:
     - ReadWriteOnce
   resources:

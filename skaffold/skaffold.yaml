@@ -6,8 +6,16 @@ build:
   artifacts:
     - image: frontend
       context: ../frontend
+      sync:
+        manual:
+        - src: '**/*.ts'
+          dest: '/opt/app'
+        - src: '**/*.tsx'
+          dest: '/opt/app'
+        - src: '**/*.scss'
+          dest: '/opt/app'
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile-devmode
     - image: backend
       context: ../backend
       docker:

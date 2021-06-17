@@ -23,15 +23,11 @@ spec:
           image: {{ .Values.frontend.image }}
           resources:
             requests:
-              cpu: 250m
+              cpu: 100m
               memory: "400M"
             limits:
               cpu: 250m
-              memory: "400M"
-          args:
-            - "npm"
-            - "run"
-            - "serve"
+              memory: "2000M"
           volumeMounts:
             - name: config
               mountPath: "/opt/app/public/config"
@@ -44,9 +40,9 @@ spec:
               port: 5001
             timeoutSeconds: 1
             initialDelaySeconds: 2
-            periodSeconds: 20
+            periodSeconds: 3
             successThreshold: 1
-            failureThreshold: 5
+            failureThreshold: 20
   selector:
     matchLabels:
       app: frontend

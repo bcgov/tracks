@@ -57,7 +57,7 @@ spec:
               value: WARN
             - name: ROOT_LOGLEVEL
               value: FATAL
-          args: ['-Dkeycloak.migration.action=import','-Dkeycloak.migration.provider=singleFile','-Dkeycloak.migration.file=/tmp/import/realm.json','-Dkeycloak.migration.strategy=IGNORE_EXISTING', '-bmanagement 0.0.0.0']
+          args: ['-Dkeycloak.migration.action=import','-Dkeycloak.migration.provider=singleFile','-Dkeycloak.migration.file=/tmp/import/realm.json','-Dkeycloak.migration.strategy=IGNORE_EXISTING', '-bmanagement 0.0.0.0', '-Djboss.bind.address.private=127.0.0.1','-Djboss.bind.address=0.0.0.0']
           ports:
             - containerPort: 8080
             - containerPort: 9990
