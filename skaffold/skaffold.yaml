@@ -58,22 +58,33 @@ profiles:
       tagPolicy:
         dateTime: { }
       cluster:
-        concurrency: 4
-        # pullSecretName: kaniko-secret
+        verbosity: debug
+        image: gcr.io/kaniko-project/executor:v1.5.0-slim
+        dockerConfig:
+          secretName: mapleleaf-registry-opaque
+        concurrency: 1
         resources:
           requests:
             cpu: 1
             ephemeralStorage: 2Gi
             memory: 2Gi
           limits:
-            cpu: 2
+            cpu: 4
             ephemeralStorage: 2Gi
             memory: 4Gi
       artifacts:
         - image: frontend
           context: ../frontend
+          sync:
+            manual:
+              - src: '**/*.ts'
+                dest: '/opt/app'
+              - src: '**/*.tsx'
+                dest: '/opt/app'
+              - src: '**/*.scss'
+                dest: '/opt/app'
           kaniko:
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile-devmode
             cache:
               repo: ""
         - image: backend

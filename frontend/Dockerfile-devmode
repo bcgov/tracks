@@ -11,8 +11,7 @@ RUN mkdir -p /opt/app
 WORKDIR /opt/app
 
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci
+RUN npm install
 COPY *js /opt/app/
 COPY assets /opt/app/assets
 COPY templates /opt/app/templates

@@ -8,43 +8,51 @@ import OfficerRoutes from "./routes/OfficerRoutes";
 import SharedRoutes from "./routes/SharedRoutes";
 import AreaAdminRoutes from "./routes/AreaAdminRoutes";
 import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
+import {uximportnavs} from "./uximports/navigation";
 
 const Main = () => {
   return (
     <main>
       <div>
         <Switch>
-          {
-            AdminRoutes.map((r, i) => (
-              <Route key={`admin-${i}`} component={r.component} path={r.path} />
-            ))
-          }
-          {
-            OperatorRoutes.map((r, i) => (
-              <Route key={`operator-${i}`} component={r.component} path={r.path} />
-            ))
-          }
-          {
-            OfficerRoutes.map((r, i) => (
-              <Route key={`officer-${i}`} component={r.component} path={r.path} />
-            ))
-          }
-          {
-            SharedRoutes.map((r, i) => (
-              <Route key={`shared-${i}`} component={r.component} path={r.path} />
-            ))
-          }
+          {/*{*/}
+          {/*  AdminRoutes.map((r, i) => (*/}
+          {/*    <Route key={`admin-${i}`} component={r.component} path={r.path} />*/}
+          {/*  ))*/}
+          {/*}*/}
+          {/*{*/}
+          {/*  OperatorRoutes.map((r, i) => (*/}
+          {/*    <Route key={`operator-${i}`} component={r.component} path={r.path} />*/}
+          {/*  ))*/}
+          {/*}*/}
+          {/*{*/}
+          {/*  OfficerRoutes.map((r, i) => (*/}
+          {/*    <Route key={`officer-${i}`} component={r.component} path={r.path} />*/}
+          {/*  ))*/}
+          {/*}*/}
+          {/*{*/}
+          {/*  SharedRoutes.map((r, i) => (*/}
+          {/*    <Route key={`shared-${i}`} component={r.component} path={r.path} />*/}
+          {/*  ))*/}
+          {/*}*/}
+
+          {/*{*/}
+          {/*  AreaAdminRoutes.map((r, i) => (*/}
+          {/*    <Route key={`area-admin-${i}`} component={r.component} path={r.path} />*/}
+          {/*  ))*/}
+          {/*}*/}
+
+          {/*{*/}
+          {/*  LicenseAuthOfficerRoutes.map((r, i) => (*/}
+          {/*    <Route key={`license-auth-officer-${i}`} component={r.component} path={r.path} />*/}
+          {/*  ))*/}
+          {/*}*/}
 
           {
-            AreaAdminRoutes.map((r, i) => (
-              <Route key={`area-admin-${i}`} component={r.component} path={r.path} />
-            ))
-          }
-
-          {
-            LicenseAuthOfficerRoutes.map((r, i) => (
-              <Route key={`license-auth-officer-${i}`} component={r.component} path={r.path} />
-            ))
+            uximportnavs.map((r,i) => (
+              <Route key={`uximports=${i}`} path={r.path} component={()=>r.component(r.props)}/>
+              )
+            )
           }
 
           <Route path="/" component={LandingPage} />

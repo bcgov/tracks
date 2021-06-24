@@ -16,7 +16,7 @@ const PageStructure = () => {
         <Header />
         <div className={'appBody'}>
           <AuthRequired>
-            <ContextualMetadata/>
+            {/*<ContextualMetadata/>*/}
             <div className={'container'} id={"mainColumnLayout"}>
               <div className={'containerInner'}>
                 <Navigation />
