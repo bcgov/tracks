@@ -16,10 +16,10 @@ spec:
           image: {{ .Values.migrator.image }}
           resources:
             requests:
-              cpu: 250m
+              cpu: '1'
               memory: "1200M"
             limits:
-              cpu: 250m
+              cpu: '2'
               memory: "1200M"
           env:
             - name: TRACKS_DB_NAME
@@ -41,15 +41,15 @@ spec:
           image: {{ .Values.backend.image }}
           resources:
             requests:
-              cpu: 250m
-              memory: "400M"
+              cpu: '1'
+              memory: "600M"
             limits:
-              cpu: 250m
+              cpu: '1'
               memory: "1000M"
           args:
             - "npm"
             - "run"
-            - "serve"
+            - "dev"
           env:
             - name: MINIO_ACCESS_KEY
               valueFrom:
@@ -93,6 +93,26 @@ spec:
               value: tracks-sa
             - name: KEYCLOAK_SA_SECRET
               value: {{ .Values.config.keycloakSASecret }}
+            - name: TANTALIS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ttls-config
+                  key: username
+            - name: TANTALIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ttls-config
+                  key: password
+            - name: TANTALIS_API_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: ttls-config
+                  key: api-base
+            - name: TANTALIS_OAUTH_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: ttls-config
+                  key: oauth-base
           readinessProbe:
             httpGet:
               path: /health

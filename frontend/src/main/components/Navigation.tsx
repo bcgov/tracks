@@ -58,8 +58,6 @@ const Navigation = () => {
     }
   })
 
-  return (<></>)
-
   return (
     <nav className={'sideNav'}>
       <h4>New UX Components</h4>

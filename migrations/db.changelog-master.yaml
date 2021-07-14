@@ -182,3 +182,10 @@ databaseChangeLog:
          -  sqlFile:
               path: 0014u_add_export_request.sql
               relativeToChangelogFile: true
+  -  changeSet:
+       id:  15
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0015u_add_ttls_caches.sql
+              relativeToChangelogFile: true

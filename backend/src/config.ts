@@ -45,7 +45,9 @@ const CONFIG = {
   SMTP_PASSWORD: process.env.SMTP_PASSWORD || '',
 
   TANTALIS_USERNAME: process.env.TANTALIS_USERNAME || 'unset',
-  TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD || 'unset'
+  TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD || 'unset',
+  TANTALIS_API_BASE: process.env.TANTALIS_API_BASE || 'http://localhost',
+  TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE || 'http://localhost'
 
 };
 

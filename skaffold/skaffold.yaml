@@ -18,6 +18,10 @@ build:
         dockerfile: Dockerfile-devmode
     - image: backend
       context: ../backend
+      sync:
+        manual:
+          - src: '**/*.ts'
+            dest: '/opt/app'
       docker:
         dockerfile: Dockerfile
     - image: migrator
@@ -89,6 +93,10 @@ profiles:
               repo: ""
         - image: backend
           context: ../backend
+          sync:
+            manual:
+              - src: '**/*.ts'
+                dest: '/opt/app'
           kaniko:
             dockerfile: Dockerfile
             cache:

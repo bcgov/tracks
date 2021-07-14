@@ -15,14 +15,6 @@ pool.on('error', (err: Error): void => {
   console.log(`postgresql error: ${err}`);
 });
 
-pool.on('acquire', (): void => {
-  //console.log(`postgresql client acquired`);
-});
-
-pool.on('connect', (): void => {
-  //console.log(`postgresql client connected`);
-});
-
 interface TransactionalRequest extends Request {
   database: {
     pool: typeof pool,
@@ -84,5 +76,6 @@ const DatabaseMiddleware = () => {
 
 export {
   DatabaseMiddleware,
-  TransactionalRequest
+  TransactionalRequest,
+  pool as db,
 }

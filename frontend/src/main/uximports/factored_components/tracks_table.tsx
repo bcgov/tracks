@@ -41,7 +41,7 @@ const TracksTable = (props) => {
 
   const classes = useStyles();
 
-  const {headers, data, tableTitle, pagination, selectableRows} = props;
+  const {headers, data, tableTitle, pagination, selectableRows, rowClickHandler} = props;
 
   const needsFiltering = headers.filter(h => (h.filterable)).length > 0;
 
@@ -101,6 +101,7 @@ const TracksTable = (props) => {
                   <TableRow
                     {...rowAdditionalProps}
                     hover
+                    onClick={()=>{rowClickHandler(r)}}
                     key={`tr-${i}`}>
                     {selectableRows && (<TableCell padding="checkbox">
                       <Checkbox
@@ -137,6 +138,7 @@ TracksTable.defaultProps = {
   headers: [],
   data: [],
   selectableRows: false,
+  rowClickHandler: () => {},
   pagination: {
     isPaginated: false,
     pageNumber: 0,
@@ -148,6 +150,7 @@ TracksTable.propTypes = {
   tableTitle: PropTypes.string,
   headers: PropTypes.arrayOf(PropTypes.object),
   data: PropTypes.arrayOf(PropTypes.object),
+  rowClickHandler: PropTypes.func,
   selectableRows: PropTypes.bool,
   pagination: PropTypes.shape({
     totalPages: PropTypes.number,

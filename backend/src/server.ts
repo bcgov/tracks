@@ -31,6 +31,8 @@ import {dataExports as areaAdminDataExports} from './apis/area_admin/exports';
 
 import {reportingPeriods} from "./apis/shared/reporting_periods";
 
+import {TantalisInterface} from "./apis/tantalis_interface";
+
 import {MinioService} from "./services/minio_service";
 import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
 import {DatabaseMiddleware} from "./database";
@@ -38,6 +40,13 @@ import {DatabaseMiddleware} from "./database";
 const prefix = '/api/v1';
 const jwks = jwksMiddleware({jwksUri: CONFIG.JWKS_URL});
 const databaseMiddleware = DatabaseMiddleware();
+
+const ttlsInterface = new TantalisInterface();
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM, exiting...');
+  process.exit()
+});
 
 const app = express()
   .use(helmet())
@@ -212,16 +221,31 @@ const app = express()
     requireOrganizationMapping: false
   }), sharedUserSignup.hasBindingRequest)
 
+  .get(`${prefix}/ttls/tenures`, jwks.protect({
+    requireAnyRole: ['license_auth_officer', 'admin', 'area_admin', 'commercial_operator', 'conservation_officer'],
+    requireOrganizationMapping: true
+  }), (req,res) => ttlsInterface.listTenures(req,res))
+
+  .get(`${prefix}/ttls/tenures/:id`, jwks.protect({
+    requireAnyRole: ['license_auth_officer', 'admin', 'area_admin', 'commercial_operator', 'conservation_officer'],
+    requireOrganizationMapping: true
+  }), (req,res) => ttlsInterface.getTenure(req,res))
+
+  .get(`${prefix}/ttls/organizations?q=:q`, jwks.protect({
+    requireAnyRole: ['license_auth_officer', 'admin', 'area_admin', 'commercial_operator', 'conservation_officer'],
+    requireOrganizationMapping: true
+  }), (req,res) => ttlsInterface.searchForOrganization(req,res))
+
   .get('/health', common.healthCheck)
 
   .get('*', common.notFound);
-
-
 
 app.options('*', cors());
 
 const server = http.createServer(app);
 const minio = MinioService;
+
+
 
 server.listen(CONFIG.LISTEN_PORT, () => {
   console.log(`listening on port ${CONFIG.LISTEN_PORT}`);
@@ -233,3 +257,4 @@ server.listen(CONFIG.LISTEN_PORT, () => {
   // });
 
 });
+
