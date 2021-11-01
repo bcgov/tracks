@@ -82,6 +82,6 @@
     "build": "webpack --production --config webpack.dist.js",
     "check-types": "tsc",
     "test": "jest --coverage",
-    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "lint": "eslint '*/**/*.{js,ts,tsx}'"
   }
 }
