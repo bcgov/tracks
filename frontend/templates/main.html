@@ -5,7 +5,14 @@
     <title>TRACKS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <script src="/config/config.js"></script>
+    <script>
+      window.CONFIG = {
+        API_BASE: '{{env "API_BASE"}}',
+        KEYCLOAK_CLIENT_ID: '{{env "KEYCLOAK_CLIENT_ID"}}',
+        KEYCLOAK_REALM: '{{env "KEYCLOAK_REALM"}}',
+        KEYCLOAK_URL: '{{env "KEYCLOAK_URL"}}',
+      };
+    </script>
 </head>
 <body>
 

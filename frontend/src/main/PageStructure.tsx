@@ -7,7 +7,6 @@ import Navigation from './components/Navigation';
 import Main from "./Main";
 import {Provider} from 'react-redux';
 import store from '../state/store';
-import ContextualMetadata from "./components/ContextualMetadata";
 
 const PageStructure = () => {
   return (

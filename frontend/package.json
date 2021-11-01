@@ -80,10 +80,8 @@
   "scripts": {
     "dist": "webpack --production --config webpack.dist.js",
     "build": "webpack --production --config webpack.dist.js",
-    "devmode": "webpack --watch --config webpack.devmode.js",
     "check-types": "tsc",
     "test": "jest --coverage",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
-    "serve": "node serve"
   }
 }
