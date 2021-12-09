@@ -6,6 +6,7 @@ import Icon from '@mdi/react'
 import {mdiAccountCircle} from '@mdi/js'
 import "../styles/header.scss";
 import {keycloakInstance} from "../../state/sagas/auth";
+import GovLogo from '../styles/assets/images/gov3_bc_logo.png';
 
 const Header = () => {
 
@@ -15,8 +16,7 @@ const Header = () => {
     <header id="header" className={'header'}>
       <div className={'container'}>
         <Link to="/" className={'homeLink'}>
-          <img src="/images/gov3_bc_logo.png" width={155} height={52}
-               alt={'BC Government Logo'} id="logo" />
+          <img src={GovLogo} alt={'BC Government Logo'} id="logo" />
           Tracks
         </Link>
         <nav className="profile">

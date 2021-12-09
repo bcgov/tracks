@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router";
 import '../../styles/components/travel_path.scss';
-import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../../components/Loading";
 import ActivityDetailComponent from "../../components/ActivityDetailComponent";
@@ -10,7 +9,6 @@ import {ActivityActions} from "../../../state/actions";
 const ActivityDetail = () => {
 
   const params = useParams();
-  const history = useHistory();
 
   const item = useSelector(state => state.Activities.item);
   const loading = useSelector(state => state.Activities.loading);
@@ -34,8 +32,6 @@ const ActivityDetail = () => {
     <>
       <h2>Travel Path Report Details</h2>
       <ActivityDetailComponent travelPath={item} />
-      {(history.length >= 1) &&
-      <button onClick={() => history.goBack()}>Go back</button>}
     </>
   );
 };

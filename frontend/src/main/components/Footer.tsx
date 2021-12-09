@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {userHasAnyRole} from "../../state/utilities/authentication_helper";
 
 import "../styles/nav.scss";
 import "../styles/footer.scss";
+import {useLocation} from "react-router";
 
 
 const Footer = () => {
 
-  const history = useHistory();
+  const location = useLocation();
   const currentUserRoles = useSelector(state => state.Auth.roles);
 
   const nav = (path, name, roles) => ({
@@ -29,8 +30,8 @@ const Footer = () => {
   const [activeLink, setActiveLink] = useState(null);
 
   useEffect(() => {
-    setActiveLink(history.location.pathname);
-  }, [history.location.pathname]);
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
 
   return (
     <footer id="footer">

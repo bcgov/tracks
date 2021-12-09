@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch} from "react-router";
+import {Route, Routes} from "react-router";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import AdminRoutes from "./routes/AdminRoutes";
@@ -14,53 +14,53 @@ const Main = () => {
   return (
     <main>
       <div>
-        <Switch>
+        <Routes>
           {
             AdminRoutes.map((r, i) => (
-              <Route key={`admin-${i}`} component={r.component} path={r.path} />
+              <Route key={`admin-${i}`} element={r.component()} path={r.path} />
             ))
           }
           {
             OperatorRoutes.map((r, i) => (
-              <Route key={`operator-${i}`} component={r.component} path={r.path} />
+              <Route key={`operator-${i}`} element={r.component()} path={r.path} />
             ))
           }
           {
             OfficerRoutes.map((r, i) => (
-              <Route key={`officer-${i}`} component={r.component} path={r.path} />
+              <Route key={`officer-${i}`} element={r.component()} path={r.path} />
             ))
           }
           {
             SharedRoutes.map((r, i) => (
-              <Route key={`shared-${i}`} component={r.component} path={r.path} />
+              <Route key={`shared-${i}`} element={r.component()} path={r.path} />
             ))
           }
 
           {
             AreaAdminRoutes.map((r, i) => (
-              <Route key={`area-admin-${i}`} component={r.component} path={r.path} />
+              <Route key={`area-admin-${i}`} element={r.component()} path={r.path} />
             ))
           }
 
           {
             LicenseAuthOfficerRoutes.map((r, i) => (
-              <Route key={`license-auth-officer-${i}`} component={r.component} path={r.path} />
+              <Route key={`license-auth-officer-${i}`} element={r.component()} path={r.path} />
             ))
           }
 
           {
             uximportnavs.map((r, i) => (
-                <Route key={`uximports=${i}`} path={r.path} component={() => r.component(r.props)} />
+                <Route key={`uximports=${i}`} path={r.path} element={() => r.component(r.props)} />
               )
             )
           }
 
-          <Route path="/" component={LandingPage} />
-          <Route path="" component={LandingPage} />
+          <Route path="/" element={<LandingPage/>} />
+          <Route path="" element={<LandingPage/>} />
 
-          <Route path="*" component={NotFound} />
+          <Route path="*" element={<NotFound/>} />
 
-        </Switch>
+        </Routes>
       </div>
     </main>
   );

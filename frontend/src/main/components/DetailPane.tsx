@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useHistory} from "react-router-dom";
 
 const DetailMap = (field, name, renderer = (it, f) => (it[f])) => ({field, name, renderer});
 
 const DetailPane = (props) => {
     const {title, map, it} = props;
-    const history = useHistory();
 
     return (
       <>
@@ -19,9 +17,7 @@ const DetailPane = (props) => {
             ])}
           </dl>
         </div>
-        {(history.length >= 1) &&
-        <button onClick={() => history.goBack()}>Go back</button>
-        }
+
       </>
     );
   }

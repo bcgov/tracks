@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ListComponent from "../../components/ListComponent";
 import Loading from "../../components/Loading";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {ReportActions} from "../../../state/actions";
-import moment from "moment";
 import {useList} from "../../../state/utilities/use_list";
 import FriendlyTime from "../../components/FriendlyTime";
 
@@ -22,9 +21,9 @@ const ReportList = () => {
       <td key={'o'}>{it.organizationname}</td>,
       <td key={'t'}>{it.tenure}</td>,
       <td key={'st'}>{it.state}</td>,
-      <td key={'sd'}><FriendlyTime value={it.period_start_date}/></td>,
-      <td key={'ed'}><FriendlyTime value={it.period_end_date}/></td>,
-      <td key={'pp'}><FriendlyTime value={it.updated_at} from/></td>
+      <td key={'sd'}><FriendlyTime value={it.period_start_date} /></td>,
+      <td key={'ed'}><FriendlyTime value={it.period_end_date} /></td>,
+      <td key={'pp'}><FriendlyTime value={it.updated_at} from /></td>
     ]
   )
 

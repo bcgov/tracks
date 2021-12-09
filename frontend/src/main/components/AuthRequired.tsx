@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {useEffect} from 'react';
 import '../styles/components/auth.scss';
-import {withRouter} from 'react-router';
 import {useDispatch, useSelector} from 'react-redux';
 import {AUTH_INITIALIZE_REQUEST, AUTH_SIGNIN_REQUEST} from "../../state/actions";
 import Loading from "./Loading";
@@ -61,4 +60,4 @@ const AuthRequired = (props) => {
 
 };
 
-export default withRouter(AuthRequired);
+export default AuthRequired;

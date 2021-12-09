@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ListComponent from "../../../components/ListComponent";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {PermitActions} from "../../../../state/actions";
 import Loading from "../../../components/Loading";
 import moment from "moment";
@@ -13,7 +13,7 @@ const PermitList = () => {
 
     useList(PermitActions, 'operator');
 
-  if (loading || items === undefined) {
+    if (loading || items === undefined) {
       return (<Loading />);
     }
 

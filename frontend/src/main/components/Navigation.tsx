@@ -1,16 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/nav.scss'
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {userHasAnyRole} from "../../state/utilities/authentication_helper";
 import {nav} from "../../state/utilities/nav";
+import {useLocation} from "react-router";
 
 const Navigation = () => {
 
-  const history = useHistory();
+  const location = useLocation();
+
   const currentUserRoles = useSelector(state => state.Auth.roles);
 
-  let navs = [
+  const navs = [
     nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin']),
     nav('/admin/reports/list', 'Track Observation Reports', ['admin']),
     nav('/admin/organizations/list', 'Commercial Operators', ['admin']),
@@ -36,8 +38,8 @@ const Navigation = () => {
   const [activeLink, setActiveLink] = useState(null);
 
   useEffect(() => {
-    setActiveLink(history.location.pathname);
-  }, [history.location.pathname]);
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
 
 
   return (

@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ListComponent from "../../../components/ListComponent";
-import {useDispatch, useSelector} from "react-redux";
-import {PermitActions, TenureActions} from "../../../../state/actions";
+import {useSelector} from "react-redux";
+import {TenureActions} from "../../../../state/actions";
 import Loading from "../../../components/Loading";
 import moment from "moment";
 import {useList} from "../../../../state/utilities/use_list";

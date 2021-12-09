@@ -3,18 +3,18 @@ import ListComponent from "../../components/ListComponent";
 import {useSelector} from "react-redux";
 import {OfficerActions} from "../../../state/actions";
 import Loading from "../../components/Loading";
-import {useHistory} from "react-router-dom";
 import {Button} from "@material-ui/core";
 import ButtonBar from "../../components/ButtonBar";
 import {useList} from "../../../state/utilities/use_list";
+import {useNavigate} from "react-router-dom";
 
 const OfficerList = () => {
 
   const items = useSelector(state => state.Officers.items);
   const loading = useSelector(state => state.Officers.loading);
-  useList(OfficerActions, 'admin');
+  const navigate = useNavigate();
 
-  const history = useHistory();
+  useList(OfficerActions, 'admin');
 
   const detailRoute = `/admin/officers/view/:id`;
 
@@ -36,7 +36,7 @@ const OfficerList = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => history.push('/admin/officers/add')}
+          onClick={() => navigate('/admin/officers/add')}
         >Create New</Button>
       </ButtonBar>
 

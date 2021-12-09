@@ -1,10 +1,10 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
 import PropTypes from 'prop-types';
+import {useNavigate} from "react-router-dom";
 
 const ListComponent = (props) => {
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {idProp, detailRoute, headers, rowRenderer, items} = props;
 
@@ -23,7 +23,7 @@ const ListComponent = (props) => {
           if (clickableDetail) {
             return (
               <tr key={index} onClick={() => {
-                history.push(detailRoute.replace(':id', it[idProp]))
+               navigate(detailRoute.replace(':id', it[idProp]))
               }}>
                 {rowRenderer(it)}
               </tr>

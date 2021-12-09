@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ListComponent from "../../components/ListComponent";
 import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
-import {ActivityActions, PermitActions, ReportActions, TenureActions} from "../../../state/actions";
+import {ActivityActions, PermitActions, TenureActions} from "../../../state/actions";
 import CreateActivityDialog from "../../components/CreateActivityDialog";
 import {Button} from "@material-ui/core";
 import ButtonBar from "../../components/ButtonBar";
@@ -49,7 +49,6 @@ const ActivityList = () => {
   }, [uploading]);
 
 
-
   if ((loading || items === undefined) || tenuresLoading || permitsLoading) {
     return (<Loading />);
   }
@@ -57,15 +56,15 @@ const ActivityList = () => {
   const renderer = (it) => (
     [
       <td key={'d'}>
-        <FriendlyTime value={it.createdat} time from/>
+        <FriendlyTime value={it.createdat} time from />
       </td>,
       <td key={'m'}>{it.mode}</td>,
       <td key={'ps'}>{it.processingstate}</td>,
       <td key={'sd'}>
-        <FriendlyTime value={it.starttime} time/>
+        <FriendlyTime value={it.starttime} time />
       </td>,
       <td key={'ed'}>
-        <FriendlyTime value={it.endtime} time/>
+        <FriendlyTime value={it.endtime} time />
       </td>
     ]
   )

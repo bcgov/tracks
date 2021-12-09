@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ListComponent from "../../components/ListComponent";
 import Loading from "../../components/Loading";
-import {useDispatch, useSelector} from "react-redux";
-import {ActivityActions, ReportActions} from "../../../state/actions";
-import CreateActivityDialog from '../../components/CreateActivityDialog';
+import {useSelector} from "react-redux";
+import {ActivityActions} from "../../../state/actions";
 import {useList} from "../../../state/utilities/use_list";
 import FriendlyTime from "../../components/FriendlyTime";
 
@@ -34,15 +33,15 @@ const ActivityList = () => {
   const renderer = (it) => (
     [
       <td key={'d'}>
-        <FriendlyTime value={it.createdat} time from/>
+        <FriendlyTime value={it.createdat} time from />
       </td>,
       <td key={'m'}>{it.mode}</td>,
       <td key={'ps'}>{it.processingstate}</td>,
       <td key={'sd'}>
-        <FriendlyTime value={it.starttime} time/>
+        <FriendlyTime value={it.starttime} time />
       </td>,
       <td key={'ed'}>
-        <FriendlyTime value={it.endtime} time/>
+        <FriendlyTime value={it.endtime} time />
       </td>
     ]
   )

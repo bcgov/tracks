@@ -1,2 +1,5 @@
 node_modules
 public
+/.node-build-cache/build-cache/
+
+/.node-build-cache/

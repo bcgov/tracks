@@ -3,5 +3,6 @@ build/
 tsconfig.json
 webpack.dev.js
 webpack.dist.js
+webpack.common.js
 start.js
 serve.js

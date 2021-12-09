@@ -1,13 +1,10 @@
 import React from 'react';
-import CONFIG from "../../../config";
 import {useParams} from "react-router";
 import ActivityMap from "../../components/ActivityMap";
-import {useHistory} from "react-router-dom";
 
 const ActivityDetail = () => {
 
   const params = useParams();
-  const history = useHistory();
 
   const renderer = (it) => (
     <>
@@ -45,9 +42,7 @@ const ActivityDetail = () => {
 
         <ActivityMap geometry={it.geometry} center={[it.centroid.coordinates[1], it.centroid.coordinates[0]]} />
       </div>
-      {(history.length >= 1) &&
-      <button onClick={() => history.goBack()}>Go back</button>
-      }
+
     </>);
 
   return (
