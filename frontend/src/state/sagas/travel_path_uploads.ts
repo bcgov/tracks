@@ -8,10 +8,13 @@ import {
   TRAVEL_PATH_UPLOAD_REQUEST,
   TRAVEL_PATH_UPLOAD_STARTED
 } from "../actions";
+import {TracksConfig} from "../config";
+import {getConfiguration} from "../utilities/config_helper";
 
 function* handleUploadRequest(action) {
 
   const {files, metadata} = action.payload;
+  const config: TracksConfig = yield select(getConfiguration);
 
   try {
     yield put({type: TRAVEL_PATH_UPLOAD_STARTED, payload: {}});
@@ -19,7 +22,7 @@ function* handleUploadRequest(action) {
     const uploadedFiles = [];
 
     for (const f of files) {
-      const response = yield axios.get(`${window.CONFIG.API_BASE}/api/v1/operator/activities/upload_request`, {
+      const response = yield axios.get(`${config.API_BASE}/api/v1/operator/activities/upload_request`, {
         headers: yield select(getAuthHeaders),
       });
 
@@ -33,7 +36,7 @@ function* handleUploadRequest(action) {
       });
     }
 
-    axios.post(`${window.CONFIG.API_BASE}/api/v1/operator/activities`, {
+    axios.post(`${config.API_BASE}/api/v1/operator/activities`, {
       ...metadata,
       files: uploadedFiles
     }, {

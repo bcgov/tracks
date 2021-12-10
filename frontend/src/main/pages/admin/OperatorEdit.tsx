@@ -1,7 +1,7 @@
 import React from 'react';
 
-const OperatorEdit = () => {
-
+const OperatorEdit: React.FC = () => {
+return null;
 };
 
 export default OperatorEdit;

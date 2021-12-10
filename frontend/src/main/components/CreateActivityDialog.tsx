@@ -14,7 +14,7 @@ import {
   Select,
   Typography
 } from "@material-ui/core";
-import FileSubmissionDrop from "./FileSubmissionDrop";
+import FileSubmissionDrop from "./util/FileSubmissionDrop";
 import {useDispatch} from "react-redux";
 import {TRAVEL_PATH_UPLOAD_REQUEST} from "../../state/actions";
 
@@ -28,7 +28,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateActivityDialog = (props) => {
+class ActivityDialogProps {
+  modes: any;
+  tenures: any;
+  permits: any;
+  open: boolean;
+  handleClose: () => void;
+}
+
+const CreateActivityDialog: React.FC<ActivityDialogProps> = (props) => {
   const {modes, tenures, permits, open, handleClose} = props;
 
   const classes = useStyles();

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PermitList = () => {
+const PermitList: React.FC = () => {
 
 
   return (

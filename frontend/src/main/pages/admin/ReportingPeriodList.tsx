@@ -1,12 +1,12 @@
 import React from 'react';
 import ListComponent from "../../components/ListComponent";
-import Loading from "../../components/Loading";
-import {useSelector} from "react-redux";
+import Loading from "../../components/util/Loading";
 import {ReportingPeriodActions} from "../../../state/actions";
 import {useList} from "../../../state/utilities/use_list";
-import FriendlyTime from "../../components/FriendlyTime";
+import FriendlyTime from "../../components/util/FriendlyTime";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const ReportingPeriodList = () => {
+const ReportingPeriodList: React.FC = () => {
   const items = useSelector(state => state.ReportingPeriods.items);
   const loading = useSelector(state => state.ReportingPeriods.loading);
 

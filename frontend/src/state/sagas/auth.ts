@@ -1,4 +1,4 @@
-import {all, delay, put, takeLatest} from 'redux-saga/effects'
+import {all, delay, put, select, takeLatest} from 'redux-saga/effects'
 import Keycloak from "keycloak-js";
 import {
   AUTH_INITIALIZE_COMPLETE,
@@ -9,16 +9,14 @@ import {
   AUTH_SIGNIN_REQUEST,
   AUTH_UPDATE_TOKEN_STATE
 } from "../actions";
+import {TracksConfig} from "../config";
+import {getConfiguration} from "../utilities/config_helper";
+
 
 const MIN_TOKEN_FRESHNESS = 2 * 60; //want our token to be good for atleast this long at all times
 const GRACE_PERIOD = 10; // get a new one with this much time to spare
 
-const keycloakInstance = Keycloak(
-  {
-    clientId: window.CONFIG.KEYCLOAK_CLIENT_ID,
-    realm: window.CONFIG.KEYCLOAK_REALM,
-    url: window.CONFIG.KEYCLOAK_URL,
-  });
+let keycloakInstance = null;
 
 function* keepTokenFresh() {
 
@@ -35,6 +33,15 @@ function* keepTokenFresh() {
 }
 
 function* initializeAuthentication() {
+  const config: TracksConfig = yield select(getConfiguration);
+
+  keycloakInstance = Keycloak(
+    {
+      clientId: config.KEYCLOAK_CLIENT_ID,
+      realm: config.KEYCLOAK_REALM,
+      url: config.KEYCLOAK_URL,
+    });
+
   const authStatus = yield keycloakInstance.init(
     {
       checkLoginIframe: false,

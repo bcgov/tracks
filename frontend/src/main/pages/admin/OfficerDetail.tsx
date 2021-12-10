@@ -2,8 +2,8 @@ import React from 'react';
 import {useParams} from "react-router";
 import DetailPane, {DetailMap} from "../../components/DetailPane";
 
-const OfficerDetail = () => {
-  const path = `${window.CONFIG.API_BASE}/api/v1/admin/officers/:id`;
+const OfficerDetail: React.FC = () => {
+  // const path = `${window.CONFIG.API_BASE}/api/v1/admin/officers/:id`;
   const params = useParams();
 
   const detailMapping = {

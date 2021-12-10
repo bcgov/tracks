@@ -1,5 +1,7 @@
 import {keycloakInstance} from "../sagas/auth";
 import {AUTH_INITIALIZE_COMPLETE, AUTH_REQUEST_COMPLETE, AUTH_UPDATE_TOKEN_STATE} from "../actions";
+import {TracksConfig} from "../config";
+import {createRootReducer} from "./index";
 
 class AuthState {
   initialized: boolean;
@@ -24,7 +26,7 @@ class AuthState {
 
 const initialState = new AuthState();
 
-function loadCurrentStateFromKeycloak(previousState: AuthState): object {
+function loadCurrentStateFromKeycloak(previousState: AuthState, config: TracksConfig): object {
 
   let bestName = 'User';
   const preferenceOrder = ['name', 'preferred_username', 'given_name', 'sub'];
@@ -49,8 +51,8 @@ function loadCurrentStateFromKeycloak(previousState: AuthState): object {
 
   let roles = [];
   if (keycloakInstance.resourceAccess != null) {
-    if (keycloakInstance.resourceAccess[window.CONFIG.KEYCLOAK_CLIENT_ID] !== undefined) {
-      roles = keycloakInstance.resourceAccess[window.CONFIG.KEYCLOAK_CLIENT_ID].roles;
+    if (keycloakInstance.resourceAccess[config.KEYCLOAK_CLIENT_ID] !== undefined) {
+      roles = keycloakInstance.resourceAccess[config.KEYCLOAK_CLIENT_ID].roles;
     }
   }
   const headers = {
@@ -66,35 +68,36 @@ function loadCurrentStateFromKeycloak(previousState: AuthState): object {
   };
 
 }
-
-const Auth = (state = initialState, action) => {
-  switch (action.type) {
-    case AUTH_INITIALIZE_COMPLETE: {
-      const {authenticated} = action.payload;
-      return {
-        ...state,
-        initialized: true,
-        authenticated,
-        ...loadCurrentStateFromKeycloak(state)
+function createAuthReducer(configuration: TracksConfig): (AuthState, AnyAction) => AuthState {
+  return (state = initialState, action) => {
+    switch (action.type) {
+      case AUTH_INITIALIZE_COMPLETE: {
+        const {authenticated} = action.payload;
+        return {
+          ...state,
+          initialized: true,
+          authenticated,
+          ...loadCurrentStateFromKeycloak(state, configuration)
+        }
       }
-    }
-    case AUTH_REQUEST_COMPLETE: {
-      const {authenticated} = action.payload;
-      return {
-        ...state,
-        authenticated,
-        ...loadCurrentStateFromKeycloak(state)
+      case AUTH_REQUEST_COMPLETE: {
+        const {authenticated} = action.payload;
+        return {
+          ...state,
+          authenticated,
+          ...loadCurrentStateFromKeycloak(state, configuration)
+        }
       }
-    }
-    case AUTH_UPDATE_TOKEN_STATE: {
-      return {
-        ...state,
-        ...loadCurrentStateFromKeycloak(state)
+      case AUTH_UPDATE_TOKEN_STATE: {
+        return {
+          ...state,
+          ...loadCurrentStateFromKeycloak(state, configuration)
+        }
       }
+      default:
+        return state;
     }
-    default:
-      return state;
   }
-};
+}
 
-export {Auth};
+export {createAuthReducer};

@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import ListComponent from "../../components/ListComponent";
-import Loading from "../../components/Loading";
-import {useDispatch, useSelector} from "react-redux";
+import Loading from "../../components/util/Loading";
+import {useDispatch} from "react-redux";
 import {ActivityActions, PermitActions, TenureActions} from "../../../state/actions";
 import CreateActivityDialog from "../../components/CreateActivityDialog";
 import {Button} from "@material-ui/core";
-import ButtonBar from "../../components/ButtonBar";
+import ButtonBar from "../../components/util/ButtonBar";
 import {usePrevious} from "../../../state/utilities/use_previous";
 import {useList} from "../../../state/utilities/use_list";
-import FriendlyTime from "../../components/FriendlyTime";
+import FriendlyTime from "../../components/util/FriendlyTime";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const ActivityList = () => {
+const ActivityList: React.FC = () => {
   const detailRoute = `/operator/activities/view/:id`;
 
   const [referenceData, setReferenceData] = useState({

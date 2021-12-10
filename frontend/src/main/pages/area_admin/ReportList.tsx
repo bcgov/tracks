@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import ListComponent from "../../components/ListComponent";
-import Loading from "../../components/Loading";
-import {useDispatch, useSelector} from "react-redux";
+import Loading from "../../components/util/Loading";
 import {ReportActions} from "../../../state/actions";
 import moment from "moment";
 import {useList} from "../../../state/utilities/use_list";
-import FriendlyTime from "../../components/FriendlyTime";
+import FriendlyTime from "../../components/util/FriendlyTime";
 import {Button} from "@material-ui/core";
 import axios from "axios";
 import {select} from "redux-saga/effects";
 import {getAuthHeaders} from "../../../state/utilities/authentication_helper";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const ReportList = () => {
+const ReportList: React.FC = () => {
   const detailRoute = `/operator/reports/view/:id`;
 
   const items = useSelector(state => state.Reports.items);
   const loading = useSelector(state => state.Reports.loading);
+  const configuration = useSelector(getConfiguration);
   const authHeaders = useSelector(getAuthHeaders);
 
   // const [exportRequests, setExportRequests] = useState([]);
@@ -33,7 +34,7 @@ const ReportList = () => {
       reportIds: [id]
     };
 
-    axios.post(`${window.CONFIG.API_BASE}/api/v1/area_admin/exports`, payload, {
+    axios.post(`${configuration.API_BASE}/api/v1/area_admin/exports`, payload, {
       headers: authHeaders
     }).then(response => {
       console.dir(response);

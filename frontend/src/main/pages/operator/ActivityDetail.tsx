@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router";
 import '../../styles/components/travel_path.scss';
-import {useDispatch, useSelector} from "react-redux";
-import Loading from "../../components/Loading";
+import {useDispatch} from "react-redux";
+import Loading from "../../components/util/Loading";
 import ActivityDetailComponent from "../../components/ActivityDetailComponent";
 import {ActivityActions} from "../../../state/actions";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const ActivityDetail = () => {
+const ActivityDetail: React.FC = () => {
 
   const params = useParams();
 

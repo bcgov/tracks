@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import PropTypes from 'prop-types';
 import {useNavigate} from "react-router-dom";
 
-const ListComponent = (props) => {
+class ListComponentProps {
+  idProp?: string;
+  detailRoute?: string;
+  headers: any;
+  rowRenderer: (row) => ReactNode;
+  items: any[]
+}
+
+const ListComponent: React.FC<ListComponentProps> = ({idProp, detailRoute, headers, rowRenderer, items}) => {
 
   const navigate = useNavigate();
-
-  const {idProp, detailRoute, headers, rowRenderer, items} = props;
 
   const clickableDetail = (detailRoute !== null && detailRoute !== '')
 
@@ -23,7 +29,7 @@ const ListComponent = (props) => {
           if (clickableDetail) {
             return (
               <tr key={index} onClick={() => {
-               navigate(detailRoute.replace(':id', it[idProp]))
+                navigate(detailRoute.replace(':id', it[idProp]))
               }}>
                 {rowRenderer(it)}
               </tr>
@@ -47,14 +53,5 @@ ListComponent.defaultProps = {
   idProp: 'id',
   detailRoute: null
 }
-
-ListComponent.propTypes = {
-  path: PropTypes.string,
-  detailRoute: PropTypes.string,
-  headers: PropTypes.arrayOf(PropTypes.string),
-  rowRenderer: PropTypes.func,
-  items: PropTypes.array,
-  idProp: PropTypes.string
-};
 
 export default ListComponent;

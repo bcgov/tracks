@@ -1,12 +1,12 @@
 import React from 'react';
 import ListComponent from "../../../components/ListComponent";
-import {useSelector} from "react-redux";
 import {TenureActions} from "../../../../state/actions";
-import Loading from "../../../components/Loading";
+import Loading from "../../../components/util/Loading";
 import moment from "moment";
 import {useList} from "../../../../state/utilities/use_list";
+import {useSelector} from "../../../../state/utilities/use_selector";
 
-const TenureList = () => {
+const TenureList: React.FC = () => {
 
   const items = useSelector(state => state.Tenures.items);
   const loading = useSelector(state => state.Tenures.loading);

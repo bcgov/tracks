@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import ButtonBar from "../components/ButtonBar";
+import ButtonBar from "../components/util/ButtonBar";
 import {Button, FormControl, Input, InputLabel, makeStyles, MenuItem, Select, Typography} from "@material-ui/core";
-import FormGroup from "../components/FormGroup";
-import {connect, useDispatch, useSelector} from "react-redux";
+import FormGroup from "../components/util/FormGroup";
+import {connect, useDispatch} from "react-redux";
 import {CHECK_SIGNUP_STATUS_REQUEST, SIGNUP_REQUEST_BINDING_SUBMIT} from "../../state/actions";
-import Loading from "../components/Loading";
+import Loading from "../components/util/Loading";
+import {useSelector} from "../../state/utilities/use_selector";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -15,7 +16,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-const RequestRoleBinding = (props) => {
+
+interface RoleBindingProps {
+  idir: boolean;
+  loading: boolean;
+  saving: boolean;
+  signupRequested: boolean;
+}
+
+const RequestRoleBinding: React.FC<RoleBindingProps> = ({idir, loading, saving, signupRequested}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -24,7 +33,6 @@ const RequestRoleBinding = (props) => {
     requestedRole: 'commercial_operator'
   });
 
-  const {idir, loading, saving, signupRequested} = props;
   const auth = useSelector(state => state.Auth);
 
   const bceIdRoles = [
@@ -148,7 +156,7 @@ const RequestRoleBinding = (props) => {
                 value={formState.requestedRole}
               >
                 {roles.map(r => (
-                    <MenuItem value={r.value}>{r.name}</MenuItem>
+                    <MenuItem key={r.name} value={r.value}>{r.name}</MenuItem>
                   )
                 )}
 

@@ -9,19 +9,21 @@ import ReportList from "../pages/admin/ReportList";
 import ReportingPeriodList from "../pages/admin/ReportingPeriodList";
 import OnboardingList from "../pages/admin/OnboardingList";
 import PinPickerDemo from "../pages/admin/PinPickerDemo";
+import {Route, Routes} from "react-router";
 
-const AdminRoutes =
-  [
-    {path: "/admin/organizations/list", component: OperatorList},
-    {path: "/admin/organizations/view/:id", component: OperatorDetail},
-    {path: "/admin/organizations/edit/:id", component: OperatorEdit},
-    {path: "/admin/officers/list", component: OfficerList},
-    {path: "/admin/officers/view/:id", component: OfficerDetail},
-    {path: "/admin/officers/edit/:id", component: OfficerEdit},
-    {path: "/admin/reports/list", component: ReportList},
-    {path: "/admin/reporting_periods/list", component: ReportingPeriodList},
-    {path: "/admin/onboarding/list", component: OnboardingList},
-    {path: "/admin/pinpicker", component: PinPickerDemo}
-  ]
+const AdminRoutes: React.FC = () => (
+  <Routes>
+    <Route path="/admin/organizations/list" element={<OperatorList />} />
+    <Route path="/admin/organizations/view/:id" element={<OperatorDetail />} />
+    <Route path="/admin/organizations/edit/:id" element={<OperatorEdit />} />
+    <Route path="/admin/officers/list" element={<OfficerList />} />
+    <Route path="/admin/officers/view/:id" element={<OfficerDetail />} />
+    <Route path="/admin/officers/edit/:id" element={<OfficerEdit />} />
+    <Route path="/admin/reports/list" element={<ReportList />} />
+    <Route path="/admin/reporting_periods/list" element={<ReportingPeriodList />} />
+    <Route path="/admin/onboarding/list" element={<OnboardingList />} />
+    <Route path="/admin/pinpicker" element={<PinPickerDemo />} />
+  </Routes>
+);
 
 export default AdminRoutes;

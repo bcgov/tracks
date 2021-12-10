@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PermitAdd = () => {
+const PermitAdd: React.FC = () => {
   return (<h2>Placeholder for Permit Add Page</h2>);
 
 };

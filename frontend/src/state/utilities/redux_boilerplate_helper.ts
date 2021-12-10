@@ -1,6 +1,8 @@
 import axios from "axios";
 import {all, put, select, takeLatest} from "redux-saga/effects";
 import {getAuthHeaders} from "./authentication_helper";
+import {TracksConfig} from "../config";
+import {getConfiguration} from "./config_helper";
 
 class BusinessObjectActionNames {
 
@@ -27,7 +29,6 @@ class BusinessObjectActionNames {
 
 export {BusinessObjectActionNames}
 
-
 class DefaultState {
   loading: boolean;
   error: boolean;
@@ -42,70 +43,76 @@ class DefaultState {
   }
 }
 
-const initialState = new DefaultState();
+export {DefaultState};
 
-const defaultReducer = (actionsObject) => (state = initialState, action) => {
-  switch (action.type) {
 
-    case actionsObject.LIST_UNLOAD: {
-      return {
-        ...state,
-        items: [],
-      };
-    }
+function defaultReducer<Type extends DefaultState> (actionsObject, defaultState: Type) : (state: Type, action: any) => Type {
 
-    case actionsObject.DETAIL_UNLOAD: {
-      return {
-        ...state,
-        item: null,
-      };
-    }
-    case actionsObject.LIST_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-        error: false,
-        items: []
-      };
-    }
+  return (state = defaultState, action): Type => {
+    switch (action.type) {
 
-    case actionsObject.DETAIL_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-        error: false,
-        item: null
-      };
-    }
-    case actionsObject.LIST_REQUEST_COMPLETE: {
-      const {items} = action.payload;
-      return {
-        loading: false,
-        error: false,
-        items
-      };
-    }
-
-    case actionsObject.DETAIL_REQUEST_COMPLETE: {
-      const {item} = action.payload;
-      return {
-        loading: false,
-        error: false,
-        item
-      };
-    }
-
-    case actionsObject.ERROR: {
-      return {
-        ...state,
-        error: true,
+      case actionsObject.LIST_UNLOAD: {
+        return {
+          ...state,
+          items: [],
+        };
       }
-    }
 
-    default:
-      return state;
+      case actionsObject.DETAIL_UNLOAD: {
+        return {
+          ...state,
+          item: null,
+        };
+      }
+      case actionsObject.LIST_REQUEST: {
+        return {
+          ...state,
+          loading: true,
+          error: false,
+          items: []
+        };
+      }
+
+      case actionsObject.DETAIL_REQUEST: {
+        return {
+          ...state,
+          loading: true,
+          error: false,
+          item: null
+        };
+      }
+      case actionsObject.LIST_REQUEST_COMPLETE: {
+        const {items} = action.payload;
+        return {
+          ...state,
+          loading: false,
+          error: false,
+          items
+        };
+      }
+
+      case actionsObject.DETAIL_REQUEST_COMPLETE: {
+        const {item} = action.payload;
+        return {
+          ...state,
+          loading: false,
+          error: false,
+          item
+        };
+      }
+
+      case actionsObject.ERROR: {
+        return {
+          ...state,
+          error: true,
+        }
+      }
+
+      default:
+        return state;
+    }
   }
-};
+}
 
 export {defaultReducer};
 
@@ -113,9 +120,10 @@ const defaultSagaGenerator = (actionsObject, path) => {
 
   function* loadList(action) {
     const {api} = action.payload;
+    const config: TracksConfig = yield select(getConfiguration);
 
     try {
-      const response = yield axios.get(`${path.replace(':API', api)}`, {
+      const response = yield axios.get(`${path.replace(':API', api).replace(':BASE', config.API_BASE)}`, {
         headers: yield select(getAuthHeaders)
       });
       yield put({
@@ -131,9 +139,10 @@ const defaultSagaGenerator = (actionsObject, path) => {
 
   function* loadDetail(action) {
     const {id, api} = action.payload;
+    const config: TracksConfig = yield select(getConfiguration);
 
     try {
-      const response = yield axios.get(`${path.replace(':API', api)}/${id}`, {
+      const response = yield axios.get(`${path.replace(':API', api).replace(':BASE', config.API_BASE)}/${id}`, {
         headers: yield select(getAuthHeaders)
       });
       yield put({

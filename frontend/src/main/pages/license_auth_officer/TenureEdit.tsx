@@ -1,7 +1,7 @@
 import React from 'react';
 
-const TenureEdit = () => {
-
+const TenureEdit: React.FC= () => {
+return null;
 };
 
 export default TenureEdit;

@@ -13,8 +13,8 @@ encode gzip
 
 try_files {path} /generated_index.html
 
-templates /generated_index.html {
-  mime text/html
+templates /js/tracks_configuration* {
+  mime application/javascript
 }
 
 header /generated_index.html {

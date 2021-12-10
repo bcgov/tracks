@@ -3,7 +3,7 @@ import PermitList from "./components/PermitList";
 import TenureList from "./components/TenureList";
 import ProfileView from "./components/ProfileView";
 
-const Profile = () => {
+const Profile: React.FC = () => {
   return (
     <>
       <ProfileView/>

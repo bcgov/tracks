@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PageStructure from './PageStructure';
+import App from './App';
+import {setupStore} from "../state/store";
 
-ReactDOM.render(
-  <PageStructure />,
-  document.getElementById('root'),
-);
+import( /* webpackChunkName: "tracks_configuration" */ '../state/config').then(({CONFIG}) => {
+
+  const store = setupStore(CONFIG);
+
+
+  ReactDOM.render(
+    <App store={store} />,
+    document.getElementById('root'),
+  );
+
+});

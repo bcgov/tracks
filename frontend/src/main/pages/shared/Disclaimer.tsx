@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Disclaimer = () => (
+const Disclaimer: React.FC = () => (
   <>
     <h1>Disclaimer</h1>
   </>

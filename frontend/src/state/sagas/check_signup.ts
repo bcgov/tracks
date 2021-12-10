@@ -8,14 +8,18 @@ import {
   CHECK_SIGNUP_STATUS_REQUEST,
   CHECK_SIGNUP_STATUS_STARTED
 } from "../actions";
+import {TracksConfig} from "../config";
+import {getConfiguration} from "../utilities/config_helper";
 
 
 function* handleCheckSignupRequest(action) {
 
+  const config: TracksConfig = yield select(getConfiguration);
+
   yield put({type: CHECK_SIGNUP_STATUS_STARTED});
 
   try {
-    const response = yield axios.get(`${window.CONFIG.API_BASE}/api/v1/signup_requested`, {
+    const response = yield axios.get(`${config.API_BASE}/api/v1/signup_requested`, {
       headers: yield select(getAuthHeaders),
     });
 

@@ -5,7 +5,6 @@ import {BusinessObjectActionNames} from "./redux_boilerplate_helper";
 const useList = (actionsObject: BusinessObjectActionNames, apiName: string, refreshDependencies: any[] = []) => {
     const dispatch = useDispatch();
 
-
     const [dirty, setDirty] = useState(false);
 
     useEffect(() => {

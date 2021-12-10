@@ -1,15 +1,15 @@
 import React from 'react';
 import ListComponent from "../../components/ListComponent";
-import {useSelector} from "react-redux";
 import {PermitActions} from "../../../state/actions";
-import Loading from "../../components/Loading";
-import ButtonBar from "../../components/ButtonBar";
+import Loading from "../../components/util/Loading";
+import ButtonBar from "../../components/util/ButtonBar";
 import {Button} from "@material-ui/core";
 import {useNavigate} from "react-router-dom";
 import {useList} from "../../../state/utilities/use_list";
-import FriendlyTime from "../../components/FriendlyTime";
+import FriendlyTime from "../../components/util/FriendlyTime";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const PermitList = () => {
+const PermitList: React.FC = () => {
 
   const items = useSelector(state => state.Permits.items);
   const loading = useSelector(state => state.Permits.loading);

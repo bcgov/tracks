@@ -5,19 +5,12 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-commonConfig = (htmlWebpackOptions) => {
+commonConfig = (htmlWebpackOptions, configurationSource) => {
 
   const buildPath = path.resolve(__dirname, 'public', 'build');
   const mainPath = path.resolve(__dirname, 'src', 'main/entry.tsx');
 
   return {
-    cache: {
-      compression: 'gzip',
-      type: 'filesystem',
-      cacheDirectory: path.resolve(__dirname, '.node-build-cache'),
-      name: 'build-cache',
-      maxAge: 43200000,
-    },
     entry: {
       mainBundle: [
         'core-js/stable',
@@ -76,12 +69,6 @@ commonConfig = (htmlWebpackOptions) => {
       }, {
         test: /\.(s?)css$/,
         use: [
-          //   {
-          //   loader: MiniCssExtractPlugin.loader,
-          //   options: {
-          //     publicPath: '/'
-          //   },
-          // }
           {
             loader: 'style-loader'
           }
@@ -122,12 +109,18 @@ commonConfig = (htmlWebpackOptions) => {
     },
     plugins: [
       new CleanWebpackPlugin(),
+      // broken
       // new MiniCssExtractPlugin({
       //   filename: 'css/[name][hash].css',
       //   chunkFilename: 'css/[id][hash].css',
       //   publicPath: '/'
       // }),
-      new CompressionPlugin(),
+      // new CompressionPlugin(),
+      new Webpack.DefinePlugin(
+        {
+          'CONFIGURATION_SOURCE': JSON.stringify(configurationSource)
+        }
+      ),
       new HtmlWebpackPlugin({
         chunks: ['mainBundle'],
         ...htmlWebpackOptions

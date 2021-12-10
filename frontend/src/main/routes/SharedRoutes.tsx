@@ -4,13 +4,16 @@ import Disclaimer from "../pages/shared/Privacy";
 import Privacy from "../pages/shared/Privacy";
 import Accessibility from "../pages/shared/Accessibility";
 import Copyright from "../pages/shared/Copyright";
+import {Route, Routes} from "react-router";
 
-const SharedRoutes =
-  [
-    {path: "/disclaimer", component: Disclaimer},
-    {path: "/accessibility", component: Accessibility},
-    {path: "/copyright", component: Copyright},
-    {path: "/privacy", component: Privacy},
-  ]
+const SharedRoutes: React.FC = () => (
+
+  <Routes>
+    <Route path="/disclaimer" element={<Disclaimer />} />
+    <Route path="/accessibility" element={<Accessibility />} />
+    <Route path="/copyright" element={<Copyright />} />
+    <Route path="/privacy" element={<Privacy />} />
+  </Routes>
+);
 
 export default SharedRoutes;

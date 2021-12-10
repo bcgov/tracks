@@ -24,5 +24,8 @@
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off"
+  },
+  "globals": {
+    "CONFIGURATION_SOURCE": "readonly"
   }
 }

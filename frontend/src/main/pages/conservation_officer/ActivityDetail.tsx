@@ -1,8 +1,8 @@
 import React from 'react';
 import {useParams} from "react-router";
-import ActivityMap from "../../components/ActivityMap";
+import ActivityMap from "../../components/maps/ActivityMap";
 
-const ActivityDetail = () => {
+const ActivityDetail: React.FC = () => {
 
   const params = useParams();
 

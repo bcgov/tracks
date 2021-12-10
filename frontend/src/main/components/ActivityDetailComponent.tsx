@@ -1,10 +1,10 @@
 import React from 'react';
 import '../styles/components/map.scss';
 import 'leaflet/dist/leaflet.css';
-import ActivityMap from "./ActivityMap";
+import ActivityMap from "./maps/ActivityMap";
 
 
-const ActivityDetailComponent = (props) => {
+const ActivityDetailComponent: React.FC<{ travelPath: any }> = (props) => {
 
   const {travelPath} = props;
 
@@ -50,7 +50,7 @@ const ActivityDetailComponent = (props) => {
                                      center={mapCenter} />
         }
         {hasGeometry ||
-        <p>No coordinate data exists for this travel path (perhaps import failed or the track was empty)</p>}
+          <p>No coordinate data exists for this travel path (perhaps import failed or the track was empty)</p>}
       </div>
     </>
   );

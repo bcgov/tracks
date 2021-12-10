@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Accessibility = () => (
+const Accessibility : React.FC= () => (
   <>
     <h1>Accessibility</h1>
   </>

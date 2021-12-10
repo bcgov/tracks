@@ -5,10 +5,10 @@ const { commonConfig } = require('./webpack.common');
 const config = merge(commonConfig({
   filename: 'index.html',
   templateParameters: {},
-  template: path.resolve(__dirname, 'templates/dev.html'),
-}), {
+  template: path.resolve(__dirname, 'templates/main.html'),
+}, 'Hardcoded'), {
   mode: 'development',
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   devServer: {
     liveReload: false,
     magicHtml: false,
@@ -18,6 +18,13 @@ const config = merge(commonConfig({
     historyApiFallback: true,
     compress: false,
     port: 3001,
+  },
+  cache: {
+    compression: 'gzip',
+    type: 'filesystem',
+    cacheDirectory: path.resolve(__dirname, '.node-build-cache'),
+    name: 'build-cache',
+    maxAge: 43200000,
   },
 });
 

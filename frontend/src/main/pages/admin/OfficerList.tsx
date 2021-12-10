@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import ListComponent from "../../components/ListComponent";
-import {useSelector} from "react-redux";
 import {OfficerActions} from "../../../state/actions";
-import Loading from "../../components/Loading";
+import Loading from "../../components/util/Loading";
 import {Button} from "@material-ui/core";
-import ButtonBar from "../../components/ButtonBar";
+import ButtonBar from "../../components/util/ButtonBar";
 import {useList} from "../../../state/utilities/use_list";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const OfficerList = () => {
+const OfficerList: React.FC = () => {
 
   const items = useSelector(state => state.Officers.items);
   const loading = useSelector(state => state.Officers.loading);

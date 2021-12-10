@@ -1,12 +1,12 @@
 import React from 'react';
 import ListComponent from "../../components/ListComponent";
-import Loading from "../../components/Loading";
-import {useSelector} from "react-redux";
+import Loading from "../../components/util/Loading";
 import {ReportActions} from "../../../state/actions";
 import {useList} from "../../../state/utilities/use_list";
-import FriendlyTime from "../../components/FriendlyTime";
+import FriendlyTime from "../../components/util/FriendlyTime";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const ReportList = () => {
+const ReportList: React.FC = () => {
   // const detailRoute = `/operator/reports/view/:id`;
 
   const items = useSelector(state => state.Reports.items);

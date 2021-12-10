@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import Loading from "../../components/Loading";
-import {useSelector} from "react-redux";
+import Loading from "../../components/util/Loading";
 import {OnboardingRequestActions} from "../../../state/actions";
 import {useList} from "../../../state/utilities/use_list";
-import OnboardingDialog from "../../components/OnboardingDialog";
+import OnboardingDialog from "../../components/auth/OnboardingDialog";
 import ListComponent from "../../components/ListComponent";
-import FriendlyTime from "../../components/FriendlyTime";
+import FriendlyTime from "../../components/util/FriendlyTime";
 import {Button} from "@material-ui/core";
+import {useSelector} from "../../../state/utilities/use_selector";
 
-const OnboardingList = () => {
+const OnboardingList: React.FC = () => {
 
   const items = useSelector(state => state.OnboardingRequests.items);
   const loading = useSelector(state => state.OnboardingRequests.loading);

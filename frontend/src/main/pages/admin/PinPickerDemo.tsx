@@ -1,7 +1,7 @@
 import React from 'react';
-import PinPicker from "../../components/PinPicker";
+import PinPicker from "../../components/maps/PinPicker";
 
-const PinPickerDemo = () => {
+const PinPickerDemo: React.FC = () => {
 
   return (
     <>
