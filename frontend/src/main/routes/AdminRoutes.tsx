@@ -10,7 +10,6 @@ import ReportingPeriodList from "../pages/admin/ReportingPeriodList";
 import OnboardingList from "../pages/admin/OnboardingList";
 import PinPickerDemo from "../pages/admin/PinPickerDemo";
 import {Route, Routes} from "react-router";
-
 const AdminRoutes: React.FC = () => (
   <Routes>
     <Route path="/admin/organizations/list" element={<OperatorList />} />

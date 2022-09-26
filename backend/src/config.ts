@@ -10,26 +10,26 @@ const CONFIG = {
   TRACKS_DB_NAME: process.env.TRACKS_DB_NAME || 'tracks',
   TRACKS_DB_USER: process.env.TRACKS_DB_USER || 'tracks',
   TRACKS_DB_PASSWORD: process.env.TRACKS_DB_PASSWORD || 'development_only',
-  TRACKS_DB_HOST: process.env.TRACKS_DB_HOST || 'localhost',
+  TRACKS_DB_HOST: process.env.TRACKS_DB_HOST || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api',
   TRACKS_DB_PORT: parseInt(process.env.TRACKS_DB_PORT) || 5432,
 
-  JWKS_URL: process.env.JWKS_URL || 'http://localhost:8888/auth/realms/tracks/protocol/openid-connect/certs',
+  JWKS_URL: process.env.JWKS_URL || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api:8888/auth/realms/tracks/protocol/openid-connect/certs',
 
 
-  KEYCLOAK_BASE_URL: process.env.KEYCLOAK_BASE_URL || 'http://localhost:8888',
+  KEYCLOAK_BASE_URL: process.env.KEYCLOAK_BASE_URL || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api:8888',
   KEYCLOAK_REALM: process.env.KEYCLOAK_REALM || 'tracks',
   KEYCLOAK_CLIENT: process.env.KEYCLOAK_CLIENT || 'tracks-ui',
   KEYCLOAK_SA: process.env.KEYCLOAK_SA,
   KEYCLOAK_SA_SECRET: process.env.KEYCLOAK_SA_SECRET,
 
-  RABBIT_MQ_HOST: process.env.RABBIT_MQ_HOST || 'localhost',
+  RABBIT_MQ_HOST: process.env.RABBIT_MQ_HOST || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api',
   RABBIT_MQ_VHOST: process.env.RABBIT_MQ_VHOST || 'tracks',
   RABBIT_MQ_USER: process.env.RABBIT_MQ_USER || 'rabbitmq',
   RABBIT_MQ_PASSWORD: process.env.RABBIT_MQ_PASSWORD || 'rabbitmq',
 
   // we need a way to talk to minio directly, and also a URL to pass to the client
   // they could be different while running in k8s/os
-  MINIO_HOST: process.env.MINIO_HOST || 'localhost',
+  MINIO_HOST: process.env.MINIO_HOST || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api',
   MINIO_PORT: process.env.MINIO_PORT || '9000',
   MINIO_USE_SSL: process.env.MINIO_USE_SSL || 'false',
 
@@ -38,7 +38,7 @@ const CONFIG = {
   MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || '7f99fccf96804f9456f05ad8bf926dba',
 
   SMTP_ENABLED: process.env.SMTP_ENABLED === 'true' || false,
-  SMTP_HOST: process.env.SMTP_HOST || 'localhost',
+  SMTP_HOST: process.env.SMTP_HOST || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api',
   SMTP_PORT: process.env.SMTP_PORT || '587',
   SMTP_MAIL_FROM: process.env.SMTP_MAIL_FROM || 'tracks@gov.bc.ca',
   SMTP_USERNAME: process.env.SMTP_MAIL_FROM || '',
@@ -46,8 +46,8 @@ const CONFIG = {
 
   TANTALIS_USERNAME: process.env.TANTALIS_USERNAME || 'unset',
   TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD || 'unset',
-  TANTALIS_API_BASE: process.env.TANTALIS_API_BASE || 'http://localhost',
-  TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE || 'http://localhost'
+  TANTALIS_API_BASE: process.env.TANTALIS_API_BASE || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api',
+  TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api'
 
 };
 
