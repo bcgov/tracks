@@ -7,10 +7,10 @@ import {Route, Routes} from "react-router";
 
 const LicenseAuthOfficerRoutes: React.FC = () => (
   <Routes>
-    <Route path="/license_auth_officer/tenures/list" element={<TenureList />} />
-    <Route path="/license_auth_officer/tenures/edit/:id" element={<TenureEdit />} />
-    <Route path="/license_auth_officer/tenures/add" element={<TenureAdd />} />
-    <Route path="/license_auth_officer/reports/list" element={<ReportList />} />
+    <Route path="/tenures/list" element={<TenureList />} />
+    <Route path="/tenures/edit/:id" element={<TenureEdit />} />
+    <Route path="/tenures/add" element={<TenureAdd />} />
+    <Route path="/reports/list" element={<ReportList />} />
   </Routes>
 );
 
