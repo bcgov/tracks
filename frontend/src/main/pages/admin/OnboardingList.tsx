@@ -38,7 +38,7 @@ const OnboardingList: React.FC = () => {
   const renderer = (it) => (
     [
       <td key={'fn'}>{it.full_name}</td>,
-      <td key={'status'}>{it.username.substring(it.username.indexOf('@') + 1, it.username.length)}</td>,
+      <td key={'type'}>{it.username.substring(it.username.indexOf('@') + 1, it.username.length)}</td>,
       <td key={'r'}>{it.requested_role}</td>,
       <td key={'s'}>{it.status}</td>,
       <td key={'t'}><FriendlyTime time from value={it.created} /></td>,
@@ -68,7 +68,7 @@ const OnboardingList: React.FC = () => {
       }
 
       <ListComponent items={items}
-                     headers={['User', 'Type of Account' ,'Requested Role', 'Status', 'Date', 'Action']}
+                     headers={['User','Type of Account' ,'Requested Role', 'Status', 'Date', 'Action']}
                      rowRenderer={renderer}></ListComponent>
     </div>
   );
