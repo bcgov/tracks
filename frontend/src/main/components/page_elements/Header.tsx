@@ -7,11 +7,8 @@ import "../../styles/header.scss";
 import {keycloakInstance} from "../../../state/sagas/auth";
 import GovLogo from '../../styles/assets/images/gov3_bc_logo.png';
 import {useSelector} from "../../../state/utilities/use_selector";
-
 const Header: React.FC = () => {
-
   const bestName = useSelector(state => state.Auth.bestName);
-
   return (
     <header id="header" className={'header'}>
       <div className={'container'}>

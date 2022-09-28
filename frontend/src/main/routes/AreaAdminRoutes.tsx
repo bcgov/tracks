@@ -6,9 +6,9 @@ import {Route, Routes} from "react-router";
 
 const AreaAdminRoutes: React.FC = () => (
   <Routes>
-    <Route path="/area_admin/permits/list" element={<PermitList />} />
-    <Route path="/area_admin/permits/edit/:id" element={<PermitEdit />} />
-    <Route path="/area_admin/reports/list" element={<ReportList />} />
+    <Route path="/permits/list" element={<PermitList />} />
+    <Route path="/permits/edit/:id" element={<PermitEdit />} />
+    <Route path="/reports/list" element={<ReportList />} />
   </Routes>
 );
 

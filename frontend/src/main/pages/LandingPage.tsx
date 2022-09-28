@@ -13,11 +13,11 @@ const LandingPage = (props) => {
 };
 
 const mapStateToProps = (state) => {
+
   const mappedProps = {
     currentUserRoles: state.Auth.roles,
     bestName: state.Auth.bestName,
   };
-
   return mappedProps;
 }
 

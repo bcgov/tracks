@@ -9,18 +9,17 @@ import AdminRoutes from "./routes/AdminRoutes";
 import {Route, Routes} from "react-router";
 import OperatorRoutes from "./routes/OperatorRoutes";
 import OfficerRoutes from "./routes/OfficerRoutes";
-import SharedRoutes from "./routes/SharedRoutes";
+//import SharedRoutes from "./routes/SharedRoutes";
 import AreaAdminRoutes from "./routes/AreaAdminRoutes";
 import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
-import {uximportnavs} from "./uximports/navigation";
+//import {uximportnavs} from "./uximports/navigation";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import ContextualMetadata from "./components/page_elements/ContextualMetadata";
 
-const ConfigContext = React.createContext(null);
+//const ConfigContext = React.createContext(null);
 
 const App: React.FC<{ store }> = ({store}) => {
-
   return (
 
     <Provider store={store}>

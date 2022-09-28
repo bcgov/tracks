@@ -9,10 +9,10 @@ import {Route, Routes} from "react-router";
 
 const OperatorRoutes: React.FC = () => (
   <Routes>
-    <Route path="/operator/profile" element={<Profile/>}/>
-    <Route path="/operator/activities/list" element={<ActivityList/>}/>
-    <Route path="/operator/activities/view/:id" element={<ActivityDetail/>}/>
-    <Route path="/operator/reports/list" element={<ReportList/>}/>
+    <Route path="/profile" element={<Profile/>}/>
+    <Route path="/activities/list" element={<ActivityList/>}/>
+    <Route path="/activities/view/:id" element={<ActivityDetail/>}/>
+    <Route path="/reports/list" element={<ReportList/>}/>
   </Routes>
 );
 
