@@ -46,8 +46,8 @@ const CONFIG = {
 
   TANTALIS_USERNAME: process.env.TANTALIS_USERNAME || 'unset',
   TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD || 'unset',
-  TANTALIS_API_BASE: process.env.TANTALIS_API_BASE || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api',
-  TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE || 'https://moe-tracks-test.apps.silver.devops.gov.bc.ca/api'
+  TANTALIS_API_BASE: process.env.TANTALIS_API_BASE || 'http://localhost',
+  TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE || 'http://localhost'
 
 };
 
