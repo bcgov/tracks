@@ -18,8 +18,6 @@ const mapStateToProps = (state) => {
     currentUserRoles: state.Auth.roles,
     bestName: state.Auth.bestName,
   };
-  console.log('hello')
-  console.log(mappedProps)
   return mappedProps;
 }
 

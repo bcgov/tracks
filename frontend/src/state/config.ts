@@ -27,10 +27,10 @@ switch (CONFIGURATION_SOURCE) {
   default:
     CONFIG = {
       DEBUG: true,
-      API_BASE: 'https://moe-tracks-dev.apps.silver.devops.gov.bc.ca',
+      API_BASE: 'http://localhost:6005',
       KEYCLOAK_CLIENT_ID: 'tracks-ui',
-      KEYCLOAK_REALM: 'srmm7sdn',
-      KEYCLOAK_URL: 'https://dev.oidc.gov.bc.ca/auth/'
+      KEYCLOAK_REALM: 'tracks',
+      KEYCLOAK_URL: 'http://localhost:8080/auth'
     };
     break;
 }
