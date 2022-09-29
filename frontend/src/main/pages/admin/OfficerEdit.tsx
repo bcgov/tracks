@@ -1,7 +1,7 @@
 import React from 'react';
 
-const OfficerEdit: React.FC = () => {
-  return null;
+const OfficerEdit = () => {
+	return (<></>);
 };
 
 export default OfficerEdit;

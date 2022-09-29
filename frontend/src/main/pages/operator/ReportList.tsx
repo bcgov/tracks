@@ -6,37 +6,37 @@ import {useList} from "../../../state/utilities/use_list";
 import FriendlyTime from "../../components/util/FriendlyTime";
 import {useSelector} from "../../../state/utilities/use_selector";
 
-const ReportList: React.FC = () => {
-  // const detailRoute = `/operator/reports/view/:id`;
+const ReportList = () => {
+	// const detailRoute = `/operator/reports/view/:id`;
 
-  const items = useSelector(state => state.Reports.items);
-  const loading = useSelector(state => state.Reports.loading);
+	const items = useSelector(state => state.Reports.items);
+	const loading = useSelector(state => state.Reports.loading);
 
-  useList(ReportActions, 'operator');
+	useList(ReportActions, 'operator');
 
-  if (loading || items === undefined) {
-    return (<Loading />);
-  }
+	if (loading || items === undefined) {
+		return (<Loading/>);
+	}
 
-  const renderer = (it) => (
-    [
-      <td key={'st'}>{it.state}</td>,
-      <td key={'torp'}>{it.tenure} {it.parkpermit}</td>,
-      <td key={'sd'}><FriendlyTime value={it.period_start_date} /></td>,
-      <td key={'ed'}><FriendlyTime value={it.period_end_date} /></td>,
-      <td key={'pp'}><FriendlyTime value={it.updated_at} from /></td>
-    ]
-  )
-  return (
-    <>
-      <h2>Travel Path Reports</h2>
+	const renderer = (it) => (
+		[
+			<td key={'st'}>{it.state}</td>,
+			<td key={'torp'}>{it.tenure} {it.parkpermit}</td>,
+			<td key={'sd'}><FriendlyTime value={it.period_start_date}/></td>,
+			<td key={'ed'}><FriendlyTime value={it.period_end_date}/></td>,
+			<td key={'pp'}><FriendlyTime value={it.updated_at} from/></td>
+		]
+	)
+	return (
+		<>
+			<h2>Travel Path Reports</h2>
 
-      <ListComponent items={items}
-                     headers={['State', 'Tenure or Park Permit', 'Period Start', 'Period End', 'Last Updated']}
-                     rowRenderer={renderer} />
+			<ListComponent items={items}
+										 headers={['State', 'Tenure or Park Permit', 'Period Start', 'Period End', 'Last Updated']}
+										 rowRenderer={renderer}/>
 
-    </>
-  );
+		</>
+	);
 };
 
 

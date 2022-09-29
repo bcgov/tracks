@@ -1,7 +1,7 @@
 import React from 'react';
 
-const PermitEdit: React.FC = () => {
-return null;
+const PermitEdit = () => {
+	return null;
 };
 
 export default PermitEdit;

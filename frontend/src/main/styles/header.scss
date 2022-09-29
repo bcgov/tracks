@@ -2,66 +2,66 @@
 @import 'colours';
 
 .header {
-  border-bottom: 2px solid $BCgovGold;
-  background-color: $BCgovBlue;
+	border-bottom: 2px solid $BCgovGold;
+	background-color: $BCgovBlue;
 
-  .container {
-    display: flex;
-    flex: 1 1 auto;
-    align-items: center;
-    justify-content: space-between;
-    height: 70px;
-  }
+	.container {
+		display: flex;
+		flex: 1 1 auto;
+		align-items: center;
+		justify-content: space-between;
+		height: 70px;
+	}
 }
 
 .homeLink {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  color: $headerText;
-  text-decoration: none;
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	color: $headerText;
+	text-decoration: none;
 
-  img {
-    margin-right: 1.25rem;
-    margin-bottom: 4px;
-  }
+	img {
+		margin-right: 1.25rem;
+		margin-bottom: 4px;
+	}
 
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
+	font-size: 1.5rem;
+	font-weight: 700;
+	text-transform: uppercase;
 }
 
 button.logout {
-  color: $darkBackgroundText;
-  font-family: $fontFamily;
-  font-size: 1rem;
+	color: $darkBackgroundText;
+	font-family: $fontFamily;
+	font-size: 1rem;
 }
 
 .profile {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  color: $headerText;
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	color: $headerText;
 
-  li {
-    display: inline-block;
-  }
+	li {
+		display: inline-block;
+	}
 
-  .roleSelector {
-    margin-right: 2rem;
-  }
+	.roleSelector {
+		margin-right: 2rem;
+	}
 
-  .username {
-    display: flex;
-    align-items: center;
-    margin-right: 0.75rem;
-    padding-right: 1rem;
-    border-right: 1px solid $darkBackgroundText;
+	.username {
+		display: flex;
+		align-items: center;
+		margin-right: 0.75rem;
+		padding-right: 1rem;
+		border-right: 1px solid $darkBackgroundText;
 
-    span {
-      margin-left: 0.25rem;
-    }
-  }
+		span {
+			margin-left: 0.25rem;
+		}
+	}
 }

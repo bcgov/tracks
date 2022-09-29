@@ -1,48 +1,48 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ListComponent from "../../components/ListComponent";
 import {OfficerActions} from "../../../state/actions";
 import Loading from "../../components/util/Loading";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import ButtonBar from "../../components/util/ButtonBar";
 import {useList} from "../../../state/utilities/use_list";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "../../../state/utilities/use_selector";
 
-const OfficerList: React.FC = () => {
+const OfficerList = () => {
 
-  const items = useSelector(state => state.Officers.items);
-  const loading = useSelector(state => state.Officers.loading);
-  const navigate = useNavigate();
+	const items = useSelector(state => state.Officers.items);
+	const loading = useSelector(state => state.Officers.loading);
+	const navigate = useNavigate();
 
-  useList(OfficerActions, 'admin');
+	useList(OfficerActions, 'admin');
 
-  const detailRoute = `/admin/officers/view/:id`;
+	const detailRoute = `/admin/officers/view/:id`;
 
-  const renderer = (it) => (
-    [
-      <td key='name'>{it.name}</td>,
-      <td key='region'>{it.region}</td>
-    ]
-  )
+	const renderer = (it) => (
+		[
+			<td key='name'>{it.name}</td>,
+			<td key='region'>{it.region}</td>
+		]
+	)
 
-  if (loading || items === undefined) {
-    return (<Loading />);
-  }
+	if (loading || items === undefined) {
+		return (<Loading/>);
+	}
 
-  return (
-    <>
-      <h2>Conservation Officers</h2>
-      <ButtonBar>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate('/admin/officers/add')}
-        >Create New</Button>
-      </ButtonBar>
+	return (
+		<>
+			<h2>Conservation Officers</h2>
+			<ButtonBar>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() => navigate('/admin/officers/add')}
+				>Create New</Button>
+			</ButtonBar>
 
-      <ListComponent items={items} detailRoute={detailRoute} headers={['Name', 'Region']} rowRenderer={renderer} />
-    </>
-  );
+			<ListComponent items={items} detailRoute={detailRoute} headers={['Name', 'Region']} rowRenderer={renderer}/>
+		</>
+	);
 };
 
 export default OfficerList;

@@ -1,11 +1,11 @@
 import {defaultSagaGenerator} from "../utilities/redux_boilerplate_helper";
 import {
-  OfficerActions,
-  OperatorActions,
-  PermitActions,
-  ReportActions,
-  TenureActions,
-  ActivityActions, ReportingPeriodActions, OnboardingRequestActions
+	OfficerActions,
+	OperatorActions,
+	PermitActions,
+	ReportActions,
+	TenureActions,
+	ActivityActions, ReportingPeriodActions, OnboardingRequestActions
 } from "../actions";
 
 const activitiesSaga = defaultSagaGenerator(ActivityActions, `:BASE/api/v1/:API/activities`);

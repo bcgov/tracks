@@ -7,34 +7,34 @@ import ActivityDetailComponent from "../../components/ActivityDetailComponent";
 import {ActivityActions} from "../../../state/actions";
 import {useSelector} from "../../../state/utilities/use_selector";
 
-const ActivityDetail: React.FC = () => {
+const ActivityDetail = () => {
 
-  const params = useParams();
+	const params = useParams();
 
-  const item = useSelector(state => state.Activities.item);
-  const loading = useSelector(state => state.Activities.loading);
-  const dispatch = useDispatch();
-  const load = (id) => dispatch({type: ActivityActions.DETAIL_REQUEST, payload: {id, api: 'operator'}});
-  const unload = () => dispatch({type: ActivityActions.DETAIL_UNLOAD});
+	const item = useSelector(state => state.Activities.item);
+	const loading = useSelector(state => state.Activities.loading);
+	const dispatch = useDispatch();
+	const load = (id) => dispatch({type: ActivityActions.DETAIL_REQUEST, payload: {id, api: 'operator'}});
+	const unload = () => dispatch({type: ActivityActions.DETAIL_UNLOAD});
 
-  useEffect(() => {
-    load(params.id);
-    return () => {
-      unload();
-    }
-  }, [params.id]);
+	useEffect(() => {
+		load(params.id);
+		return () => {
+			unload();
+		}
+	}, [params.id]);
 
 
-  if (loading || item === null || item === undefined) {
-    return (<Loading />);
-  }
+	if (loading || item === null || item === undefined) {
+		return (<Loading/>);
+	}
 
-  return (
-    <>
-      <h2>Travel Path Report Details</h2>
-      <ActivityDetailComponent travelPath={item} />
-    </>
-  );
+	return (
+		<>
+			<h2>Travel Path Report Details</h2>
+			<ActivityDetailComponent travelPath={item}/>
+		</>
+	);
 };
 
 

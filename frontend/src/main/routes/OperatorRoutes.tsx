@@ -7,13 +7,13 @@ import ReportList from "../pages/operator/ReportList";
 import {Route, Routes} from "react-router";
 
 
-const OperatorRoutes: React.FC = () => (
-  <Routes>
-    <Route path="/profile" element={<Profile/>}/>
-    <Route path="/activities/list" element={<ActivityList/>}/>
-    <Route path="/activities/view/:id" element={<ActivityDetail/>}/>
-    <Route path="/reports/list" element={<ReportList/>}/>
-  </Routes>
+const OperatorRoutes = () => (
+	<Routes>
+		<Route path="/profile" element={<Profile/>}/>
+		<Route path="/activities/list" element={<ActivityList/>}/>
+		<Route path="/activities/view/:id" element={<ActivityDetail/>}/>
+		<Route path="/reports/list" element={<ReportList/>}/>
+	</Routes>
 );
 
 export default OperatorRoutes;

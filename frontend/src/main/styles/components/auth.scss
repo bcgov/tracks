@@ -1,27 +1,27 @@
 @import '../colours';
 
 .authRequired {
-  text-align: center;
-  flex-grow: 1;
-  width: 100%;
-  margin-top: 20vh;
+	text-align: center;
+	flex-grow: 1;
+	width: 100%;
+	margin-top: 20vh;
 
-  #loginButton {
-    background: $linkBackground !important;
-    padding: 0.75rem !important;
-    min-width: 10rem;
-    color: #cccccc !important;
-    font-size: 125%;
-    font-weight: bold;
-    cursor: pointer;
-    border: none !important;
-    box-shadow: none;
-    border-radius: 4px;
+	#loginButton {
+		background: $linkBackground !important;
+		padding: 0.75rem !important;
+		min-width: 10rem;
+		color: #cccccc !important;
+		font-size: 125%;
+		font-weight: bold;
+		cursor: pointer;
+		border: none !important;
+		box-shadow: none;
+		border-radius: 4px;
 
-    &:hover {
-      text-decoration: underline;
-    }
+		&:hover {
+			text-decoration: underline;
+		}
 
-    margin-top: 0.5rem;
-  }
+		margin-top: 0.5rem;
+	}
 }

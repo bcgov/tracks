@@ -8,45 +8,42 @@ import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
 import 'leaflet/dist/images/marker-shadow.png';
 
-import PropTypes from 'prop-types';
-
 const tileLayers = [
-  {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    name: 'OpenStreetMap',
-  },
+	{
+		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+		url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		name: 'OpenStreetMap',
+	},
 ];
 
-const ActivityMap: React.FC<{center, geometry}> = (props) => {
+//  center: [49, -123]
 
-  const [tileLayer, setTileLayer] = useState(tileLayers[0]);
+const ActivityMap = ({center, geometry}) => {
 
-  return (
-    <>
-      <MapContainer
-        id="mapDemo"
-        center={props.center}
-        zoom={11}
-        scrollWheelZoom={false}
-      >
-        <TileLayer
-          attribution={tileLayer.attribution}
-          url={tileLayer.url}
-        />
+	const [tileLayer, setTileLayer] = useState(tileLayers[0]);
 
-        <GeoJSON data={props.geometry}>
+	return (
+		<>
+			<MapContainer
+				id="mapDemo"
+				center={center}
+				zoom={11}
+				scrollWheelZoom={false}
+			>
+				<TileLayer
+					attribution={tileLayer.attribution}
+					url={tileLayer.url}
+				/>
 
-        </GeoJSON>
+				<GeoJSON data={geometry}>
 
-      </MapContainer>
-    </>
-  );
+				</GeoJSON>
+
+			</MapContainer>
+		</>
+	);
 
 };
 
-ActivityMap.defaultProps = {
-  center: [49, -123]
-}
 
 export default ActivityMap;

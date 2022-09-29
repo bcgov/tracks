@@ -1,16 +1,17 @@
 @import '../colours';
 
 div.friendlyTime {
-  span.absoluteTime {
-    display: block;
-    margin: 0;
-    padding: 0;
-  }
-  span.relativeTime {
-    display: block;
-    margin: 0;
-    padding: 0;
-    font-size: 80%;
-    color: $mutedText;
-  }
+	span.absoluteTime {
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+
+	span.relativeTime {
+		display: block;
+		margin: 0;
+		padding: 0;
+		font-size: 80%;
+		color: $mutedText;
+	}
 }

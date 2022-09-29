@@ -1,21 +1,21 @@
 div.editPane {
-  padding: 1rem 1rem;
-  border: 2px solid black;
-  margin: 0 1rem;
-  border-radius: 4px;
-  width: 18rem;
-  line-height: 2;
+	padding: 1rem 1rem;
+	border: 2px solid black;
+	margin: 0 1rem;
+	border-radius: 4px;
+	width: 18rem;
+	line-height: 2;
 
 
-  .formGroup {
-    label {
-      margin-left: -4px;
-      position: relative;
-      top: 0.5rem
-    }
+	.formGroup {
+		label {
+			margin-left: -4px;
+			position: relative;
+			top: 0.5rem
+		}
 
-    input, select {
-      width: 100%;
-    }
-  }
+		input, select {
+			width: 100%;
+		}
+	}
 }

@@ -1,33 +1,24 @@
 import React from "react";
-import {Card, Grid, makeStyles, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginBottom: theme.spacing(4),
-  }
-}));
+const TitleBarButtonContainer = ({title, children}) => {
 
-const TitleBarButtonContainer = (props) => {
+	return (
+		<div>
+			<Grid direction="row"
+				justify="space-between"
+				alignItems="center"
+				container>
+				<Grid item>
+					<Typography variant={'h4'}>{title}</Typography>
+				</Grid>
+				<Grid item>
+					{children}
+				</Grid>
+			</Grid>
 
-  const classes = useStyles();
-  const {title, children} = props;
-
-  return (
-    <div className={classes.root}>
-      <Grid direction="row"
-            justify="space-between"
-            alignItems="center"
-            container>
-        <Grid item>
-          <Typography variant={'h4'}>{title}</Typography>
-        </Grid>
-        <Grid item>
-          {children}
-        </Grid>
-      </Grid>
-
-    </div>
-  );
+		</div>
+	);
 };
 
 export {TitleBarButtonContainer};

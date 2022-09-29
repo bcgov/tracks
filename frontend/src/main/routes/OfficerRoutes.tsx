@@ -6,13 +6,13 @@ import {Route, Routes} from "react-router";
 import NotFound from "../pages/NotFound";
 
 
-const OfficerRoutes: React.FC = () => (
-  <Routes>
-    <Route path="/activities/list" element={<ActivityList />} />
-    <Route path="/activities/view/:id" element={<ActivityDetail />} />
-    <Route path="/reports/list" element={<ReportList />} />
-    <Route path="*" element={<NotFound />} />
-  </Routes>
+const OfficerRoutes = () => (
+	<Routes>
+		<Route path="/activities/list" element={<ActivityList/>}/>
+		<Route path="/activities/view/:id" element={<ActivityDetail/>}/>
+		<Route path="/reports/list" element={<ReportList/>}/>
+		<Route path="*" element={<NotFound/>}/>
+	</Routes>
 )
 
 

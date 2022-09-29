@@ -1,44 +1,33 @@
 import React from 'react';
 import '../../styles/components/loading.scss';
-import PropTypes from 'prop-types';
 import moment from "moment";
 import '../../styles/components/friendly_time.scss';
 
-const FriendlyTime = (props) => {
-  const {value, from, until, time} = props;
+// old defaults
+// until: false,
+// 	from: false,
+// 	time: false
 
-  let formatString = 'll';
-  if (time) {
-    formatString = 'll HHmm[h] ZZ'
-  }
+const FriendlyTime = ({value, from, until, time}) => {
 
-  const fromSpan = () => (<span className={'relativeTime'}>{moment(value).fromNow()}</span>);
-  const untilSpan = () => (<span className={'relativeTime'}>{moment(value).toNow()}</span>);
+	let formatString = 'll';
+	if (time) {
+		formatString = 'll HHmm[h] ZZ'
+	}
 
-  if (value == null) {
-    return (<></>);
-  }
+	const fromSpan = () => (<span className={'relativeTime'}>{moment(value).fromNow()}</span>);
+	const untilSpan = () => (<span className={'relativeTime'}>{moment(value).toNow()}</span>);
 
-  return (
-    <div className={'friendlyTime'}>
-    <span className={'absoluteTime'}>{moment(value).format(formatString)}</span>
-      {from && fromSpan()}
-      {until && untilSpan()}
-    </div>
-  );
+	if (value == null) {
+		return (<></>);
+	}
+
+	return (
+		<div className={'friendlyTime'}>
+			<span className={'absoluteTime'}>{moment(value).format(formatString)}</span>
+			{from && fromSpan()}
+			{until && untilSpan()}
+		</div>
+	);
 }
-
-FriendlyTime.defaultProps = {
-  until: false,
-  from: false,
-  time: false
-};
-
-FriendlyTime.propTypes = {
-  until: PropTypes.bool,
-  from: PropTypes.bool,
-  time: PropTypes.bool,
-  value: PropTypes.string.isRequired
-};
-
 export default FriendlyTime;

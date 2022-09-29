@@ -1,15 +1,13 @@
 import React from 'react';
 
 
-const ButtonBar: React.FC<{children}> = (props) => {
+const ButtonBar = ({children}) => {
 
-  const {children} = props;
-
-  return (
-    <div className={'buttonBar'}>
-      {children}
-    </div>
-  );
+	return (
+		<div className={'buttonBar'}>
+			{children}
+		</div>
+	);
 };
 
 export default ButtonBar;

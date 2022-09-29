@@ -2,37 +2,37 @@ $woff2: './assets/fonts/BCSans/BCSans-Regular.woff2';
 $woff: './assets/fonts/BCSans/BCSans-Regular.woff';
 
 @font-face {
-  font-family: 'BCSans';
-  font-style: normal;
-  font-weight: 400;
-  src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
-  url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
-  font-display: swap;
+	font-family: 'BCSans';
+	font-style: normal;
+	font-weight: 400;
+	src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
+	url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
+	font-display: swap;
 }
 
 @font-face {
-  font-family: 'BCSans';
-  font-style: italic;
-  src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
-  url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
-  font-display: swap;
+	font-family: 'BCSans';
+	font-style: italic;
+	src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
+	url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
+	font-display: swap;
 }
 
 @font-face {
-  font-family: 'BCSans';
-  font-weight: 700;
-  src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
-  url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
-  font-display: swap;
+	font-family: 'BCSans';
+	font-weight: 700;
+	src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
+	url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
+	font-display: swap;
 }
 
 @font-face {
-  font-family: 'BCSans';
-  font-style: italic;
-  font-weight: 700;
-  src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
-  url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
-  font-display: swap;
+	font-family: 'BCSans';
+	font-style: italic;
+	font-weight: 700;
+	src: url($woff2) format('woff2'), /* Optimized for very modern browsers */
+	url($woff) format('woff'), local('BCSans'); /* Modern Browsers */
+	font-display: swap;
 }
 
 $fontFamily: 'BCSans', Verdana, Arial, sans-serif;

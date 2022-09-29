@@ -6,34 +6,34 @@ import {useList} from "../../../state/utilities/use_list";
 import FriendlyTime from "../../components/util/FriendlyTime";
 import {useSelector} from "../../../state/utilities/use_selector";
 
-const ReportingPeriodList: React.FC = () => {
-  const items = useSelector(state => state.ReportingPeriods.items);
-  const loading = useSelector(state => state.ReportingPeriods.loading);
+const ReportingPeriodList = () => {
+	const items = useSelector(state => state.ReportingPeriods.items);
+	const loading = useSelector(state => state.ReportingPeriods.loading);
 
-  useList(ReportingPeriodActions, 'shared');
+	useList(ReportingPeriodActions, 'shared');
 
-  if (loading || items === undefined) {
-    return (<Loading />);
-  }
+	if (loading || items === undefined) {
+		return (<Loading/>);
+	}
 
-  const renderer = (it) => (
-    [
-      <td key={'sd'}><FriendlyTime value={it.start_date} /></td>,
-      <td key={'ed'}><FriendlyTime value={it.end_date} /></td>,
-      <td key={'pp'}><FriendlyTime value={it.deadline} from /></td>
-    ]
-  )
+	const renderer = (it) => (
+		[
+			<td key={'sd'}><FriendlyTime value={it.start_date}/></td>,
+			<td key={'ed'}><FriendlyTime value={it.end_date}/></td>,
+			<td key={'pp'}><FriendlyTime value={it.deadline} from/></td>
+		]
+	)
 
-  return (
-    <>
-      <h2>Reporting Periods</h2>
+	return (
+		<>
+			<h2>Reporting Periods</h2>
 
-      <ListComponent items={items}
-                     headers={['Period Start', 'Period End', 'Deadline']}
-                     rowRenderer={renderer} />
+			<ListComponent items={items}
+										 headers={['Period Start', 'Period End', 'Deadline']}
+										 rowRenderer={renderer}/>
 
-    </>
-  );
+		</>
+	);
 };
 
 

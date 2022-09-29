@@ -1,18 +1,18 @@
 table {
-  width: 100%;
-  table-layout: fixed;
-  background: #ffffff;
-  border-collapse: collapse;
-  font-size: 0.875rem;
+	width: 100%;
+	table-layout: fixed;
+	background: #ffffff;
+	border-collapse: collapse;
+	font-size: 0.875rem;
 
-  th, td {
-    padding: 1rem;
-    text-align: left;
-    border-top: 1px solid #cccccc;
-    border-bottom: 1px solid #cccccc;
-  }
+	th, td {
+		padding: 1rem;
+		text-align: left;
+		border-top: 1px solid #cccccc;
+		border-bottom: 1px solid #cccccc;
+	}
 
-  th {
-    background: #f7f8fa;
-  }
+	th {
+		background: #f7f8fa;
+	}
 }

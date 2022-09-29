@@ -4,57 +4,57 @@ import {useDispatch} from "react-redux";
 import {OperatorActions} from "../../../state/actions";
 import Loading from "../../components/util/Loading";
 import ButtonBar from "../../components/util/ButtonBar";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {useSelector} from "../../../state/utilities/use_selector";
 import {useNavigate} from "react-router-dom";
 
-const OperatorList: React.FC = () => {
-  const detailRoute = `/admin/organizations/view/:id`;
+const OperatorList = () => {
+	const detailRoute = `/admin/organizations/view/:id`;
 
-  const items = useSelector(state => state.Operators.items);
-  const loading = useSelector(state => state.Operators.loading);
+	const items = useSelector(state => state.Operators.items);
+	const loading = useSelector(state => state.Operators.loading);
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const load = () => dispatch({type: OperatorActions.LIST_REQUEST, payload: {api: 'admin'}})
+	const load = () => dispatch({type: OperatorActions.LIST_REQUEST, payload: {api: 'admin'}})
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const renderer = (it) => (
-    [
-      <td key='name'>{it.name}</td>,
-      <td key='region'>{it.region}</td>,
-      <td key='type'>{it.type}</td>,
-      <td key='activity'><em>Placeholder</em></td>,
-      <td key='active'>{it.active ? 'Active' : 'Inactive'}</td>
-    ]
-  )
+	const renderer = (it) => (
+		[
+			<td key='name'>{it.name}</td>,
+			<td key='region'>{it.region}</td>,
+			<td key='type'>{it.type}</td>,
+			<td key='activity'><em>Placeholder</em></td>,
+			<td key='active'>{it.active ? 'Active' : 'Inactive'}</td>
+		]
+	)
 
 
-  useEffect(() => {
-    load();
-  }, []);
+	useEffect(() => {
+		load();
+	}, []);
 
-  if (loading || items === undefined) {
-    return (<Loading />);
-  }
+	if (loading || items === undefined) {
+		return (<Loading/>);
+	}
 
-  return (
-    <>
-      <h2>Commercial Operators</h2>
-      <ButtonBar>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate('/admin/organizations/add')}
-        >Create New</Button>
-      </ButtonBar>
-      <ListComponent items={items}
-                     detailRoute={detailRoute}
-                     headers={['Name', 'Region', 'Type', 'Last Activity Date', 'Status']}
-                     rowRenderer={renderer} />
-    </>
-  );
+	return (
+		<>
+			<h2>Commercial Operators</h2>
+			<ButtonBar>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() => navigate('/admin/organizations/add')}
+				>Create New</Button>
+			</ButtonBar>
+			<ListComponent items={items}
+										 detailRoute={detailRoute}
+										 headers={['Name', 'Region', 'Type', 'Last Activity Date', 'Status']}
+										 rowRenderer={renderer}/>
+		</>
+	);
 };
 
 export default OperatorList;

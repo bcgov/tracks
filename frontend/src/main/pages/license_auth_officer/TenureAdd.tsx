@@ -1,7 +1,7 @@
 import React from 'react';
 
-const TenureAdd : React.FC= () => {
-  return (<h2>Placeholder for Tenure Add Page</h2>);
+const TenureAdd = () => {
+	return (<h2>Placeholder for Tenure Add Page</h2>);
 
 };
 

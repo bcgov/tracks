@@ -2,33 +2,33 @@
 @import '../colours';
 
 .contextualMetadata {
-  padding: 1.25rem 0;
-  border-bottom: 1px solid #cccccc;
-  background: #ffffff;
+	padding: 1.25rem 0;
+	border-bottom: 1px solid #cccccc;
+	background: #ffffff;
 
-  h1 {
-    margin: 0;
-    padding: 0;
-  }
+	h1 {
+		margin: 0;
+		padding: 0;
+	}
 
-  ul {
-    list-style-type: none;
-    margin: 0.5rem 0;
-    padding: 0;
+	ul {
+		list-style-type: none;
+		margin: 0.5rem 0;
+		padding: 0;
 
-    li {
-      display: inline-block;
-      color: $mutedText;
-      margin: 0;
-      padding: 0;
+		li {
+			display: inline-block;
+			color: $mutedText;
+			margin: 0;
+			padding: 0;
 
-      &:not(:last-child) {
-        &:after {
-          content: '|';
-          padding-left: 0.5rem;
-          padding-right: 0.5rem;
-        }
-      }
-    }
-  }
+			&:not(:last-child) {
+				&:after {
+					content: '|';
+					padding-left: 0.5rem;
+					padding-right: 0.5rem;
+				}
+			}
+		}
+	}
 }
