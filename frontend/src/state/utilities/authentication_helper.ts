@@ -1,3 +1,5 @@
+const getIsAuthenticated = (state) => state.Auth.authenticated;
+
 const getAuthHeaders = (state) => state.Auth.headers;
 
 function userHasAnyRole(userRoles, requiredRoles) {
@@ -5,5 +7,5 @@ function userHasAnyRole(userRoles, requiredRoles) {
 }
 
 
-export {getAuthHeaders, userHasAnyRole};
+export {getAuthHeaders, userHasAnyRole, getIsAuthenticated};
 

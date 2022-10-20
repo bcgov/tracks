@@ -48,9 +48,7 @@ function* initializeAuthentication() {
 			onLoad: 'check-sso',
 		}
 	);
-
-	console.log(keycloakInstance);
-
+	
 	yield put({
 		type: AUTH_INITIALIZE_COMPLETE,
 		payload: {

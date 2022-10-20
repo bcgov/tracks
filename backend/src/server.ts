@@ -36,6 +36,7 @@ import {TantalisInterface} from "./apis/tantalis_interface";
 import {MinioService} from "./services/minio_service";
 import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
 import {DatabaseMiddleware} from "./database";
+import {userInfo} from "./apis/shared/userinfo";
 
 const prefix = '/api/v1';
 const jwks = jwksMiddleware({jwksUri: CONFIG.JWKS_URL});
@@ -235,6 +236,10 @@ const app = express()
     requireAnyRole: ['license_auth_officer', 'admin', 'area_admin', 'commercial_operator', 'conservation_officer'],
     requireOrganizationMapping: true
   }), (req,res) => ttlsInterface.searchForOrganization(req,res))
+
+  .get(`${prefix}/userinfo/me`, jwks.protect({
+    requireOrganizationMapping: true
+  }), userInfo.myUserInfo)
 
   .get('/health', common.healthCheck)
 
