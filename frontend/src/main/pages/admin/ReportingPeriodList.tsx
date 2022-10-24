@@ -22,15 +22,23 @@ const ReportingPeriodList = () => {
 			<td key={'ed'}><FriendlyTime value={it.end_date}/></td>,
 			<td key={'pp'}><FriendlyTime value={it.deadline} from/></td>
 		]
-	)
+	);
+
+	const noItemsRenderer = () => (
+		[
+			<td key="noitems">No data available.</td>,
+			<td key="noitemsEmpty"> </td>
+		]
+	);
 
 	return (
 		<>
 			<h2>Reporting Periods</h2>
 
-			<ListComponent items={items}
-										 headers={['Period Start', 'Period End', 'Deadline']}
-										 rowRenderer={renderer}/>
+			<ListComponent 
+				items={items.length > 0 ? items : [1]}
+				headers={['Period Start', 'Period End', 'Deadline']}
+				rowRenderer={items.length > 0 ? renderer : noItemsRenderer}/>
 
 		</>
 	);

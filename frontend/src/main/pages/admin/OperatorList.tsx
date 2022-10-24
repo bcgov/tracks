@@ -28,7 +28,15 @@ const OperatorList = () => {
 			<td key='activity'><em>Placeholder</em></td>,
 			<td key='active'>{it.active ? 'Active' : 'Inactive'}</td>
 		]
-	)
+	);
+
+	//the ListComponent will use this if there are no items
+	const noItemsRenderer = () => (
+		[
+			<td key="noitems">No data available.</td>,
+			<td key="noitems" />
+		]
+	);
 
 
 	useEffect(() => {
@@ -42,17 +50,24 @@ const OperatorList = () => {
 	return (
 		<>
 			<h2>Commercial Operators</h2>
+			
 			<ButtonBar>
 				<Button
 					variant="contained"
 					color="primary"
 					onClick={() => navigate('/admin/organizations/add')}
-				>Create New</Button>
+				>
+						Create New
+				</Button>
 			</ButtonBar>
-			<ListComponent items={items}
-										 detailRoute={detailRoute}
-										 headers={['Name', 'Region', 'Type', 'Last Activity Date', 'Status']}
-										 rowRenderer={renderer}/>
+			
+			<ListComponent 
+				items={items.length > 0 ? items : [1]}
+				detailRoute={items.length > 0 ? detailRoute : "#"}
+				headers={['Name', 'Region', 'Type', 'Last Activity Date', 'Status']}
+				rowRenderer={items ? renderer : noItemsRenderer}/>
+			
+					
 		</>
 	);
 };
