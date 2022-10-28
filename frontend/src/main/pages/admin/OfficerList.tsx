@@ -12,10 +12,6 @@ const OfficerList = () => {
 
 	const items = useSelector(state => state.Officers.items);
 	const loading = useSelector(state => state.Officers.loading);
-
-	const encodedHeaderDetails = useSelector(state => state.Auth.headers.authorization.replace("Bearer ", "").toString('base64'));
-	console.log((encodedHeaderDetails))
-	useSelector(state => console.log(state));
 	
 	const navigate = useNavigate();
 

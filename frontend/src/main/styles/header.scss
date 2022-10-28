@@ -59,9 +59,22 @@ button.logout {
 		margin-right: 0.75rem;
 		padding-right: 1rem;
 		border-right: 1px solid $darkBackgroundText;
+		width: 100%;
 
 		span {
 			margin-left: 0.25rem;
 		}
+	}
+
+	.profile-link:visited {
+		color: white;
+		text-decoration-line: none;
+		min-width: 100%;
+	}
+
+	.profile-link {
+		color: white;
+		text-decoration-line: none;
+		width: 100%;
 	}
 }

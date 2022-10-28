@@ -1,39 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from '../../../../state/utilities/use_selector'
 
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
+import { Typography, IconButton, Avatar, Paper, Grid, styled, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Edit } from '@mui/icons-material';
+
+const roleEnums = {
+	admin: 'System Administrator',
+	area_admin: 'Regional Administrator',
+	conservation_officer: 'Conservation Officer',
+	license_auth_officer: 'Authorizations Officer'
+};
 
 const PermitList = () => {
-	// DONE: Create 2 sections for Personal and Organization
-	// DONE: Convert existing code to MUI
-	// TODO: deconstruct the data to be displayed (do this in two seperate objects, one for personal and one for organization)
-	// TODO: Allow user to edit data
-	// TODO: Make sure edit data is being changed on the database side
-
-	const [loading, setLoading] = useState(false); //temporarily set to false
-
-	// TODO: Grab the user data
-	const userData = useSelector(state => {
-		let data: Unknown;
-		console.log(state);
-
-		// if there actually is data there, remove loading state so content can show
-		if(data) {
-			setLoading(false)
-		} else {
-			return null;
-		}
-	});
+	const [open, setOpen] = useState(false);
+	const handleOpen  = () => setOpen(true);
+	const handleClose = () => setOpen(false); //temporarily set to false
+	// @todo eventually this function will be used by admins to change another user's account.
+	const handleApply = () => {
+		setOpen(false);
+	}
 
 	// MUI Styling (custom styled components)
 	const Item = styled(Paper)(({ theme }) => ({
 		...theme.typography.body2,
 		padding: theme.spacing(1),
 		height: '50vh',
+		width: '100%',
 		color: theme.palette.text.primary,
 	}));
 
@@ -42,11 +34,30 @@ const PermitList = () => {
 		width: 175,
 	});
 
-	// Only load if data was retrieved successfully
-	useEffect(() => {
-		console.log('route /profile/ was hit');
-	}, [loading])
+	const userData = useSelector(state => {
+		// deconstruct from state then populate the data structure
+		const role = state.Auth.roles[0];
+		const { email, name, organization } = state.UserInfo;
+		const data = {
+			organization: {
+				organizationName: organization
+			},
+			personal: {
+				name: name || 'N/A',
+				email: email || 'N/A',
+				altEmail: 'N/A',
+				role: roleEnums[`${role}`] || 'N/A',
+			}
+			
+		}
 
+		// if there actually is data there, remove loading state so content can show
+		if(data) {
+			return data;
+		} else {
+			return null;
+		}
+	});
 
 	return (
 		<>
@@ -56,17 +67,73 @@ const PermitList = () => {
 					<Typography variant='subtitle2'>
 						Personal
 					</Typography>
-					<Item>
-						<br />
+					<Item style={{padding: 15}}>
+						<Grid container justifyContent='right' direction='row'>
+							<IconButton style={{color: 'black'}} aria-label="edit profile" component="label" onClick={handleOpen}>
+								<Edit />
+							</IconButton>
+							<Dialog open={open} onClose={handleClose} maxWidth='xs'>
+								<DialogTitle>Edit Personal Profile Information</DialogTitle>
+								<DialogContent>
+									<DialogContentText>
+										Edit your profile information using the fields below and click the 'Apply' button to apply your changes.
+									</DialogContentText>
+									<br />
+									<TextField
+										autoFocus
+										margin="normal"
+										id="name"
+										label="Name"
+										type="name"
+										fullWidth
+										variant="outlined"
+										value={userData.personal.name}
+										disabled
+									/>
+									<TextField
+										margin="normal"
+										id="email"
+										label="Email Address"
+										type="email"
+										fullWidth
+										variant="outlined"
+										value={userData.personal.email}
+										disabled
+									/>
+									<TextField
+										margin="normal"
+										id="altEmail"
+										label="Alternate Email Address"
+										type="altEmail"
+										fullWidth
+										variant="outlined"
+										disabled
+									/>
+								</DialogContent>
+								<DialogActions>
+									<Button onClick={handleClose}>Cancel</Button>
+									<Button onClick={handleApply} disabled>Apply</Button>
+								</DialogActions>
+							</Dialog>
+						</Grid>
 						<Grid container alignItems='center' direction='column'>
 							<ProfileAvatar /> 
 						</Grid>
-						<br />
-						<Typography variant='h6' gutterBottom align='center'>John Smith</Typography> <br />
-						<Typography gutterBottom align='center'>jSmith@bcGov.com</Typography>
-						<Typography gutterBottom align='center'>jSmith@alternateEmail.com</Typography>
-						<Typography gutterBottom align='center'>{useSelector(state => state.Auth.roles[0])}</Typography>
-						<Typography gutterBottom align='center'>(604) 355-7189</Typography>
+						<br /> <br />
+						<Grid container alignItems='center' direction='column'>
+							<Grid item xs={2}>
+								<Typography variant='h6' gutterBottom align='center'>{userData.personal.name}</Typography>
+							</Grid>
+							<Grid item xs={2}>
+								<Typography gutterBottom align='center'>{userData.personal.role}</Typography>
+							</Grid>
+							<Grid item xs={2}>
+								<Typography gutterBottom align='center'>{userData.personal.email}</Typography>
+							</Grid>
+							<Grid item xs={2}>
+								<Typography gutterBottom align='center'>{userData.personal.altEmail}</Typography>
+							</Grid>
+						</Grid>
 					</Item>
 				</Grid>
 				<Grid item xs={8}>
@@ -74,22 +141,22 @@ const PermitList = () => {
 						Organization
 					</Typography>
 					<Item style={{padding: 35}}>
-						<Grid container alignItems='left' direction='column' spacing={4}>
-							<Grid item xs={2}>
-								<Typography variant='h5' gutterBottom align='left'>Organization Name</Typography>
-								<Typography gutterBottom align='left' variant='subtitle2'>Email Address | Phone Number</Typography>
+						<Grid container alignItems='left' direction='column' spacing={6}>
+							<Grid item xs={4}>
+								<Typography variant='h5' gutterBottom align='left'>{userData.organization.organizationName}</Typography>
+								{/*<Typography gutterBottom align='left' variant='subtitle2'>Email Address | Phone Number</Typography>*/}
 							</Grid>
-							<Grid item xs={2}>
+							{/*<Grid item xs={2}>
 								<Typography align='left'>Activities</Typography>
 								<Typography gutterBottom align='left' variant='subtitle2'>No data was found.</Typography> <br />
-							</Grid>
-							<Grid item xs={2}>
+							</Grid> */}
+							<Grid item xs={4}>
 								<Typography align='left'>Land Act Tenures</Typography>
-								<Typography gutterBottom align='left' variant='subtitle2'>No data was found.</Typography> <br />
+								<Typography gutterBottom align='left' variant='subtitle2'>Coming soon.</Typography> <br />
 							</Grid>
-							<Grid item xs={2}>
+							<Grid item xs={4}>
 								<Typography align='left'>BC Park Use Permits</Typography>
-								<Typography gutterBottom align='left' variant='subtitle2'>No data was found.</Typography> <br />
+								<Typography gutterBottom align='left' variant='subtitle2'>Coming soon.</Typography> <br />
 							</Grid>
 						</Grid>
 					</Item>
