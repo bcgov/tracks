@@ -133,7 +133,7 @@ const RequestRoleBinding = ({idir, loading, saving, signupRequested}: RoleBindin
 
 						<Typography variant={'h5'}>Access Request</Typography>
 
-						<FormControl className={classes.formControl}>
+						<FormControl>
 							<InputLabel id="label-role-select">Requested Access</InputLabel>
 
 							<Select
@@ -155,7 +155,7 @@ const RequestRoleBinding = ({idir, loading, saving, signupRequested}: RoleBindin
 						</p>
 
 						<br/>
-						<FormControl className={classes.formControl}>
+						<FormControl>
 							<InputLabel id="label-activity-select">Reason</InputLabel>
 							<Input name='reason' onChange={handleChange} type={'text'}
 										 placeholder={"Your reason for requesting access"} value={formState.reason}></Input>

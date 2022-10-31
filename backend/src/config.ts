@@ -1,53 +1,57 @@
 // global configuration goes here
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const CONFIG = {
 
-  LISTEN_PORT: 6005,
+    LISTEN_PORT: 6005,
 
-  IS_PROD: process.env.NODE_ENV === 'production',
-  DEVELOPMENT_MODE: true,
+    IS_PROD: process.env.NODE_ENV === 'production',
+    DEVELOPMENT_MODE: true,
 
-  TRACKS_DB_NAME: process.env.TRACKS_DB_NAME || 'tracks',
-  TRACKS_DB_USER: process.env.TRACKS_DB_USER || 'tracks',
-  TRACKS_DB_PASSWORD: process.env.TRACKS_DB_PASSWORD || 'development_only',
-  TRACKS_DB_HOST: process.env.TRACKS_DB_HOST || 'localhost',
-  TRACKS_DB_PORT: parseInt(process.env.TRACKS_DB_PORT) || 5432,
+    TRACKS_DB_NAME: process.env.TRACKS_DB_NAME,
+    TRACKS_DB_USER: process.env.TRACKS_DB_USER,
+    TRACKS_DB_PASSWORD: process.env.TRACKS_DB_PASSWORD,
+    TRACKS_DB_HOST: process.env.TRACKS_DB_HOST,
+    TRACKS_DB_PORT: parseInt(process.env.TRACKS_DB_PORT),
 
-  JWKS_URL: process.env.JWKS_URL || 'http://localhost:8888/auth/realms/tracks/protocol/openid-connect/certs',
+    JWKS_URL: process.env.JWKS_URL,
 
+    LOGINPROXY_URL: process.env.LOGINPROXY_URL,
+    LOGINPROXY_TOKEN_URL: process.env.LOGINPROXY_TOKEN_URL,
+    LOGINPROXY_SA: process.env.LOGINPROXY_SA,
+    LOGINPROXY_SA_SECRET: process.env.LOGINPROXY_SA_SECRET,
+    LOGINPROXY_ENVIRONMENT: process.env.LOGINPROXY_ENVIRONMENT,
+    LOGINPROXY_INTEGRATION: process.env.LOGINPROXY_INTEGRATION,
 
-  KEYCLOAK_BASE_URL: process.env.KEYCLOAK_BASE_URL || 'http://localhost:8888',
-  KEYCLOAK_REALM: process.env.KEYCLOAK_REALM || 'tracks',
-  KEYCLOAK_CLIENT: process.env.KEYCLOAK_CLIENT || 'tracks-ui',
-  KEYCLOAK_SA: process.env.KEYCLOAK_SA,
-  KEYCLOAK_SA_SECRET: process.env.KEYCLOAK_SA_SECRET,
+    RABBIT_MQ_HOST: process.env.RABBIT_MQ_HOST,
+    RABBIT_MQ_VHOST: process.env.RABBIT_MQ_VHOST,
+    RABBIT_MQ_USER: process.env.RABBIT_MQ_USER,
+    RABBIT_MQ_PASSWORD: process.env.RABBIT_MQ_PASSWORD,
 
-  RABBIT_MQ_HOST: process.env.RABBIT_MQ_HOST || 'localhost',
-  RABBIT_MQ_VHOST: process.env.RABBIT_MQ_VHOST || 'tracks',
-  RABBIT_MQ_USER: process.env.RABBIT_MQ_USER || 'rabbitmq',
-  RABBIT_MQ_PASSWORD: process.env.RABBIT_MQ_PASSWORD || 'rabbitmq',
+    // we need a way to talk to minio directly, and also a URL to pass to the client
+    // they could be different while running in k8s/os
+    MINIO_HOST: process.env.MINIO_HOST,
+    MINIO_PORT: process.env.MINIO_PORT,
+    MINIO_USE_SSL: process.env.MINIO_USE_SSL,
 
-  // we need a way to talk to minio directly, and also a URL to pass to the client
-  // they could be different while running in k8s/os
-  MINIO_HOST: process.env.MINIO_HOST || 'localhost',
-  MINIO_PORT: process.env.MINIO_PORT || '9000',
-  MINIO_USE_SSL: process.env.MINIO_USE_SSL || 'false',
+    // values from docker-compose file. for local testing only.
+    MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY,
+    MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY,
 
-  // values from docker-compose file. for local testing only.
-  MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY || 'ccfc0d5a7a8f589ed8bc65b50a255d64',
-  MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || '7f99fccf96804f9456f05ad8bf926dba',
+    SMTP_ENABLED: process.env.SMTP_ENABLED === 'true' || false,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_MAIL_FROM: process.env.SMTP_MAIL_FROM,
+    SMTP_USERNAME: process.env.SMTP_MAIL_USERNAME,
+    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
 
-  SMTP_ENABLED: process.env.SMTP_ENABLED === 'true' || false,
-  SMTP_HOST: process.env.SMTP_HOST || 'localhost',
-  SMTP_PORT: process.env.SMTP_PORT || '587',
-  SMTP_MAIL_FROM: process.env.SMTP_MAIL_FROM || 'tracks@gov.bc.ca',
-  SMTP_USERNAME: process.env.SMTP_MAIL_FROM || '',
-  SMTP_PASSWORD: process.env.SMTP_PASSWORD || '',
-
-  TANTALIS_USERNAME: process.env.TANTALIS_USERNAME || 'unset',
-  TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD || 'unset',
-  TANTALIS_API_BASE: process.env.TANTALIS_API_BASE || 'http://localhost',
-  TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE || 'http://localhost'
+    TANTALIS_USERNAME: process.env.TANTALIS_USERNAME,
+    TANTALIS_PASSWORD: process.env.TANTALIS_PASSWORD,
+    TANTALIS_API_BASE: process.env.TANTALIS_API_BASE,
+    TANTALIS_OAUTH_BASE: process.env.TANTALIS_OAUTH_BASE
 
 };
 

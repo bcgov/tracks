@@ -3,7 +3,7 @@ package-lock.json
 dist
 build
 
-*.env
+.env
 
 # Log files
 npm-debug.log*

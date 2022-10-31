@@ -1,5 +1,5 @@
 import {Response} from 'express';
-import {KeycloakManagerService} from "../../services/keycloak_manager_service";
+import {KeycloakManagerService} from "../../services/loginproxy_service";
 import {TracksRequest} from "../../tracks";
 
 const userSignup = {
