@@ -50,7 +50,7 @@ function loadCurrentStateFromKeycloak(previousState: AuthState, config: TracksCo
 
 	let roles = [];
 	if (keycloakInstance.idTokenParsed) {
-		roles = keycloakInstance.idTokenParsed['client_roles'];
+		roles = keycloakInstance.idTokenParsed['client_roles'] ?? [];
 	}
 
 	const headers = {
