@@ -5,6 +5,7 @@ import {useSelector} from "../../../state/utilities/use_selector";
 import {userHasAnyRole} from "../../../state/utilities/authentication_helper";
 import {nav} from "../../../state/utilities/nav";
 import {useLocation} from "react-router";
+import { styled,Paper ,Grid ,Button, Typography } from '@mui/material/';
 
 const Navigation = () => {
 
@@ -35,8 +36,24 @@ const Navigation = () => {
 
 	];
 
-	const [activeLink, setActiveLink] = useState(null);
+	const Item = styled(Paper)(({ theme }) => ({
+		...theme.typography.body2,
+		textAlign: 'center',
+		width: '100%',
+		height: '100%',
+	}));
 
+	const NavigationButton = styled(Button)(({ theme }) => ({
+		paddingTop: theme.spacing(2),
+		paddingBottom: theme.spacing(2),
+		color: '#003366',
+		fontSize: '14px',
+		textTransform: 'none',
+		'&:hover': {backgroundColor: 'rgba(134, 142, 150, 0.05)'}
+	}));
+
+	const [activeLink, setActiveLink] = useState(null);
+	const [activeNav, setActiveNav] = useState(null);
 	useEffect(() => {
 		setActiveLink(location.pathname);
 	}, [location.pathname]);
@@ -44,22 +61,48 @@ const Navigation = () => {
 
 	return (
 		<nav className={'sideNav'}>
-			<h4>Navigation</h4>
-			<ul>
-				{navs.map((n, i) => {
-					if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
-						return (
-							<li key={i}>
-								<Link to={n.path} className={activeLink === n.path ? 'active' : ''}>
-									{n.name}
-								</Link>
-							</li>
-						);
-					} else {
-						return null;
-					}
-				})}
-			</ul>
+			<Grid container direction={'column'}>
+				<Grid item xs={4}>
+					<Item>
+						<Grid container direction={'column'}>
+							{navs.map((n, i) => {
+								if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
+									return (
+										<Grid item>
+											<Link key={i} to={n.path}onClick={() => setActiveNav(n.path)}>
+												<NavigationButton fullWidth  style={{backgroundColor: activeLink === n.path ? 'rgba(0, 51, 102, 0.05)' : null}}>
+													<Typography align='left' style={{color: activeLink === n.path ? '#003366' : '#868e96'}} >{n.name}</Typography>
+												</NavigationButton>
+											</Link>
+											{/*<Link to={n.path} className={activeLink === n.path ? 'active' : ''}>
+												{n.name}
+											</Link>*/}
+										</Grid>
+									
+									);
+								} else {
+									return null;
+								}
+							})}
+						</Grid>
+					</Item>
+				</Grid>
+			</Grid>
+			{/* <ul>
+			{navs.map((n, i) => {
+				if (n.roles.length === 0 || (n.roles.length > 0 && userHasAnyRole(currentUserRoles, n.roles))) {
+					return (
+						<li key={i}>
+							<Link to={n.path} className={activeLink === n.path ? 'active' : ''}>
+								{n.name}
+							</Link>
+						</li>
+					);
+				} else {
+					return null;
+				}
+			})}
+		</ul>*/}
 		</nav>
 	);
 }
