@@ -46,9 +46,10 @@ function* initializeAuthentication() {
 		{
 			checkLoginIframe: false,
 			onLoad: 'check-sso',
+			pkceMethod: 'S256'
 		}
 	);
-	
+
 	yield put({
 		type: AUTH_INITIALIZE_COMPLETE,
 		payload: {

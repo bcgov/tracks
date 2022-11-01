@@ -5,7 +5,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-commonConfig = (htmlWebpackOptions, configurationSource) => {
+commonConfig = (htmlWebpackOptions, configurationDetails) => {
 
   const buildPath = path.resolve(__dirname, 'public', 'build');
   const mainPath = path.resolve(__dirname, 'src', 'main/entry.tsx');
@@ -118,7 +118,8 @@ commonConfig = (htmlWebpackOptions, configurationSource) => {
       // new CompressionPlugin(),
       new Webpack.DefinePlugin(
         {
-          'CONFIGURATION_SOURCE': JSON.stringify(configurationSource)
+          'CONFIGURATION_SOURCE': JSON.stringify(configurationDetails.source),
+					...configurationDetails.defines
         }
       ),
       new HtmlWebpackPlugin({

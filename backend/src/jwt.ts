@@ -71,15 +71,15 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
 
 				req.jwtClaims = {
 					sub: decoded.sub,
-					roles: decoded.sub,
+					roles: decoded.client_roles,
 					name: decoded.name,
 					preferredUsername: decoded.preferred_username,
 					email: decoded.email,
-					hasRole: (role) => (decoded.roles && decoded.roles.length > 0 && decoded.roles.includes(role))
+					hasRole: (role) => (decoded.client_roles && decoded.client_roles.length > 0 && decoded.client_roles.includes(role))
 				};
 
 				const subject = decoded.sub;
-				const roles = decoded.roles;
+				const roles = decoded.client_roles;
 
 				req.tracksContext = {
 					hasRole: (role) => (roles && roles.length > 0 && roles.includes(role)),
