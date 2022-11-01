@@ -4,13 +4,6 @@ import { useSelector } from '../../../../state/utilities/use_selector'
 import { Typography, IconButton, Avatar, Paper, Grid, styled, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 
-const roleEnums = {
-	admin: 'System Administrator',
-	area_admin: 'Regional Administrator',
-	conservation_officer: 'Conservation Officer',
-	license_auth_officer: 'Authorizations Officer'
-};
-
 const PermitList = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen  = () => setOpen(true);
@@ -36,8 +29,7 @@ const PermitList = () => {
 
 	const userData = useSelector(state => {
 		// deconstruct from state then populate the data structure
-		const role = state.Auth.roles[0];
-		const { email, name, organization } = state.UserInfo;
+		const { email, name, organization, role } = state.UserInfo;
 		const data = {
 			organization: {
 				organizationName: organization
@@ -46,9 +38,8 @@ const PermitList = () => {
 				name: name || 'N/A',
 				email: email || 'N/A',
 				altEmail: 'N/A',
-				role: roleEnums[`${role}`] || 'N/A',
+				role: role,
 			}
-			
 		}
 
 		// if there actually is data there, remove loading state so content can show

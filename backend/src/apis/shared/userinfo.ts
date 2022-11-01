@@ -5,6 +5,13 @@ const userInfo = {
 
 	myUserInfo: async (req: TracksRequest, res: Response): Promise<Response> => {
 
+		const roleEnums = {
+			admin: 'System Administrator',
+			area_admin: 'Regional Administrator',
+			conservation_officer: 'Conservation Officer',
+			license_auth_officer: 'Authorizations Officer'
+		};
+
 		const queryResult = await req.database.query({
 			text: `select o.name as organization
              from organization o
@@ -24,6 +31,7 @@ const userInfo = {
 			organization: org,
 			name: req.jwtClaims.name,
 			email: req.jwtClaims.email,
+			role: roleEnums[`${req.jwtClaims.roles[0]}`] || 'none',
 		});
 	},
 }

@@ -8,6 +8,7 @@ class UserInfoState {
 	organization: string | null;
 	email: string | null;
 	name: string | null;
+	role: string | null;
 
 
 	constructor() {
@@ -45,6 +46,7 @@ const UserInfo = (state = initialState, action) => {
 			name: action.payload.name,
 			organization: action.payload.organization,
 			email: action.payload.email,
+			role: action.payload.role
 		}
 	}
 	default:
