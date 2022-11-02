@@ -29,7 +29,7 @@ const PermitList = () => {
 
 	const userData = useSelector(state => {
 		// deconstruct from state then populate the data structure
-		const { email, name, organization, role } = state.UserInfo;
+		const { email, name, organization, roles } = state.UserInfo;
 		const data = {
 			organization: {
 				organizationName: organization
@@ -38,7 +38,7 @@ const PermitList = () => {
 				name: name || 'N/A',
 				email: email || 'N/A',
 				altEmail: 'N/A',
-				role: role,
+				roles: roles || ['N/A'],
 			}
 		}
 
@@ -116,7 +116,7 @@ const PermitList = () => {
 								<Typography variant='h6' gutterBottom align='center'>{userData.personal.name}</Typography>
 							</Grid>
 							<Grid item xs={2}>
-								<Typography gutterBottom align='center'>{userData.personal.role}</Typography>
+								<Typography gutterBottom align='center'>{userData.personal.roles.join(', ')}</Typography>
 							</Grid>
 							<Grid item xs={2}>
 								<Typography gutterBottom align='center'>{userData.personal.email}</Typography>

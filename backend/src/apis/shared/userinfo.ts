@@ -12,6 +12,14 @@ const userInfo = {
 			license_auth_officer: 'Authorizations Officer'
 		};
 
+		const roleLabels = () => {
+			const labeledRoles = [];
+			req.jwtClaims.roles.map((item) => {
+				labeledRoles.push(roleEnums[`${item}`]);
+			});
+			return labeledRoles;
+		}
+
 		const queryResult = await req.database.query({
 			text: `select o.name as organization
              from organization o
@@ -31,7 +39,7 @@ const userInfo = {
 			organization: org,
 			name: req.jwtClaims.name,
 			email: req.jwtClaims.email,
-			role: roleEnums[`${req.jwtClaims.roles[0]}`] || 'none',
+			roles: roleLabels || 'none',
 		});
 	},
 }
