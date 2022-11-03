@@ -1,8 +1,7 @@
-const nav = (path, name, roles, category?, component?, props?) => ({
+const nav = (path, name, roles, component?, props?) => ({
 	path,
 	name,
 	roles,
-	category,
 	component,
 	props
 });
