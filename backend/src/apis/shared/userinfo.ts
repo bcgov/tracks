@@ -39,7 +39,7 @@ const userInfo = {
 			organization: org,
 			name: req.jwtClaims.name,
 			email: req.jwtClaims.email,
-			roles: roleLabels || 'none',
+			roles: roleLabels,
 		});
 	},
 }
