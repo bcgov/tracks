@@ -24,7 +24,7 @@ const Header = () => {
 								title="User Profile"
 								size={1}/>
 							<span>
-								{bestName}
+								<Link to='/operator/profile' className={'profile-link'}>{bestName}</Link>
 							</span>
 						</div>
 					</li>

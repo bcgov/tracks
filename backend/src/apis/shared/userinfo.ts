@@ -24,6 +24,7 @@ const userInfo = {
 			organization: org,
 			name: req.jwtClaims.name,
 			email: req.jwtClaims.email,
+			roles: req.jwtClaims.roles,
 		});
 	},
 }

@@ -30,8 +30,8 @@ const TenureList = () => {
 		<>
 			<h2>Tenures</h2>
 			<ListComponent items={items}
-										 headers={['Reference', 'Subtenures', 'Start Date', 'End Date']}
-										 rowRenderer={renderer}/>
+				headers={['Reference', 'Subtenures', 'Start Date', 'End Date']}
+				rowRenderer={renderer}/>
 		</>
 	);
 };

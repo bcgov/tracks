@@ -13,18 +13,19 @@ import AreaAdminRoutes from "./routes/AreaAdminRoutes";
 import LicenseAuthOfficerRoutes from "./routes/LicenseAuthOfficerRoutes";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
-import ContextualMetadata from "./components/page_elements/ContextualMetadata";
+import { useSelector } from 'react-redux';
+
 
 const App = ({store}) => {
+	
+	// home data and profile should be the only routes shown to bceid.
+	// idir officers can see all routes
 	return (
 		<Provider store={store}>
 			<BrowserRouter>
 				<Header/>
 				<div className={'appBody'}>
 					<AuthRequired>
-
-						<ContextualMetadata/>
-
 						<div className={'container'} id={"mainColumnLayout"}>
 							<Navigation/>
 							<main>

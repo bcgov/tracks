@@ -12,6 +12,7 @@ const OfficerList = () => {
 
 	const items = useSelector(state => state.Officers.items);
 	const loading = useSelector(state => state.Officers.loading);
+	
 	const navigate = useNavigate();
 
 	useList(OfficerActions, 'admin');
@@ -23,7 +24,14 @@ const OfficerList = () => {
 			<td key='name'>{it.name}</td>,
 			<td key='region'>{it.region}</td>
 		]
-	)
+	);
+
+	const noItemsRenderer = () => (
+		[
+			<td key="noitems">No data available.</td>,
+			<td key="noitemsEmpty"> </td>
+		]
+	);
 
 	if (loading || items === undefined) {
 		return (<Loading/>);
@@ -37,10 +45,15 @@ const OfficerList = () => {
 					variant="contained"
 					color="primary"
 					onClick={() => navigate('/admin/officers/add')}
+					disabled
 				>Create New</Button>
 			</ButtonBar>
 
-			<ListComponent items={items} detailRoute={detailRoute} headers={['Name', 'Region']} rowRenderer={renderer}/>
+			<ListComponent 
+				items={items.length > 0 ? items : [1]} 
+				detailRoute={items.length > 0 ? detailRoute : '#'} 
+				headers={['Name', 'Region']} 
+				rowRenderer={items.length > 0 ? renderer : noItemsRenderer}/>
 		</>
 	);
 };
