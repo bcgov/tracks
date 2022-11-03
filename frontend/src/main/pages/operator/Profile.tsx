@@ -7,8 +7,6 @@ const Profile = () => {
 	return (
 		<>
 			<ProfileView/>
-			<PermitList/>
-			<TenureList/>
 		</>
 	)
 

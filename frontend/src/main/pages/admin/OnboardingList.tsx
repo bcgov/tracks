@@ -56,6 +56,13 @@ const OnboardingList = () => {
 			}
 			</td>
 		]
+	);
+
+	const noItemsRenderer = () => (
+		[
+			<td key="noitems">No data available.</td>,
+			<td key="noitemsEmpty"> </td>
+		]
 	)
 
 	return (
@@ -67,9 +74,10 @@ const OnboardingList = () => {
 					handleClose={handleClose}/>
 			}
 
-			<ListComponent items={items}
-										 headers={['User', 'Type of Account', 'Requested Role', 'Status', 'Date', 'Action']}
-										 rowRenderer={renderer}></ListComponent>
+			<ListComponent 
+				items={items.length > 0 ? items : [1]}
+				headers={['User', 'Type of Account', 'Requested Role', 'Status', 'Date', 'Action']}
+				rowRenderer={items.length > 0 ? renderer : noItemsRenderer}></ListComponent>
 		</div>
 	);
 

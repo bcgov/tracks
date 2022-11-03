@@ -9,7 +9,7 @@ import ReportList from "../pages/admin/ReportList";
 import ReportingPeriodList from "../pages/admin/ReportingPeriodList";
 import OnboardingList from "../pages/admin/OnboardingList";
 import PinPickerDemo from "../pages/admin/PinPickerDemo";
-import {Route, Routes} from "react-router";
+import { Route, Routes } from "react-router";
 
 const AdminRoutes = () => (
 	<Routes>
