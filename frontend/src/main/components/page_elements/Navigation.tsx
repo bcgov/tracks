@@ -14,6 +14,7 @@ import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
 import Person4OutlinedIcon from '@mui/icons-material/Person4Outlined';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
+import FlightOutlinedIcon from '@mui/icons-material/FlightOutlined';
 
 import ConnectingAirportsOutlinedIcon from '@mui/icons-material/ConnectingAirportsOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
@@ -40,8 +41,9 @@ const Navigation = () => {
 		nav('/admin/officers/list', 'Conservation Officers', ['admin'], <Person4OutlinedIcon />),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
 		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
+		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
 
-		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['admin'], <ConnectingAirportsOutlinedIcon />),
+		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer'], <ConnectingAirportsOutlinedIcon />),
 		nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer'], <AssignmentOutlinedIcon />),
 
 		nav('/area_admin/reports/list', 'Travel Path Reports', ['area_admin'], <AirplanemodeActiveOutlinedIcon />),
@@ -49,6 +51,7 @@ const Navigation = () => {
 
 		nav('/operator/profile', 'Profile', ['commercial_operator'], <AccountCircleOutlinedIcon />),
 		nav('/operator/activities/list', 'Travel Path Reports', 'commercial_operator', <FlightTakeoffOutlinedIcon />),
+		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
 		// nav('/operator/reports/list', 'Travel Path Reports'),
 
 		nav('/officer/activities/list', 'Activities', ['conservation_officer'], <LocalActivityOutlinedIcon />),

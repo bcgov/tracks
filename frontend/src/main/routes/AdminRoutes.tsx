@@ -10,6 +10,7 @@ import ReportingPeriodList from "../pages/admin/ReportingPeriodList";
 import OnboardingList from "../pages/admin/OnboardingList";
 import PinPickerDemo from "../pages/admin/PinPickerDemo";
 import {Route, Routes} from "react-router";
+import TripReports from "../pages/admin/TripReports";
 
 const AdminRoutes = () => (
 	<Routes>
@@ -23,6 +24,7 @@ const AdminRoutes = () => (
 		<Route path="/reporting_periods/list" element={<ReportingPeriodList/>}/>
 		<Route path="/onboarding/list" element={<OnboardingList/>}/>
 		<Route path="/pinpicker" element={<PinPickerDemo/>}/>
+		<Route path="/TripReports" element={<TripReports/>}/>
 	</Routes>
 );
 
