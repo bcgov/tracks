@@ -15,10 +15,20 @@ function* loadUserInfo() {
 	// skip if we're not signed in
 	if (isAuthenticated) {
 		try {
-			const response = yield axios.get(`${config.API_BASE}/api/v1/userinfo/me`, {
+			const userInfoResponse = yield axios.get(`${config.API_BASE}/api/v1/userinfo/me`, {
 				headers: yield select(getAuthHeaders),
 			});
-			yield (put({type: USERINFO_LOAD_COMPLETE, payload: response.data}));
+
+			// the list of all roles (with friendly names)
+			const referenceRolesResponse = yield axios.get(`${config.API_BASE}/api/v1/roles`, {
+				headers: yield select(getAuthHeaders),
+			});
+			yield (put({
+				type: USERINFO_LOAD_COMPLETE, payload: {
+					...userInfoResponse.data,
+					referenceRoles: referenceRolesResponse.data
+				}
+			}));
 		} catch (e) {
 			console.error(e);
 			yield(put({type: AUTH_REQUEST_ERROR}));

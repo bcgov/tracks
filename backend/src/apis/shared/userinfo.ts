@@ -5,21 +5,6 @@ const userInfo = {
 
 	myUserInfo: async (req: TracksRequest, res: Response): Promise<Response> => {
 
-		const roleEnums = {
-			admin: 'System Administrator',
-			area_admin: 'Regional Administrator',
-			conservation_officer: 'Conservation Officer',
-			license_auth_officer: 'Authorizations Officer'
-		};
-
-		const roleLabels = () => {
-			const labeledRoles = [];
-			req.jwtClaims.roles.map((item) => {
-				labeledRoles.push(roleEnums[`${item}`]);
-			});
-			return labeledRoles;
-		}
-
 		const queryResult = await req.database.query({
 			text: `select o.name as organization
              from organization o
@@ -39,7 +24,7 @@ const userInfo = {
 			organization: org,
 			name: req.jwtClaims.name,
 			email: req.jwtClaims.email,
-			roles: roleLabels,
+			roles: req.jwtClaims.roles,
 		});
 	},
 }

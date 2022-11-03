@@ -8,7 +8,7 @@ const PermitList = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen  = () => setOpen(true);
 	const handleClose = () => setOpen(false); //temporarily set to false
-	// @todo eventually this function will be used by admins to change another user's account.
+
 	const handleApply = () => {
 		setOpen(false);
 	}
@@ -108,7 +108,7 @@ const PermitList = () => {
 							</Dialog>
 						</Grid>
 						<Grid container alignItems='center' direction='column'>
-							<ProfileAvatar /> 
+							<ProfileAvatar />
 						</Grid>
 						<br /> <br />
 						<Grid container alignItems='center' direction='column'>
@@ -116,7 +116,7 @@ const PermitList = () => {
 								<Typography variant='h6' gutterBottom align='center'>{userData.personal.name}</Typography>
 							</Grid>
 							<Grid item xs={2}>
-								<Typography gutterBottom align='center'>{userData.personal.roles.join(', ')}</Typography>
+								<Typography gutterBottom align='center'>{userData.personal.roles.map(r => r.friendlyName).join(', ')}</Typography>
 							</Grid>
 							<Grid item xs={2}>
 								<Typography gutterBottom align='center'>{userData.personal.email}</Typography>
