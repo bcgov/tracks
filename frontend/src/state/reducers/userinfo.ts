@@ -8,7 +8,8 @@ class UserInfoState {
 	organization: string | null;
 	email: string | null;
 	name: string | null;
-
+	roles: string | null;
+	referenceRoles: {name: string, friendlyName: string}[];
 
 	constructor() {
 		this.initialized = false;
@@ -45,6 +46,8 @@ const UserInfo = (state = initialState, action) => {
 			name: action.payload.name,
 			organization: action.payload.organization,
 			email: action.payload.email,
+			referenceRoles: action.payload.referenceRoles,
+			roles: action.payload.roles.map(role => action.payload.referenceRoles.find(rr => rr.role === role) || {role, friendlyName: role})
 		}
 	}
 	default:

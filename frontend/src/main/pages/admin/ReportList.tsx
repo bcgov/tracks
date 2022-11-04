@@ -24,15 +24,23 @@ const ReportList = () => {
 			<td key={'ed'}><FriendlyTime value={it.period_end_date}/></td>,
 			<td key={'pp'}><FriendlyTime value={it.updated_at} from/></td>
 		]
-	)
+	);
+	
+	const noItemsRenderer = () => (
+		[
+			<td key="noitems">No data available.</td>,
+			<td key="noitemsEmpty"> </td>
+		]
+	);
 
 	return (
 		<>
 			<h2>Track Observation Reports</h2>
 
-			<ListComponent items={items}
-										 headers={['Conservation Officer', 'State', 'Period Start', 'Period End', 'Last Updated']}
-										 rowRenderer={renderer}/>
+			<ListComponent 
+				items={items.length > 0 ? items : [1]}
+				headers={['Conservation Officer', 'State', 'Period Start', 'Period End', 'Last Updated']}
+				rowRenderer={items.length > 0 ? renderer : noItemsRenderer}/>
 
 		</>
 	);
