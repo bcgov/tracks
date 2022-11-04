@@ -37,6 +37,7 @@ import {MinioService} from "./services/minio_service";
 import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
 import {DatabaseMiddleware} from "./database";
 import {userInfo} from "./apis/shared/userinfo";
+import {tripReports} from './apis/admin/tripReports';
 
 const prefix = '/api/v1';
 const jwks = jwksMiddleware({jwksUri: CONFIG.JWKS_URL});
@@ -240,6 +241,16 @@ const app = express()
   .get(`${prefix}/userinfo/me`, jwks.protect({
     requireOrganizationMapping: true
   }), userInfo.myUserInfo)
+
+  .get(`${prefix}/admin/tripReports`, jwks.protect({
+    requireAnyRole: ['admin'],
+    requireOrganizationMapping: true
+  }), tripReports.getAllTripReports)
+
+  .get(`${prefix}/operator/tripReports`, jwks.protect({
+    requireAnyRole: ['operator'],
+    requireOrganizationMapping: true
+  }), tripReports.getMyTripReports)
 
   .get('/health', common.healthCheck)
 

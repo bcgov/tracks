@@ -17,6 +17,7 @@ import {
 import {defaultReducer, DefaultState} from "../utilities/redux_boilerplate_helper";
 import {CheckSignup} from "./check_signup";
 import {UserInfo} from './userinfo';
+import {TripReports} from './tripreports';
 import {TracksConfig} from "../config";
 import {createConfigurationReducedWithDefaultState} from "./configuration";
 
@@ -33,6 +34,7 @@ function createRootReducer(config: TracksConfig) {
 		ReportingPeriods: defaultReducer(ReportingPeriodActions, new DefaultState()),
 		OnboardingRequests: defaultReducer(OnboardingRequestActions, new DefaultState()),
 		UserInfo,
+		TripReports,
 		CheckSignup,
 		TravelPathUpload,
 		Auth: createAuthReducer(config),
