@@ -21,6 +21,7 @@ const userInfo = {
 		}
 
 		return res.status(200).send({
+			bestName: req.tracksContext.bestName,
 			organization: org,
 			name: req.jwtClaims.name,
 			email: req.jwtClaims.email,

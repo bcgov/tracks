@@ -28,7 +28,7 @@ const initialState = new AuthState();
 function loadCurrentStateFromKeycloak(previousState: AuthState, config: TracksConfig): object {
 
 	let bestName = 'User';
-	const preferenceOrder = ['name', 'preferred_username', 'given_name', 'sub'];
+	const preferenceOrder = ['display_name', 'name', 'preferred_username', 'given_name', 'sub'];
 
 	for (const p of preferenceOrder) {
 		if (keycloakInstance.idTokenParsed) {
