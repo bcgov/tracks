@@ -71,7 +71,7 @@ const OnboardingDialog = ({open, handleClose, organizations, request}) => {
 
 					<dt>Requested Organization</dt>
 					<dd>
-						<FormControl className={classes.formControl}>
+						<FormControl>
 							<InputLabel id="label-org-select">Select Organization</InputLabel>
 							<Select
 								labelId="label-org-select"
