@@ -6,7 +6,7 @@ const tripReports = {
   
       const queryResult = await req.database.query({
         text: `SELECT * 
-                FROM tracks.report
+                FROM tracks.activity
                 ORDER BY id ASC `,
       });
   
@@ -16,7 +16,7 @@ const tripReports = {
     getMyTripReports: async (req: TracksRequest, res: Response): Promise<Response> => {
         const queryResult = await req.database.query({
             text: `SELECT * 
-                    FROM tracks.report
+                    FROM tracks.activity
                     ORDER BY id ASC `,
         });
 
