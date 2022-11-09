@@ -12,6 +12,7 @@ import PinPickerDemo from "../pages/admin/PinPickerDemo";
 import { Route, Routes } from "react-router";
 import {TantalisDemo} from "../components/ttls/TantalisDemo";
 import {TenureDetail} from "../components/ttls/TenureDetail";
+import TripReports from "../pages/admin/TripReports";
 
 const AdminRoutes = () => (
 	<Routes>
@@ -27,6 +28,7 @@ const AdminRoutes = () => (
 		<Route path="/pinpicker" element={<PinPickerDemo/>}/>
 		<Route path="/tantalis" element={<TantalisDemo/>}/>
 		<Route path="/tantalis/:id" element={<TenureDetail/>}/>
+		<Route path="/TripReports" element={<TripReports/>}/>
 	</Routes>
 );
 

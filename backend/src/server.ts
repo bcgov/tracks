@@ -37,6 +37,7 @@ import {MinioService} from "./services/minio_service";
 import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
 import {DatabaseMiddleware} from "./database";
 import {userInfo} from "./apis/shared/userinfo";
+import {tripReports} from './apis/admin/tripReports';
 import {roles} from "./apis/shared/roles";
 
 const prefix = '/api/v1';
@@ -242,6 +243,17 @@ const app = express()
         requireOrganizationMapping: true
     }), userInfo.myUserInfo)
 
+  .get(`${prefix}/admin/tripReports`, jwks.protect({
+    requireAnyRole: ['admin'],
+    requireOrganizationMapping: true
+  }), tripReports.getAllTripReports)
+
+  .get(`${prefix}/operator/tripReports`, jwks.protect({
+    requireAnyRole: ['operator'],
+    requireOrganizationMapping: true
+  }), tripReports.getMyTripReports)
+
+  .get('/health', common.healthCheck)
     .get(`${prefix}/roles`, jwks.protect({
         requireOrganizationMapping: false
     }), roles.allRoles)

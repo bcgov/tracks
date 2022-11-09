@@ -70,6 +70,14 @@ const ActivityList = () => {
 		]
 	)
 
+	const noItemsRenderer = () => (
+		[
+			<td key={'noitem'}>
+				No data available.
+			</td>,
+		]
+	)
+
 	return (
 		<>
 			<h2>Travel Path Reports</h2>
@@ -89,8 +97,8 @@ const ActivityList = () => {
 			</ButtonBar>
 
 			<ListComponent items={items} detailRoute={detailRoute}
-										 headers={['Created', 'Mode', 'State', 'Start Time', 'End Time']}
-										 rowRenderer={renderer}/>
+				headers={['Created', 'Mode', 'State', 'Start Time', 'End Time']}
+				rowRenderer={items.length ? renderer : noItemsRenderer}/>
 
 
 		</>
