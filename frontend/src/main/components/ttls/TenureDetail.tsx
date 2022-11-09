@@ -13,6 +13,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
 import 'leaflet/dist/images/marker-shadow.png';
+import {getConfiguration} from "../../../state/utilities/config_helper";
 
 const tileLayers = [
 	{
@@ -33,19 +34,21 @@ const TenureDetail = (props) => {
 	const center = [49, -123];
 
 	const headers = useSelector(getAuthHeaders);
+	const configuration = useSelector(getConfiguration);
+
 
 	useEffect(() => {
-		if (tenureId != null) {
-			setLoading(true);
-			axios.get(`${window.CONFIG.API_BASE}/api/v1/ttls/tenures/${tenureId}`, {
-				headers
+			if (tenureId != null) {
+				setLoading(true);
+				axios.get(`${configuration.API_BASE}/api/v1/ttls/tenures/${tenureId}`, {
+						headers
+					}
+				).then(response => {
+					setTenure(response.data);
+					setLoading(false);
+				})
 			}
-			).then(response => {
-				setTenure(response.data);
-				setLoading(false);
-			})
-		}
-	}, [tenureId]
+		}, [tenureId]
 	)
 	;
 
@@ -60,8 +63,10 @@ const TenureDetail = (props) => {
 		}
 		return (
 			<>
-
 				<h2>{tenure.locationDescription}</h2>
+				<pre>
+					{JSON.stringify(tenure, null, 2)}
+				</pre>
 				<MapContainer
 					id="mapDemo"
 					center={center}
@@ -73,12 +78,10 @@ const TenureDetail = (props) => {
 						url={tileLayer.url}
 					/>
 
-
-					{tenure.parcels.map((p, i) => (<GeoJSON key={`layer-${i}`} data={JSON.parse(p.geometry)} pathOptions={{fillColor: 'blue'}}/>))}
+					{tenure.parcels.map((p, i) => (
+						<GeoJSON key={`layer-${p.id}`} data={JSON.parse(p.geometry)} pathOptions={{color: 'blue', weight: 5, fillColor: 'blue'}}/>))}
 
 				</MapContainer>
-
-
 			</>
 		);
 	}
@@ -90,8 +93,8 @@ const TenureDetail = (props) => {
 			<DialogContent>
 
 				<Box style={{margin: 0, padding: 0}} display="flex" flexDirection={'column'}>
-					{loading && (<Loading/>)}
-					{loading || (renderContent())}
+					{loading && <Loading/>}
+					{loading || renderContent()}
 
 				</Box>
 

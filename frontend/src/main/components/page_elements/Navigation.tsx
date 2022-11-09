@@ -19,6 +19,7 @@ const Navigation = () => {
 		nav('/admin/officers/list', 'Conservation Officers', ['admin']),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin']),
 		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin']),
+		nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
 
 		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer']),
 		nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer']),
