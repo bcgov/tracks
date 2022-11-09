@@ -42,6 +42,7 @@ const Navigation = () => {
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
 		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
 		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
+    nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
 
 		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer'], <ConnectingAirportsOutlinedIcon />),
 		nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer'], <AssignmentOutlinedIcon />),

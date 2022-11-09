@@ -8,7 +8,7 @@ const userSignup = {
 
     const queryResult = await req.database.query({
       text: `select *
-             from role_binding_request
+             from role_binding_request where sub not in (select sub from user_mapping)
              order by created desc`
     });
 

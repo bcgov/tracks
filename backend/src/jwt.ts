@@ -15,6 +15,7 @@ interface JWTEnhancedRequest extends Request {
 	};
 
 	tracksContext: {
+		bestName: string;
 		organization: number;
 		subject: string | null;
 		roles: string[] | null;
@@ -81,7 +82,21 @@ const jwksMiddleware = (options: { jwksUri: string }) => {
 				const subject = decoded.sub;
 				const roles = decoded.client_roles;
 
+				// this name will be used for display. try a few in order of preference as not all tokens have all values.
+				let bestName = decoded.preferred_username;
+
+				if (decoded.name) {
+					bestName = decoded.name;
+				} else if (decoded.display_name) {
+					bestName = decoded.display_name;
+				} else if (decoded.bceid_username) {
+					bestName = decoded.bceid_username;
+				} else if (decoded.idir_username) {
+					bestName = decoded.idir_username;
+				}
+
 				req.tracksContext = {
+					bestName,
 					hasRole: (role) => (roles && roles.length > 0 && roles.includes(role)),
 					organization: await UserService.mapSubjectToOrganizationId(req.database.pool, subject),
 					subject: subject,

@@ -46,6 +46,7 @@
     "clear_test_cache": "jest --clearCache",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "dev": "ts-node-dev --respawn -- src/server.ts",
+    "periodicMaintenance": "ts-node -- src/maintenance.ts",
     "build": "tsc",
     "serve": "node build/server.js"
   }

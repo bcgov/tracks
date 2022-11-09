@@ -5,7 +5,10 @@ import {getAuthHeaders} from "../../../state/utilities/authentication_helper";
 import {useSelector} from "react-redux";
 import {TitleBarButtonContainer} from "../util/title";
 import {TracksTable} from "../util/tracks_table";
-import {TenureDetail} from "./tenure_detail";
+import {TenureDetail} from "./TenureDetail";
+import {getConfiguration} from "../../../state/utilities/config_helper";
+import {Alert, Box} from "@mui/material";
+import {ConstructionOutlined, Dangerous, MessageOutlined} from "@mui/icons-material";
 
 
 const reportsHeaders = [
@@ -24,6 +27,7 @@ const TenureList = () => {
 	const [loading, setLoading] = useState(false);
 
 	const headers = useSelector(getAuthHeaders);
+	const configuration = useSelector(getConfiguration);
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [selectedTenure, setSelectedTenure] = useState(null);
@@ -39,7 +43,7 @@ const TenureList = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		axios.get(`${window.CONFIG.API_BASE}/api/v1/ttls/tenures`, {
+		axios.get(`${configuration.API_BASE}/api/v1/ttls/tenures`, {
 			headers
 		}
 		).then(response => {
@@ -59,6 +63,15 @@ const TenureList = () => {
 		<>
 			<TitleBarButtonContainer title={'TTLS Available Tenures'}>
 			</TitleBarButtonContainer>
+
+			<Alert title={"Demo"} color={"warning"} icon={<ConstructionOutlined/>}>
+				<span style={{fontWeight: 'bold'}}>Alpha-quality preview. Things that don't work yet:</span>
+				<ul>
+					<li>Filtering/pagination</li>
+					<li>GeoJSON Layers</li>
+					<li>Probably other stuff</li>
+				</ul>
+			</Alert>
 
 			<TracksTable headers={reportsHeaders}
 									 data={tenures}
