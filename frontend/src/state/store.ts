@@ -9,7 +9,6 @@ import travelPathUploadSaga from "./sagas/travel_path_uploads";
 import signupSaga from "./sagas/signup";
 import checkSignupSaga from "./sagas/check_signup";
 import userInfoSaga from "./sagas/userinfo";
-import tripReportSaga from "./sagas/tripReports";
 import {TracksConfig} from "./config";
 
 const setupStore = (configuration: TracksConfig) => {
@@ -40,7 +39,6 @@ const setupStore = (configuration: TracksConfig) => {
 	sagaMiddleware.run(signupSaga);
 	sagaMiddleware.run(checkSignupSaga);
 	sagaMiddleware.run(userInfoSaga);
-	sagaMiddleware.run(tripReportSaga);
 
 	return store;
 

@@ -243,16 +243,6 @@ const app = express()
         requireOrganizationMapping: true
     }), userInfo.myUserInfo)
 
-  .get(`${prefix}/admin/tripReports`, jwks.protect({
-    requireAnyRole: ['admin'],
-    requireOrganizationMapping: true
-  }), tripReports.getAllTripReports)
-
-  .get(`${prefix}/operator/tripReports`, jwks.protect({
-    requireAnyRole: ['operator'],
-    requireOrganizationMapping: true
-  }), tripReports.getMyTripReports)
-
   .get('/health', common.healthCheck)
     .get(`${prefix}/roles`, jwks.protect({
         requireOrganizationMapping: false
