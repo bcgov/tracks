@@ -24,7 +24,6 @@ class TenureDialogProps {
 
 const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 
-	const dispatch = useDispatch();
 	const [tenureReferenceData, setTenureReferenceData] = useState([]);
 	const [tenures, setTenures] = useState<string>('');
 
