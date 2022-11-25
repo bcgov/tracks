@@ -7,11 +7,9 @@ import {
 	DialogContent,
 	DialogTitle,
 	FormControl,
-	InputLabel,
-	MenuItem,
-	Select,
+	TextField,
+	Typography,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import {useSelector} from "react-redux";
 import { getAuthHeaders } from "../../state/utilities/authentication_helper";
@@ -26,6 +24,8 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 
 	const [tenureReferenceData, setTenureReferenceData] = useState([]);
 	const [tenures, setTenures] = useState<string>('');
+	const [loading, setLoading] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const headers = useSelector(getAuthHeaders);
 	const configuration = useSelector(getConfiguration);
@@ -35,15 +35,40 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 	}
 
 	const doSubmit = () => {
-		// @todo we don't have a route to store tenures at the moment.
-		handleClose();
+		// @todo We need to store more info then this. Right now reference actually refers to ID and state/end dates don't exist from TTLS
+		setLoading(true);
+		const Uri = `${configuration.API_BASE}/api/v1/operator/tenures`;
+		const options = {
+			headers,
+			reference: tenureReferenceData[0].id,
+			start_date: '',
+			end_date: ''
+		}
+		if(tenureReferenceData.some(item => { return item.fileNumber === tenures})) {
+			try {
+				axios.post(Uri, options).then(response => {
+					console.log(response);
+					console.log('complete')
+					handleClose();
+					setErrorMessage('');
+					setLoading(false);
+				});
+			} catch (error) {
+				setErrorMessage('Unable to submit a tenure.')
+				setLoading(false);
+			}
+			
+		} else {
+			setErrorMessage('Unable to find that file number. Please try again.');
+			setLoading(false);
+		}
 	};
 
 	const fetchTenuresFromTTLS = async () => {
+		const options = {headers}
+		const Uri = `${configuration.API_BASE}/api/v1/ttls/tenures`;
 		try {
-			await axios.get(`${configuration.API_BASE}/api/v1/ttls/tenures`, {
-				headers
-			}
+			await axios.get(Uri, options
 			).then(response => {
 				if(response) {
 					setTenureReferenceData(response.data);
@@ -51,6 +76,7 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 			});
 		}
 		catch (err) {
+			setErrorMessage('Unable communicate with TTLS. Please try again later.')
 			return;
 		}
 	}
@@ -59,26 +85,23 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 		fetchTenuresFromTTLS();
 	}, [])
 
-	const tenureSelectOptions = tenureReferenceData.map((item, index) => {
-		return <MenuItem key={index} value={item.id}>{item.fileNumber}</MenuItem>
-	});
-
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={'md'} fullWidth={true}>
 			<DialogTitle id="form-dialog-title">Add A Tenure</DialogTitle>
 			<DialogContent>
 				<Box style={{margin: 0, padding: 0}} display="flex" flexDirection={'column'}>
 					<FormControl>
-						<InputLabel>Tenure ID</InputLabel>
-						<Select
+						<Typography variant='body2' color='error' style={{marginBottom: 10}}>{errorMessage}</Typography>
+						<TextField
+							style={{paddingLeft: 0}}
 							value={tenures}
-							label='Tenures'
+							label='Tenure'
+							placeholder="Please put the file number of your desired Tenure."
 							onChange={handleUpdate}
 							variant='outlined'
-							required
-						>
-							{tenureSelectOptions}
-						</Select>
+							fullWidth
+							autoFocus
+						/>
 					</FormControl>
 				</Box>
 
@@ -87,7 +110,7 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 				<Button onClick={handleClose} color="primary">
 					Cancel
 				</Button>
-				<Button onClick={doSubmit} color="primary">
+				<Button onClick={doSubmit} color="primary" disabled={loading ? true : false}>
 					Create
 				</Button>
 			</DialogActions>

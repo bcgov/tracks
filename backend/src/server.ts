@@ -37,7 +37,6 @@ import {MinioService} from "./services/minio_service";
 import {userSignup as sharedUserSignup} from "./apis/shared/user_signup";
 import {DatabaseMiddleware} from "./database";
 import {userInfo} from "./apis/shared/userinfo";
-import {tripReports} from './apis/admin/tripReports';
 import {roles} from "./apis/shared/roles";
 
 const prefix = '/api/v1';
@@ -177,6 +176,11 @@ const app = express()
         requireRole: 'commercial_operator',
         requireOrganizationMapping: true
     }), operatorTenures.list)
+
+    .post(`${prefix}/operator/tenures`, jwks.protect({
+        requireRole: 'commercial_operator',
+        requireOrganizationMapping: true
+    }), operatorTenures.add)
 
     .get(`${prefix}/area_admin/reports`, jwks.protect({
         requireRole: 'area_admin',

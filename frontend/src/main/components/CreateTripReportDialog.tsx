@@ -1,4 +1,6 @@
 import React, { useState, ChangeEvent, useCallback } from "react";
+//import { useList } from "../../state/utilities/use_list";
+
 import {
 	Grid,
 	Typography,
@@ -8,9 +10,9 @@ import {
 	DialogContentText, 
 	DialogTitle, 
 	Button, 
-	Radio, 
-	RadioGroup, 
-	FormControlLabel, 
+	// Radio, 
+	// RadioGroup, 
+	// FormControlLabel, 
 	FormControl, 
 	FormLabel, 
 	FormHelperText, 
@@ -25,8 +27,11 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import { useDispatch, useSelector } from "react-redux";
 
 import FileSubmissionDrop from '../components/util/FileSubmissionDrop';
-import { PermitActions, TenureActions, TRAVEL_PATH_UPLOAD_REQUEST } from "../../state/actions";
-import { useList } from "../../state/utilities/use_list";
+import { 
+	// PermitActions, 
+	// TenureActions, 
+	TRAVEL_PATH_UPLOAD_REQUEST 
+} from "../../state/actions";
 
 class TripReportDialogProps {
 	open: boolean;
@@ -48,8 +53,8 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	const [tenures, setTenures] = useState<string>('');
 	const [permits, setPermits] = useState<string>('');
 	const [mode, setMode] = useState<string>('');
-	const [isSubtenant, setIsSubtenant] = useState<string>('no');
-	const [sawWildlife, setSawWildlife] = useState<string>('no');
+	// const [isSubtenant, setIsSubtenant] = useState<string>('no');
+	// const [sawWildlife, setSawWildlife] = useState<string>('no');
 	const [files, setFiles] = useState([]);
 
 	const handleActivitiesChange = (event: SelectChangeEvent) => {
@@ -60,21 +65,21 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 		setTenures(event.target.value as string);
 	};
 
-	const handlePermitsChange = (event: SelectChangeEvent) => {
-		setPermits(event.target.value as string);
-	};
+	// const handlePermitsChange = (event: SelectChangeEvent) => {
+	// 	setPermits(event.target.value as string);
+	// };
 
 	const handleModeChange = (event: SelectChangeEvent) => {
 		setMode(event.target.value as string);
 	};
 
-	const handleIsSubTenantChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setIsSubtenant((event.target as HTMLInputElement).value);
-	};
+	// const handleIsSubTenantChange = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	setIsSubtenant((event.target as HTMLInputElement).value);
+	// };
 
-	const handleSawWildlifeChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setSawWildlife((event.target as HTMLInputElement).value);
-	};
+	// const handleSawWildlifeChange = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	setSawWildlife((event.target as HTMLInputElement).value);
+	// };
 
 	const filesControl = () => {
 		if (files.length > 0) {
@@ -145,14 +150,12 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 		handleClose();
 	};
 
-	useList(PermitActions, 'operator');
-	const fetchPermitData = () => {
-		const permits = useSelector(state => {return state.Permits.items});
-		return permits;
-	}
+	// useList(PermitActions, 'operator');
+	// const fetchPermitData = () => {
+	// 	const permits = useSelector(state => {return state.Permits.items});
+	// 	return permits;
+	// }
 
-	// not used for now. needs to connect to a trip report first
-	useList(TenureActions, 'operator');
 	const fetchTenureData = () => {
 		const tenures = useSelector(state => {return state.Tenures.items});
 		return tenures;
@@ -161,7 +164,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 
 	const renderActivitiesOptions = referenceActivities.activities.map((item, index) => { return <MenuItem key={index} value={item}>{item}</MenuItem> });
 	const renderTenureOptions =	fetchTenureData().map((item, index) => { return <MenuItem key={index} value={item.id}>{item.reference}</MenuItem> });
-	const renderPermitOptions = fetchPermitData().map((item, index) => { return <MenuItem key={index} value={item.reference}>{item.reference}</MenuItem> });
+	// const renderPermitOptions = fetchPermitData().map((item, index) => { return <MenuItem key={index} value={item.reference}>{item.reference}</MenuItem> });
 	const renderModesOfTransportOptions = referenceModes.modes.map((item, index) => { return <MenuItem key={index} value={item}>{item}</MenuItem> });
 
 
@@ -197,7 +200,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 							{renderTenureOptions}
 						</Select>
 					</FormControl>
-					<FormControl fullWidth style={{marginBottom: 20}}>
+					{/* <FormControl fullWidth style={{marginBottom: 20}}>
 						<InputLabel>Permits</InputLabel> 
 						<Select
 							value={permits}
@@ -208,7 +211,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						>
 							{renderPermitOptions}
 						</Select>
-					</FormControl>
+					</FormControl> */}
 					<FormControl fullWidth style={{marginBottom: 20}}>
 						<InputLabel>Transportation Mode</InputLabel> 
 						<Select
@@ -222,14 +225,14 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						</Select>
 					</FormControl>
 
-					{tenures.length && permits.length < 1 ? (
+					{/* {tenures.length && permits.length < 1 ? (
 						<FormControl style={{marginBottom: 10}} disabled>
 							<FormLabel>Are you a sub-tenant of the reported tenures?</FormLabel>
 							<RadioGroup row name="controlled-radio-buttons-group" value={isSubtenant} onChange={handleIsSubTenantChange}>
 								<FormControlLabel value="yes" control={<Radio />} label="Yes" />
 								<FormControlLabel value="no" control={<Radio />} label="No" />
 							</RadioGroup>
-						</FormControl>) : null}
+						</FormControl>) : null} */}
 										
 										
 					<FormControl style={{marginBottom: 20}}>
@@ -238,7 +241,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						{filesControl()}
 					</FormControl>
 										
-					{tenures.length && permits.length < 1 ? (
+					{/* {tenures.length && permits.length < 1 ? (
 						<FormControl disabled>
 							<FormLabel>Did you see any wildlife?</FormLabel>
 							<RadioGroup row name="controlled-radio-buttons-group" value={sawWildlife} onChange={handleSawWildlifeChange}>
@@ -246,7 +249,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 								<FormControlLabel value="no" control={<Radio />} label="No" />
 							</RadioGroup>
 						</FormControl>
-					) : null}
+					) : null} */}
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>

@@ -1,8 +1,8 @@
-import React, { FC, useState, MouseEvent } from 'react';
+import React, { FC, useState, MouseEvent, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 // Our components
-import { ActivityActions, PermitActions } from "../../../state/actions";
+import { ActivityActions, TenureActions } from "../../../state/actions";
 import { useList } from "../../../state/utilities/use_list";
 import { useSelector } from '../../../state/utilities/use_selector';
 import CreateTenureDialog from '../../../main/components/CreateTenureDialog';
@@ -16,12 +16,15 @@ import {
 	Grid, 
 	Menu, 
 	MenuItem, 
+	Switch,
+	FormControlLabel,
+	FormGroup,
+	Button
 } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridCellValue } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
-import moment from 'moment';
 
-const columns: GridColDef[] = [
+const tripReportcolumns: GridColDef[] = [
 	{
 		field: 'id', 
 		headerName: 'Trip ID',
@@ -54,10 +57,64 @@ const columns: GridColDef[] = [
 	},
 ];
 
+const tenureColumns: GridColDef[] = [
+	{
+		field: 'id', 
+		headerName: 'Trip ID',
+		flex: 1
+	},
+	{        
+		field: 'reference', 
+		headerName: 'Reference', 
+		flex: 2
+	},
+	{        
+		field: 'subtenures', 
+		headerName: 'Sub-Tenures', 
+		flex: 2
+	},
+	{        
+		field: 'startdate', 
+		headerName: 'Start Date', 
+		flex: 3
+	},
+	{        
+		field: 'enddate', 
+		headerName: 'End Date', 
+		flex: 3
+	},
+	{        
+		field: 'approve', 
+		headerName: 'Approval', 
+		flex: 2,
+		sortable: false,
+		renderCell: (params) => {
+			const onClick = (e) => {
+				e.stopPropagation();
+
+				const api: GridApi = params.api;
+				const thisRow: Record<string, GridCellValue> = {};
+
+				api.getAllColumns()
+					.filter((c) => c.field !== '__check__' && !!c)
+					.forEach((c) => thisRow[c.field] = params.getValue(params.id, c.field));
+				
+				return alert(JSON.stringify(thisRow, null, 4));
+			};
+			return <Button onClick={onClick}>Approve</Button>
+		}
+	},
+];
+
 const TripReports: FC = () => {
 	// We are using the operator route since there is no discernable difference in action
 	const navigate = useNavigate();
 	const detailRoute = `/operator/activities/view/:id`;
+
+	// Controlled tenure table view
+	const isAdmin: boolean = useSelector(state => {return state.Auth.roles.includes('admin')});
+	const [adminView, setAdminView] = useState<boolean>(false);
+	const [tenureView, setTenureView] = useState<boolean>(false);
 
 	// Controlled floating menu
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -98,7 +155,7 @@ const TripReports: FC = () => {
 			const rowData = activities.map((item) => {
 				return { 
 					id: item.id,
-					submissionDate: moment(item.createdat),
+					submissionDate: item.createdat,
 					status: item.processingstate,
 					tenures: [],
 					permits: [],
@@ -110,14 +167,45 @@ const TripReports: FC = () => {
 			return [ { id: '', submissionDate: 'No data was found.', status: '' } ];
 		}
 	}
-	const rows = fetchTripReportData();
+
+	useList(TenureActions, 'operator');
+	const fetchTenureData = () => {
+		const tenures = useSelector(state => {return state.Tenures.items});
+		if(tenures.length) {
+			tenures.map((item) => {
+				return {
+					id: item.id,
+					reference: item.reference,
+					subtenures: item.subtenures,
+					startdate: item.startdate,
+					enddate: item.enddate,
+				}
+			});
+		}
+		return tenures;
+	}
+
+	const tripReportRows = fetchTripReportData();
+	const tenureRows = fetchTenureData();
+
+	useEffect(() => {
+		if(isAdmin) {
+			setAdminView(true);
+		}
+	}, []);
 
 	return (
 		<>
 			<Box sx={{height: '100%', width: '100%'}}>
 				<Grid container direction='row'>
 					<Grid item>
-						<Typography variant='h5'>Trip Reports</Typography> 
+						<Typography variant='h5'>{tenureView ? "Tenures" : "Trip Reports"}</Typography> 
+						{ adminView ? (
+							<FormGroup>
+								<FormControlLabel control={<Switch onClick={() => setTenureView(!tenureView)}/>} label={'Change View'} />
+							</FormGroup>
+						) : null }
+						
 					</Grid>
 					<div style={{flex: '1 0 0'}} />
 					<Grid item>
@@ -142,25 +230,38 @@ const TripReports: FC = () => {
 								<MenuItem onClick={handleTenureDialog} disableRipple>Add Tenure(s)</MenuItem>
 								<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} />
 							</Box>
-
 						</Menu>
 					</Grid>
 				</Grid>
 
 				<br />
+				{
+					tenureView ? (
+						<DataGrid
+							rows={tenureRows}
+							columns={tenureColumns}
+							pageSize={10}
+							rowsPerPageOptions={[10]}
+							disableSelectionOnClick
+							checkboxSelection
+							autoHeight
+						/>
+					) : (
+						<DataGrid
+							rows={tripReportRows}
+							columns={tripReportcolumns}
+							pageSize={10}
+							rowsPerPageOptions={[10]}
+							disableSelectionOnClick
+							disableColumnSelector
+							autoHeight
+							onCellClick={(data) => {
+								navigate(detailRoute.replace(':id', data.row.id));
+							}}
+						/>
+					)
+				}
 				
-				<DataGrid
-					rows={rows}
-					columns={columns}
-					pageSize={10}
-					rowsPerPageOptions={[10]}
-					disableSelectionOnClick
-					disableColumnSelector
-					autoHeight
-					onCellClick={(data) => {
-						navigate(detailRoute.replace(':id', data.row.id));
-					}}
-				/>
 			</Box>
 		</>
 	);
