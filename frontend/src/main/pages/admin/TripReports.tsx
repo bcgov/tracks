@@ -91,14 +91,7 @@ const tenureColumns: GridColDef[] = [
 		renderCell: (params) => {
 			const onClick = (e) => {
 				e.stopPropagation();
-
-				const api: GridApi = params.api;
-				const thisRow: Record<string, GridCellValue> = {};
-
-				api.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach((c) => thisRow[c.field] = params.getValue(params.id, c.field));
-				
+				const thisRow = params.row;	
 				return alert(JSON.stringify(thisRow, null, 4));
 			};
 			return <Button onClick={onClick}>Approve</Button>
