@@ -6,6 +6,8 @@ import ActivityDetail from "../pages/operator/ActivityDetail";
 import ReportList from "../pages/operator/ReportList";
 import {Route, Routes} from "react-router";
 import TenuresManagement from "../pages/operator/TenureManage";
+import TripReports from "../pages/admin/TripReports";
+
 
 const OperatorRoutes = () => (
 	<Routes>
@@ -14,9 +16,8 @@ const OperatorRoutes = () => (
 		<Route path='/activities/view/:id' element={<ActivityDetail/>}/>
 		<Route path='/reports/list' element={<ReportList/>}/>
 		<Route path='/tenures' element={<TenuresManagement/>}/>
-
+    <Route path="/TripReports" element={<TripReports/>}/>
 	</Routes>
 );
-//every bceid should be operator possibly others but for now they can only be operators. IDIR accounts can be other roles
 
 export default OperatorRoutes;

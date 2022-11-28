@@ -2,25 +2,7 @@
 @import 'base';
 
 .sideNav {
-	margin-right: 2rem;
-	width: 12rem;
+	margin-right: 24px;
+	width: 14.75rem;
 	flex: 0 0 auto;
-
-	ul {
-		margin: 0 auto;
-		padding: 0;
-		list-style-type: none;
-	}
-
-	li {
-		position: relative;
-
-		a {
-			display: block;
-			padding: 0.5rem 0;
-			text-decoration: none;
-			font-size: 0.875rem;
-			font-weight: 700;
-		}
-	}
 }
