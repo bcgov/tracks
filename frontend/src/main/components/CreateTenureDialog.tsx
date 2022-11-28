@@ -37,6 +37,10 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 	const doSubmit = () => {
 		// @todo We need to store more info then this. Right now reference actually refers to ID and state/end dates don't exist from TTLS
 		setLoading(true);
+		if(!tenures.length) {
+			setErrorMessage('Please enter a valid file number.');
+			return;
+		}
 		const Uri = `${configuration.API_BASE}/api/v1/operator/tenures`;
 		const options = {
 			headers,
@@ -67,11 +71,21 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 	const fetchTenuresFromTTLS = async () => {
 		const options = {headers}
 		const Uri = `${configuration.API_BASE}/api/v1/ttls/tenures`;
+		const data = [];
 		try {
 			await axios.get(Uri, options
 			).then(response => {
 				if(response) {
-					setTenureReferenceData(response.data);
+					response.data.map((item) => {
+						data.push({
+							label: item.fileNumber,
+							value: item.id,
+							fullTenure: item
+						})
+					})
+					setTenureReferenceData(data);
+
+					console.log(response.data)
 				}
 			});
 		}

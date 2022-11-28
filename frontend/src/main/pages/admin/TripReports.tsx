@@ -236,7 +236,6 @@ const TripReports: FC = () => {
 							pageSize={10}
 							rowsPerPageOptions={[10]}
 							disableSelectionOnClick
-							checkboxSelection
 							autoHeight
 						/>
 					) : (
