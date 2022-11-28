@@ -11,7 +11,7 @@ const tenures = {
                     (select count(*) from subtenure where tenure_id = t.id) as subtenures,
                     t.end_date                                              as endDate,
                     t.reference                                             as reference
-             from tenure t
+             from tenure_organization t
                       left join organization o on t.organization_id = o.id
              order by o.name asc`,
     });

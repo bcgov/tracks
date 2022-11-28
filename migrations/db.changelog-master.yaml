@@ -189,3 +189,24 @@ databaseChangeLog:
          -  sqlFile:
               path: 0015u_add_ttls_caches.sql
               relativeToChangelogFile: true
+  -  changeSet:
+       id:  16
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0016u_tenure_bindings_and_trip_reports.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  17
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0017u_add_date_to_tenure_bindings.sql
+              relativeToChangelogFile: true
+  -  changeSet:
+       id:  18
+       author:  plasticviking
+       changes:
+         -  sqlFile:
+              path: 0018u_add_reason.sql
+              relativeToChangelogFile: true

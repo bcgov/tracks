@@ -11,7 +11,7 @@ import {
 	PermitActions,
 	ReportActions,
 	ReportingPeriodActions,
-	TenureActions
+	TenureActions, TenureBindingRequestActions
 } from "../actions";
 
 import {defaultReducer, DefaultState} from "../utilities/redux_boilerplate_helper";
@@ -32,6 +32,7 @@ function createRootReducer(config: TracksConfig) {
 		Officers: defaultReducer(OfficerActions, new DefaultState()),
 		ReportingPeriods: defaultReducer(ReportingPeriodActions, new DefaultState()),
 		OnboardingRequests: defaultReducer(OnboardingRequestActions, new DefaultState()),
+		TenureBindingRequests: defaultReducer(TenureBindingRequestActions, new DefaultState()),
 		UserInfo,
 		CheckSignup,
 		TravelPathUpload,

@@ -20,6 +20,7 @@ const Navigation = () => {
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin']),
 		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin']),
 		nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
+		nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
 
 		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer']),
 		nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer']),
@@ -29,6 +30,8 @@ const Navigation = () => {
 
 		nav('/operator/profile', 'Profile', ['commercial_operator']),
 		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator']),
+		nav('/operator/tenures', 'My Tenures', ['commercial_operator']),
+
 		// nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
 
 		nav('/officer/activities/list', 'Activities', ['conservation_officer']),

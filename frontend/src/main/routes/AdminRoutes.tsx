@@ -12,6 +12,7 @@ import PinPickerDemo from "../pages/admin/PinPickerDemo";
 import { Route, Routes } from "react-router";
 import {TantalisDemo} from "../components/ttls/TantalisDemo";
 import {TenureDetail} from "../components/ttls/TenureDetail";
+import TenureBindingsManagement from "../pages/admin/TenureBindingsManagement";
 
 const AdminRoutes = () => (
 	<Routes>
@@ -27,6 +28,8 @@ const AdminRoutes = () => (
 		<Route path="/pinpicker" element={<PinPickerDemo/>}/>
 		<Route path="/tantalis" element={<TantalisDemo/>}/>
 		<Route path="/tantalis/:id" element={<TenureDetail/>}/>
+		<Route path="/tenure_binding_requests" element={<TenureBindingsManagement/>}/>
+
 	</Routes>
 );
 
