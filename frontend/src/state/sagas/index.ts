@@ -5,7 +5,7 @@ import {
 	PermitActions,
 	ReportActions,
 	TenureActions,
-	ActivityActions, ReportingPeriodActions, OnboardingRequestActions
+	ActivityActions, ReportingPeriodActions, OnboardingRequestActions, TenureBindingRequestActions
 } from "../actions";
 
 const activitiesSaga = defaultSagaGenerator(ActivityActions, `:BASE/api/v1/:API/activities`);
@@ -16,5 +16,6 @@ const tenuresSaga = defaultSagaGenerator(TenureActions, `:BASE/api/v1/:API/tenur
 const reportsSaga = defaultSagaGenerator(ReportActions, `:BASE/api/v1/:API/reports`);
 const reportingPeriodsSaga = defaultSagaGenerator(ReportingPeriodActions, `:BASE/api/v1/:API/reporting_periods`);
 const onboardingRequestsSaga = defaultSagaGenerator(OnboardingRequestActions, `:BASE/api/v1/:API/onboarding`);
+const tenureBindingRequestsSaga = defaultSagaGenerator(TenureBindingRequestActions, `:BASE/api/v1/:API/tenure_bindings`);
 
-export {activitiesSaga, officersSaga, operatorsSaga, permitsSaga, tenuresSaga, reportsSaga, reportingPeriodsSaga, onboardingRequestsSaga};
+export {activitiesSaga, officersSaga, operatorsSaga, permitsSaga, tenuresSaga, reportsSaga, reportingPeriodsSaga, onboardingRequestsSaga, tenureBindingRequestsSaga};

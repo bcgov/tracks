@@ -1,7 +1,17 @@
 import {applyMiddleware, createStore} from "redux";
 import {createRootReducer} from "./reducers";
 import createSagaMiddleware from 'redux-saga';
-import {activitiesSaga, officersSaga, onboardingRequestsSaga, operatorsSaga, permitsSaga, reportingPeriodsSaga, reportsSaga, tenuresSaga} from "./sagas";
+import {
+	activitiesSaga,
+	officersSaga,
+	onboardingRequestsSaga,
+	operatorsSaga,
+	permitsSaga,
+	reportingPeriodsSaga,
+	reportsSaga,
+	tenureBindingRequestsSaga,
+	tenuresSaga
+} from "./sagas";
 
 import logger from 'redux-logger';
 import authenticationSaga from "./sagas/auth";
@@ -35,6 +45,7 @@ const setupStore = (configuration: TracksConfig) => {
 	sagaMiddleware.run(officersSaga);
 	sagaMiddleware.run(reportingPeriodsSaga);
 	sagaMiddleware.run(onboardingRequestsSaga);
+	sagaMiddleware.run(tenureBindingRequestsSaga);
 	sagaMiddleware.run(travelPathUploadSaga);
 	sagaMiddleware.run(signupSaga);
 	sagaMiddleware.run(checkSignupSaga);

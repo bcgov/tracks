@@ -28,6 +28,7 @@ const ReportActions = new BusinessObjectActionNames('REPORT');
 const OperatorActions = new BusinessObjectActionNames('OPERATOR');
 const ReportingPeriodActions = new BusinessObjectActionNames('REPORTING_PERIOD');
 const OnboardingRequestActions = new BusinessObjectActionNames('ONBOARDING_REQUEST');
+const TenureBindingRequestActions = new BusinessObjectActionNames('TENURE_BINDING_REQUEST');
 
 export {
 	ActivityActions,
@@ -37,7 +38,8 @@ export {
 	ReportActions,
 	OperatorActions,
 	ReportingPeriodActions,
-	OnboardingRequestActions
+	OnboardingRequestActions,
+	TenureBindingRequestActions
 };
 
 const TRAVEL_PATH_UPLOAD_REQUEST = 'TRAVEL_PATH_UPLOAD_REQUEST';

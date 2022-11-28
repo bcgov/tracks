@@ -1,9 +1,8 @@
-import {TantalisService} from "../services/tantalis_service";
+import kms from "../services/tantalis_service";
 import util from 'util';
 
 jest.setTimeout(3000000);
 
-const kms = new TantalisService();
 
 test(
   'verify can get a token', async () => {

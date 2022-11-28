@@ -13,9 +13,9 @@ const reports = {
                     rp.start_date,
                     rp.end_date,
                     r.updated_at
-             from report r
+             from trip_report r
                       left join permit pp on r.park_permit_id = pp.id
-                      left join tenure t on r.tenure_id = t.id
+                      left join tenure_organization t on r.tenure_id = t.id
                       left join reporting_period rp on r.reporting_period_id = rp.id
              where type = 'TRACK OBSERVATION REPORT'
                and user_sub = $1

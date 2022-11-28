@@ -20,7 +20,6 @@ const TenureList = () => {
 	const renderer = (it) => (
 		[
 			<td key='ref'>{it.reference}</td>,
-			<td key='st'>{it.subtenures}</td>,
 			<td key='sd'>{moment(it.startdate).format('ll')}</td>,
 			<td key='ed'>{it.enddate !== null ? moment(it.enddate).format('ll') : ''}</td>
 		]
@@ -30,7 +29,7 @@ const TenureList = () => {
 		<>
 			<h2>Tenures</h2>
 			<ListComponent items={items}
-				headers={['Reference', 'Subtenures', 'Start Date', 'End Date']}
+				headers={['Reference', 'Start Date', 'End Date']}
 				rowRenderer={renderer}/>
 		</>
 	);

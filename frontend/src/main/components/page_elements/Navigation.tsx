@@ -35,14 +35,14 @@ const Navigation = () => {
 	const currentUserRoles = useSelector(state => state.Auth.roles);
 
 	const navs = [
-		nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin'], <SummarizeOutlinedIcon />),
-		nav('/admin/reports/list', 'Track Observation Reports', ['admin'], <ArtTrackOutlinedIcon />),
-		nav('/admin/organizations/list', 'Commercial Operators', ['admin'], <Person3OutlinedIcon />),
-		nav('/admin/officers/list', 'Conservation Officers', ['admin'], <Person4OutlinedIcon />),
-		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
-		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
-		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
-   		nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
+		nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin']),
+		nav('/admin/reports/list', 'Track Observation Reports', ['admin']),
+		nav('/admin/organizations/list', 'Commercial Operators', ['admin']),
+		nav('/admin/officers/list', 'Conservation Officers', ['admin']),
+		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin']),
+		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin']),
+		nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
+		nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
 
 		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer'], <ConnectingAirportsOutlinedIcon />),
 		nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer'], <AssignmentOutlinedIcon />),
@@ -50,10 +50,12 @@ const Navigation = () => {
 		nav('/area_admin/reports/list', 'Travel Path Reports', ['area_admin'], <AirplanemodeActiveOutlinedIcon />),
 		nav('/area_admin/permits/list', 'Park Permit Assignments', ['area_admin'], <WorkspacePremiumOutlinedIcon />),
 
-		nav('/operator/profile', 'Profile', ['commercial_operator'], <AccountCircleOutlinedIcon />),
-		nav('/operator/activities/list', 'Travel Path Reports', 'commercial_operator', <FlightTakeoffOutlinedIcon />),
+		nav('/operator/profile', 'Profile', ['commercial_operator']),
+		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator']),
+		nav('/operator/tenures', 'My Tenures', ['commercial_operator']),
 		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
-		// nav('/operator/reports/list', 'Travel Path Reports'),
+
+		// nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
 
 		nav('/officer/activities/list', 'Activities', ['conservation_officer'], <LocalActivityOutlinedIcon />),
 		nav('/officer/reports/list', 'Track Observation Reports', ['conservation_officer'], <RemoveRedEyeOutlinedIcon />),
