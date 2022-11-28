@@ -102,7 +102,7 @@ const TenureBindingsManagement = () => {
 
 			<ListComponent
 				items={items.length > 0 ? items : [1]}
-				headers={['Organization', 'Reference (File Number)', 'Requested Started', 'Requested End', 'Request State', 'Request Date', 'TTLS Match Data']}
+				headers={['Organization', 'Reference (File Number)', 'Requested Start Date', 'Requested End Date', 'Request State', 'Request Creation Date', 'TTLS Match Data']}
 				rowRenderer={items.length > 0 ? renderer : noItemsRenderer}
 			></ListComponent>
 		</div>
