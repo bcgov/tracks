@@ -46,7 +46,11 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 		}
 
 		const Uri = `${configuration.API_BASE}/api/v1/operator/tenure_bindings`;
-		const payload = { tenures };
+		const payload = {
+			reference: tenures
+		};
+
+		console.log(payload)
 		
 		if(tenureReferenceData.some(item => { return item.fullTenure.fileNumber === tenures})) {
 			axios
@@ -111,6 +115,7 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 							variant='outlined'
 							fullWidth
 							autoFocus
+							disabled={tenureReferenceData.length > 0 ? false : true}
 						/>
 					</FormControl>
 				</Box>
