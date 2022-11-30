@@ -41,8 +41,8 @@ const Navigation = () => {
 		nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
 		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
-		nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
-		nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
+		// nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
+		// nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
 
 		nav('/license_auth_officer/reports/list', 'Travel Path Reports', ['license_auth_officer'], <ConnectingAirportsOutlinedIcon />),
 		nav('/license_auth_officer/tenures/list', 'Tenure Assignments', ['license_auth_officer'], <AssignmentOutlinedIcon />),
@@ -52,7 +52,7 @@ const Navigation = () => {
 
 		nav('/operator/profile', 'Profile', ['commercial_operator'], <AccountCircleOutlinedIcon />),
 		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
-		nav('/operator/tenures', 'My Tenures', ['commercial_operator']),
+		nav('/operator/tenures', 'My Tenures', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
 		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
 
 		// nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
