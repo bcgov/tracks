@@ -16,12 +16,9 @@ import {
 	Grid, 
 	Menu, 
 	MenuItem, 
-	Switch,
-	FormControlLabel,
-	FormGroup,
 	Button
 } from '@mui/material';
-import { DataGrid, GridColDef, GridCellValue } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 
 const tripReportcolumns: GridColDef[] = [
@@ -104,11 +101,6 @@ const TripReports: FC = () => {
 	const navigate = useNavigate();
 	const detailRoute = `/operator/activities/view/:id`;
 
-	// Controlled tenure table view
-	const isAdmin: boolean = useSelector(state => {return state.Auth.roles.includes('admin')});
-	const [adminView, setAdminView] = useState<boolean>(false);
-	const [tenureView, setTenureView] = useState<boolean>(false);
-
 	// Controlled floating menu
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -161,44 +153,14 @@ const TripReports: FC = () => {
 		}
 	}
 
-	useList(TenureActions, 'operator');
-	const fetchTenureData = () => {
-		const tenures = useSelector(state => {return state.Tenures.items});
-		if(tenures.length) {
-			tenures.map((item) => {
-				return {
-					id: item.id,
-					reference: item.reference,
-					subtenures: item.subtenures,
-					startdate: item.startdate,
-					enddate: item.enddate,
-				}
-			});
-		}
-		return tenures;
-	}
-
 	const tripReportRows = fetchTripReportData();
-	const tenureRows = fetchTenureData();
-
-	useEffect(() => {
-		if(isAdmin) {
-			setAdminView(true);
-		}
-	}, []);
 
 	return (
 		<>
 			<Box sx={{height: '100%', width: '100%'}}>
 				<Grid container direction='row'>
 					<Grid item>
-						<Typography variant='h5'>{tenureView ? "Tenures" : "Trip Reports"}</Typography> 
-						{ adminView ? (
-							<FormGroup>
-								<FormControlLabel control={<Switch onClick={() => setTenureView(!tenureView)}/>} label={'Change View'} />
-							</FormGroup>
-						) : null }
-						
+						<Typography variant='h5'>Trip Reports</Typography> 
 					</Grid>
 					<div style={{flex: '1 0 0'}} />
 					<Grid item>
@@ -228,31 +190,21 @@ const TripReports: FC = () => {
 				</Grid>
 
 				<br />
-				{
-					tenureView ? (
-						<DataGrid
-							rows={tenureRows}
-							columns={tenureColumns}
-							pageSize={10}
-							rowsPerPageOptions={[10]}
-							disableSelectionOnClick
-							autoHeight
-						/>
-					) : (
-						<DataGrid
-							rows={tripReportRows}
-							columns={tripReportcolumns}
-							pageSize={10}
-							rowsPerPageOptions={[10]}
-							disableSelectionOnClick
-							disableColumnSelector
-							autoHeight
-							onCellClick={(data) => {
-								navigate(detailRoute.replace(':id', data.row.id));
-							}}
-						/>
-					)
-				}
+				
+				<DataGrid
+					rows={tripReportRows}
+					columns={tripReportcolumns}
+					pageSize={10}
+					rowsPerPageOptions={[10]}
+					disableSelectionOnClick
+					disableColumnSelector
+					autoHeight
+					onCellClick={(data) => {
+						navigate(detailRoute.replace(':id', data.row.id));
+					}}
+				/>
+					
+				
 				
 			</Box>
 		</>

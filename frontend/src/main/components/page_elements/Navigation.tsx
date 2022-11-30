@@ -35,12 +35,12 @@ const Navigation = () => {
 	const currentUserRoles = useSelector(state => state.Auth.roles);
 
 	const navs = [
-		nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin']),
-		nav('/admin/reports/list', 'Track Observation Reports', ['admin']),
-		nav('/admin/organizations/list', 'Commercial Operators', ['admin']),
-		nav('/admin/officers/list', 'Conservation Officers', ['admin']),
-		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin']),
-		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin']),
+		nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin'], <SummarizeOutlinedIcon />),
+		nav('/admin/reports/list', 'Track Observation Reports', ['admin'], <ArtTrackOutlinedIcon />),
+		nav('/admin/organizations/list', 'Commercial Operators', ['admin'], <Person3OutlinedIcon />),
+		nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
+		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
+		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
 		nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
 		nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
 
@@ -50,8 +50,8 @@ const Navigation = () => {
 		nav('/area_admin/reports/list', 'Travel Path Reports', ['area_admin'], <AirplanemodeActiveOutlinedIcon />),
 		nav('/area_admin/permits/list', 'Park Permit Assignments', ['area_admin'], <WorkspacePremiumOutlinedIcon />),
 
-		nav('/operator/profile', 'Profile', ['commercial_operator']),
-		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator']),
+		nav('/operator/profile', 'Profile', ['commercial_operator'], <AccountCircleOutlinedIcon />),
+		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
 		nav('/operator/tenures', 'My Tenures', ['commercial_operator']),
 		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
 

@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useCallback } from "react";
-//import { useList } from "../../state/utilities/use_list";
+import { useList } from "../../state/utilities/use_list";
 
 import {
 	Grid,
@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FileSubmissionDrop from '../components/util/FileSubmissionDrop';
 import { 
 	// PermitActions, 
-	// TenureActions, 
+	TenureActions, 
 	TRAVEL_PATH_UPLOAD_REQUEST 
 } from "../../state/actions";
 
@@ -50,19 +50,31 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	});
 	
 	const [activities, setActivities] = useState<string>('');
+	const [activityError, setActivityError] = useState<string>('');
+
 	const [tenures, setTenures] = useState<string>('');
+	const [tenureError, setTenureError] = useState<string>('');
+
 	const [permits, setPermits] = useState<string>('');
+	// const [permitError, setPermitError] = useState<string>('');
+
 	const [mode, setMode] = useState<string>('');
+	const [modeError, setModeError] = useState<string>('');
+
 	// const [isSubtenant, setIsSubtenant] = useState<string>('no');
 	// const [sawWildlife, setSawWildlife] = useState<string>('no');
+
 	const [files, setFiles] = useState([]);
+	const [fileError, setFileError] = useState<string>();
 
 	const handleActivitiesChange = (event: SelectChangeEvent) => {
 		setActivities(event.target.value as string);
+		setActivityError('');
 	};
 
 	const handleTenuresChange = (event: SelectChangeEvent) => {
 		setTenures(event.target.value as string);
+		setTenureError('');
 	};
 
 	// const handlePermitsChange = (event: SelectChangeEvent) => {
@@ -71,6 +83,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 
 	const handleModeChange = (event: SelectChangeEvent) => {
 		setMode(event.target.value as string);
+		setModeError('');
 	};
 
 	// const handleIsSubTenantChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -117,25 +130,47 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	};
 
 	const setUploadFiles = useCallback((files) => {
+		if(files[0].type === '' && files[0].name.includes('.gpx')) {
+			setFileError('');
+		}
 		setFiles(files);
 	}, [files]);
 
 	const doUpload = () => {
 		const data = {};
 
+		// Shallow Validations before we upload @todo, replace this with an actual validation library
 		if (permits !== null && permits !== '') {
 			data['permit'] = permits;
 		} else if (tenures !== null && tenures !== '') {
 			data['tenure'] = tenures;
 		}
 
-		console.log({
-			files,
-			metadata: {
-				modeOfTransport: mode,
-				...data
-			}
-		});
+		// if(!permits || permits === '') {
+		// 	setPermitError('Please input a valid Permit')
+		// }
+		if(!activities || activities === '') {
+			setActivityError('Please input a valid Activity');
+			return;
+		}
+
+		if(!tenures || tenures === '') {
+			setTenureError('Please input a valid Tenure');
+			return;
+		}
+
+		if(!mode || mode === '') {
+			setModeError('Please input a valid Mode of Transportation');
+			return;
+		}
+
+		if(!files.length) {
+			setFileError('No file was attached, please attach a valid GPX file.');
+			return;
+		} else if(files[0].type !== '' && !files[0].name.includes('.gpx')) {
+			setFileError('Invalid file type. Please upload a GPX file.');
+			return;
+		}
 
 		dispatch({
 			type: TRAVEL_PATH_UPLOAD_REQUEST, payload: {
@@ -156,11 +191,11 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	// 	return permits;
 	// }
 
+	useList(TenureActions, 'operator');
 	const fetchTenureData = () => {
 		const tenures = useSelector(state => {return state.Tenures.items});
 		return tenures;
 	}
-
 
 	const renderActivitiesOptions = referenceActivities.activities.map((item, index) => { return <MenuItem key={index} value={item}>{item}</MenuItem> });
 	const renderTenureOptions =	fetchTenureData().map((item, index) => { return <MenuItem key={index} value={item.id}>{item.reference}</MenuItem> });
@@ -188,9 +223,10 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						>
 							{renderActivitiesOptions}
 						</Select>
+						<FormHelperText color='error' style={{margin: 0, padding: 0, color: '#f44336'}}>{activityError}</FormHelperText>
 					</FormControl>
 					<FormControl fullWidth style={{marginBottom: 20}}>
-						<InputLabel>Tenures</InputLabel> 
+						<InputLabel>Tenures</InputLabel>
 						<Select
 							value={tenures}
 							label="Tenures"
@@ -199,6 +235,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						>
 							{renderTenureOptions}
 						</Select>
+						<FormHelperText color='error' style={{margin: 0, padding: 0, color: '#f44336'}}>{tenureError}</FormHelperText>
 					</FormControl>
 					{/* <FormControl fullWidth style={{marginBottom: 20}}>
 						<InputLabel>Permits</InputLabel> 
@@ -211,6 +248,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						>
 							{renderPermitOptions}
 						</Select>
+						<FormHelperText color='error' style={{margin: 0, padding: 0, color: '#f44336'}}>{permitError}</FormHelperText>
 					</FormControl> */}
 					<FormControl fullWidth style={{marginBottom: 20}}>
 						<InputLabel>Transportation Mode</InputLabel> 
@@ -223,6 +261,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						>
 							{renderModesOfTransportOptions}
 						</Select>
+						<FormHelperText color='error' style={{margin: 0, padding: 0, color: '#f44336'}}>{modeError}</FormHelperText>
 					</FormControl>
 
 					{/* {tenures.length && permits.length < 1 ? (
@@ -239,6 +278,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 						<FormLabel>Attach GPX file(s)</FormLabel>
 						<FormHelperText style={{margin: 0}}>A new travel path will be added to each GPX file. You may include multiple related GPX files in one trip report.</FormHelperText>
 						{filesControl()}
+						<FormHelperText color='error' style={{margin: 0, padding: 0, color: '#f44336'}}>{fileError}</FormHelperText>
 					</FormControl>
 										
 					{/* {tenures.length && permits.length < 1 ? (

@@ -14,6 +14,7 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import { getAuthHeaders } from "../../state/utilities/authentication_helper";
 import { getConfiguration } from "../../state/utilities/config_helper";
+import { useDispatch } from "react-redux";
 
 class TenureDialogProps {
 	open: boolean;
@@ -29,39 +30,36 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 
 	const headers = useSelector(getAuthHeaders);
 	const configuration = useSelector(getConfiguration);
+	const dispatch = useDispatch();
 
 	const handleUpdate = (event) => {
 		setTenures(event.target.value as string)
-	}
+	};
 
 	const doSubmit = () => {
-		// @todo We need to store more info then this. Right now reference actually refers to ID and state/end dates don't exist from TTLS
 		setLoading(true);
+
 		if(!tenures.length) {
 			setErrorMessage('Please enter a valid file number.');
+			setLoading(false);
 			return;
 		}
-		const Uri = `${configuration.API_BASE}/api/v1/operator/tenures`;
-		const options = {
-			headers,
-			reference: tenureReferenceData[0].id,
-			start_date: '',
-			end_date: ''
-		}
-		if(tenureReferenceData.some(item => { return item.fileNumber === tenures})) {
-			try {
-				axios.post(Uri, options).then(response => {
-					console.log(response);
-					console.log('complete')
+
+		const Uri = `${configuration.API_BASE}/api/v1/operator/tenure_bindings`;
+		const payload = { tenures };
+		
+		if(tenureReferenceData.some(item => { return item.fullTenure.fileNumber === tenures})) {
+			axios
+				.post(Uri, payload, { headers: headers }).then(() => {
+					dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'operator'}});
 					handleClose();
 					setErrorMessage('');
+					setLoading(false); 
+				})
+				.catch((error) => {
+					setErrorMessage('Unable to submit a tenure. Please try again later.')
 					setLoading(false);
 				});
-			} catch (error) {
-				setErrorMessage('Unable to submit a tenure.')
-				setLoading(false);
-			}
-			
 		} else {
 			setErrorMessage('Unable to find that file number. Please try again.');
 			setLoading(false);
@@ -84,8 +82,6 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 						})
 					})
 					setTenureReferenceData(data);
-
-					console.log(response.data)
 				}
 			});
 		}
@@ -93,7 +89,7 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 			setErrorMessage('Unable communicate with TTLS. Please try again later.')
 			return;
 		}
-	}
+	};
 
 	useEffect(() => {
 		fetchTenuresFromTTLS();

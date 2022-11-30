@@ -3,6 +3,8 @@ import { useSelector } from '../../../../state/utilities/use_selector'
 
 import { Typography, IconButton, Avatar, Paper, Grid, styled, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Edit } from '@mui/icons-material';
+// import { useList } from '../../../../state/utilities/use_list';
+// import { TenureActions } from '../../../../state/actions';
 
 const PermitList = () => {
 	const [open, setOpen] = useState(false);
@@ -49,6 +51,23 @@ const PermitList = () => {
 			return null;
 		}
 	});
+
+	// @todo create a simple grid to display approved tenures
+	// useList(TenureActions, 'operator');
+	// const fetchTenureData = () => {
+	// 	const renderedRows = [];
+	// 	useSelector(state => {
+	// 		console.log(state.Tenures.items);
+	// 		state.Tenures.items.map((item, index) => {
+	// 			renderedRows.push((
+	// 				<>
+	// 				</>
+	// 			))
+	// 		})
+	// 		return state.Tenures.items;
+	// 	})
+	// }
+	// const renderedTenureRows = fetchTenureData();
 
 	return (
 		<>

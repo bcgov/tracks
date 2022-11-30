@@ -76,14 +76,6 @@ const CreateActivityDialog = ({modes, tenures, permits, open, handleClose}: Acti
 			torpMetadata['tenure'] = formState.tenure;
 		}
 
-		console.log({
-			files,
-			metadata: {
-				modeOfTransport: formState.modeOfTransport,
-				...torpMetadata
-			}
-		});
-
 		dispatch({
 			type: TRAVEL_PATH_UPLOAD_REQUEST, payload: {
 				files,
