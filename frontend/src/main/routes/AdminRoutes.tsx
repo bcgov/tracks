@@ -13,6 +13,8 @@ import { Route, Routes } from "react-router";
 import {TantalisDemo} from "../components/ttls/TantalisDemo";
 import {TenureDetail} from "../components/ttls/TenureDetail";
 import TenureBindingsManagement from "../pages/admin/TenureBindingsManagement";
+import TripReports from "../pages/admin/TripReports";
+
 
 const AdminRoutes = () => (
 	<Routes>
@@ -29,7 +31,7 @@ const AdminRoutes = () => (
 		<Route path="/tantalis" element={<TantalisDemo/>}/>
 		<Route path="/tantalis/:id" element={<TenureDetail/>}/>
 		<Route path="/tenure_binding_requests" element={<TenureBindingsManagement/>}/>
-
+		<Route path="/TripReports" element={<TripReports/>}/>
 	</Routes>
 );
 

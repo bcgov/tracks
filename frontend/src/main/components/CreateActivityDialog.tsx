@@ -62,7 +62,6 @@ const CreateActivityDialog = ({modes, tenures, permits, open, handleClose}: Acti
 		setFormState(currentState);
 	}
 
-
 	const setUploadFiles = useCallback((files) => {
 		setFiles(files);
 	}, []);
@@ -77,7 +76,6 @@ const CreateActivityDialog = ({modes, tenures, permits, open, handleClose}: Acti
 			torpMetadata['tenure'] = formState.tenure;
 		}
 
-
 		dispatch({
 			type: TRAVEL_PATH_UPLOAD_REQUEST, payload: {
 				files,
@@ -86,7 +84,7 @@ const CreateActivityDialog = ({modes, tenures, permits, open, handleClose}: Acti
 					...torpMetadata
 				}
 			}
-		})
+		});
 		handleClose();
 	};
 

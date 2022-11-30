@@ -6,7 +6,6 @@ interface RequestNewTenureBinding {
 	reference: string;
 }
 
-
 const tenures = {
 	list: async (req: TracksRequest, res: Response): Promise<Response> => {
 		const org = req.tracksContext.organization;
