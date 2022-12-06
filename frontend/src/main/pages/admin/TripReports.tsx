@@ -83,6 +83,7 @@ const TripReports: FC = () => {
 
 	const [tripReportData, setTripReportData] = useState([]);
 	const [secondsToRefresh, setSecondsToRefresh] = useState<number>(REFRESH_INTERVAL_IN_SECONDS);
+	const [lastUpdated, setLastUpdated] = useState(moment().format('ll hh:mm A'));
 	const dispatch = useDispatch();
 
 	useList(ActivityActions, 'operator');
@@ -115,9 +116,11 @@ const TripReports: FC = () => {
 		});
 		return renderedRows;
 	}
+
 	const refreshTripReportData = () => {
 		dispatch({type: ActivityActions.LIST_REQUEST, payload: {api: 'operator'}});
-		setTripReportData(fetchTripReportData());	
+		setTripReportData(fetchTripReportData());
+		setLastUpdated(moment().format('ll hh:mm A'));
 	}
 
 	//we refresh the list by sending out a dispatch and re-running the fetchTripReport function
@@ -147,7 +150,7 @@ const TripReports: FC = () => {
 						<span style={{display: 'flex'}}>
 							<IconButton disabled size='small'>
 								<CachedOutlinedIcon fontSize='small'></CachedOutlinedIcon> &nbsp;
-								{secondsToRefresh === 0 ? <Typography>Last updated {moment().format('ll hh:mm A')}</Typography> : <Typography>Refreshing in {secondsToRefresh} seconds.</Typography>}
+								{secondsToRefresh === 0 ? <Typography>Last updated {lastUpdated}</Typography> : <Typography>Refreshing in {secondsToRefresh} seconds.</Typography>}
 							</IconButton>							
 						</span>
 					</Grid>
