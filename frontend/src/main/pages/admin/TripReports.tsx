@@ -2,7 +2,7 @@ import React, { FC, useState, MouseEvent, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 // Our components
-import { ActivityActions, TenureActions } from "../../../state/actions";
+import { ActivityActions } from "../../../state/actions";
 import { useList } from "../../../state/utilities/use_list";
 import { useSelector } from '../../../state/utilities/use_selector';
 import CreateTenureDialog from '../../../main/components/CreateTenureDialog';
@@ -16,10 +16,13 @@ import {
 	Grid, 
 	Menu, 
 	MenuItem, 
-	Button
+	IconButton
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 
 const tripReportcolumns: GridColDef[] = [
 	{
@@ -30,7 +33,7 @@ const tripReportcolumns: GridColDef[] = [
 	{        
 		field: 'submissionDate', 
 		headerName: 'Submission Date', 
-		flex: 3
+		flex: 2.5
 	},
 	{        
 		field: 'status', 
@@ -54,52 +57,11 @@ const tripReportcolumns: GridColDef[] = [
 	},
 ];
 
-const tenureColumns: GridColDef[] = [
-	{
-		field: 'id', 
-		headerName: 'Trip ID',
-		flex: 1
-	},
-	{        
-		field: 'reference', 
-		headerName: 'Reference', 
-		flex: 2
-	},
-	{        
-		field: 'subtenures', 
-		headerName: 'Sub-Tenures', 
-		flex: 2
-	},
-	{        
-		field: 'startdate', 
-		headerName: 'Start Date', 
-		flex: 3
-	},
-	{        
-		field: 'enddate', 
-		headerName: 'End Date', 
-		flex: 3
-	},
-	{        
-		field: 'approve', 
-		headerName: 'Approval', 
-		flex: 2,
-		sortable: false,
-		renderCell: (params) => {
-			const onClick = (e) => {
-				e.stopPropagation();
-				const thisRow = params.row;	
-				return alert(JSON.stringify(thisRow, null, 4));
-			};
-			return <Button onClick={onClick}>Approve</Button>
-		}
-	},
-];
-
 const TripReports: FC = () => {
 	// We are using the operator route since there is no discernable difference in action
 	const navigate = useNavigate();
 	const detailRoute = `/operator/activities/view/:id`;
+	const REFRESH_INTERVAL_IN_SECONDS = 5;
 
 	// Controlled floating menu
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -111,14 +73,20 @@ const TripReports: FC = () => {
 	const [activityDialog, setActivityDialog] = useState<boolean>(false);
 	const handleActivityDialog = () => { 
 		setActivityDialog(!activityDialog); 
+		setSecondsToRefresh(REFRESH_INTERVAL_IN_SECONDS);
 	};
 
 	const [tenureDialog, setTenureDialog] = useState<boolean>(false);
 	const handleTenureDialog = () => { 
-		setTenureDialog(!tenureDialog); 
+		setTenureDialog(!tenureDialog);
 	};
 
+	const [tripReportData, setTripReportData] = useState([]);
+	const [secondsToRefresh, setSecondsToRefresh] = useState<number>(REFRESH_INTERVAL_IN_SECONDS);
+	const dispatch = useDispatch();
+
 	useList(ActivityActions, 'operator');
+	const activities = useSelector(state => {return state.Activities.items});
 	const fetchTripReportData = () => {
 
 		// we won't use these until we can connect them to their respective trip reports
@@ -129,38 +97,59 @@ const TripReports: FC = () => {
 		// const tenureReferences = [];
 
 		// @todo we need a way to connect permits and tenures to their respective trip report (activity)
-		// currently there is not a field to display the actual activity (heli-skiing, etc) in the DB, we only store the mode of transportation, which does not fit on the table contextually.
 		// there is not a field to display permits or tenures since this is not something we have attached to each trip report
-		// GPX files currently upload but have no attachment to any particular trip report
+		// GPX files currently upload but have no attachment to any particular trip report (right now this works the same way as travel reports)
 		// Update: Robert and I have discussed the potential database changes. It looks like we would possibly need a review on our database structure and that it would be a better sell if we create an associative table to join rather then have a column of arrays containing the ID's of what is associated with the trip report
 
-		const activities = useSelector(state => {return state.Activities.items});
-		
-		if(activities.length) {
-			const rowData = activities.map((item) => {
-				return { 
-					id: item.id,
-					submissionDate: item.createdat,
-					status: item.processingstate,
-					tenures: [],
-					permits: [],
-					activities: [],
-				}
-			});
-			return rowData;
-		} else {
-			return [ { id: '', submissionDate: 'No data was found.', status: '' } ];
-		}
+		const renderedRows = [];
+
+		activities.map((item) => {
+			renderedRows.push ({
+				id: item.id,
+				submissionDate: moment(item.createdat).format('ll hh:mm:ss'),
+				status: item.processingstate,
+				tenures: [],
+				permits: [],
+				activities: [],
+			});					
+		});
+		return renderedRows;
+	}
+	const refreshTripReportData = () => {
+		dispatch({type: ActivityActions.LIST_REQUEST, payload: {api: 'operator'}});
+		setTripReportData(fetchTripReportData());	
 	}
 
-	const tripReportRows = fetchTripReportData();
+	//we refresh the list by sending out a dispatch and re-running the fetchTripReport function
+	useEffect(() => {
+		if(!tripReportData.length) {
+			setTripReportData(fetchTripReportData());
+		}
+
+		if(!activityDialog) {
+			const timer = 
+			secondsToRefresh > 0 && setInterval(() => setSecondsToRefresh(secondsToRefresh-1), 1000);
+
+			if(secondsToRefresh === 0) {
+				refreshTripReportData();
+			}
+			return () => clearInterval(timer)
+		}
+		
+	}, [secondsToRefresh, activityDialog])
 
 	return (
 		<>
 			<Box sx={{height: '100%', width: '100%'}}>
 				<Grid container direction='row'>
 					<Grid item>
-						<Typography variant='h5'>Trip Reports</Typography> 
+						<Typography variant='h5'>Trip Reports</Typography>
+						<span style={{display: 'flex'}}>
+							<IconButton disabled size='small'>
+								<CachedOutlinedIcon fontSize='small'></CachedOutlinedIcon> &nbsp;
+								{secondsToRefresh === 0 ? <Typography>Last updated {moment().format('ll hh:mm A')}</Typography> : <Typography>Refreshing in {secondsToRefresh} seconds.</Typography>}
+							</IconButton>							
+						</span>
 					</Grid>
 					<div style={{flex: '1 0 0'}} />
 					<Grid item>
@@ -192,20 +181,18 @@ const TripReports: FC = () => {
 				<br />
 				
 				<DataGrid
-					rows={tripReportRows}
+					rows={tripReportData}
 					columns={tripReportcolumns}
 					pageSize={10}
 					rowsPerPageOptions={[10]}
 					disableSelectionOnClick
 					disableColumnSelector
-					autoHeight
+					style={{height: 600}}
 					onCellClick={(data) => {
 						navigate(detailRoute.replace(':id', data.row.id));
 					}}
 				/>
-					
-				
-				
+								
 			</Box>
 		</>
 	);

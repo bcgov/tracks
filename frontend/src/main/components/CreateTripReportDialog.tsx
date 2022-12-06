@@ -67,6 +67,8 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	const [files, setFiles] = useState([]);
 	const [fileError, setFileError] = useState<string>();
 
+	const [loading, setLoading] = useState<boolean>(false);
+
 	const handleActivitiesChange = (event: SelectChangeEvent) => {
 		setActivities(event.target.value as string);
 		setActivityError('');
@@ -137,6 +139,7 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	}, [files]);
 
 	const doUpload = () => {
+		setLoading(true);
 		const data = {};
 
 		// Shallow Validations before we upload @todo, replace this with an actual validation library
