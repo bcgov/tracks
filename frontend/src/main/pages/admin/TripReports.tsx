@@ -61,7 +61,7 @@ const TripReports: FC = () => {
 	// We are using the operator route since there is no discernable difference in action
 	const navigate = useNavigate();
 	const detailRoute = `/operator/activities/view/:id`;
-	const REFRESH_INTERVAL_IN_SECONDS = 5;
+	const REFRESH_INTERVAL_IN_SECONDS = 10;
 
 	// Controlled floating menu
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
