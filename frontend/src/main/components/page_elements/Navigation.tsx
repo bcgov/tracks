@@ -5,7 +5,7 @@ import {useSelector} from "../../../state/utilities/use_selector";
 import {userHasAnyRole} from "../../../state/utilities/authentication_helper";
 import {nav} from "../../../state/utilities/nav";
 import {useLocation} from "react-router";
-import { styled,Paper ,Grid ,Button, Typography } from '@mui/material/';
+import { styled, Paper , Grid ,Button, Typography } from '@mui/material/';
 
 //nav icons. don't import these modularly, scary stuff happens
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
@@ -15,6 +15,7 @@ import Person4OutlinedIcon from '@mui/icons-material/Person4Outlined';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import FlightOutlinedIcon from '@mui/icons-material/FlightOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
 import ConnectingAirportsOutlinedIcon from '@mui/icons-material/ConnectingAirportsOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
@@ -38,9 +39,11 @@ const Navigation = () => {
 		nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin'], <SummarizeOutlinedIcon />),
 		nav('/admin/reports/list', 'Track Observation Reports', ['admin'], <ArtTrackOutlinedIcon />),
 		nav('/admin/organizations/list', 'Commercial Operators', ['admin'], <Person3OutlinedIcon />),
-		nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
+		// nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
 		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
+		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
+		nav('/operator/tenures', 'My Tenures', ['admin'], <ArticleOutlinedIcon />),
 		// nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
 		// nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
 
@@ -52,7 +55,7 @@ const Navigation = () => {
 
 		nav('/operator/profile', 'Profile', ['commercial_operator'], <AccountCircleOutlinedIcon />),
 		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
-		nav('/operator/tenures', 'My Tenures', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
+		nav('/operator/tenures', 'My Tenures', ['commercial_operator'], <ArticleOutlinedIcon />),
 		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
 
 		// nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
