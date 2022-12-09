@@ -7,6 +7,7 @@ import {
 	DialogContent,
 	DialogTitle,
 	FormControl,
+	FormHelperText,
 	TextField,
 	Typography,
 } from "@mui/material";
@@ -19,9 +20,12 @@ import { useDispatch } from "react-redux";
 class TenureDialogProps {
 	open: boolean;
 	handleClose: () => void;
+	organizationName: string;
+	organizationID: string;
+	admin: boolean;
 }
 
-const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
+const CreateTenureDialog = ({open, handleClose, organizationName, organizationID, admin}: TenureDialogProps) => {
 
 	const [tenureReferenceData, setTenureReferenceData] = useState([]);
 	const [tenures, setTenures] = useState<string>('');
@@ -45,22 +49,24 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 			return;
 		}
 
-		const Uri = `${configuration.API_BASE}/api/v1/operator/tenure_bindings`;
-		const payload = {
-			reference: tenures
-		};
-
-		console.log(payload)
+		const Uri = admin ? `${configuration.API_BASE}/api/v1/admin/tenure_bindings/${organizationID}` : `${configuration.API_BASE}/api/v1/operator/tenure_bindings`;
+		const payload = { reference: tenures };
 		
 		if(tenureReferenceData.some(item => { return item.fullTenure.fileNumber === tenures})) {
 			axios
 				.post(Uri, payload, { headers: headers }).then(() => {
-					dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'operator'}});
+					if(!admin) {
+						console.log('using operator route')
+						dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'operator'}});
+					} else if(admin) {
+						console.log('using admin route')
+						dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'admin'}});
+					}
 					handleClose();
 					setErrorMessage('');
 					setLoading(false); 
 				})
-				.catch((error) => {
+				.catch(() => {
 					setErrorMessage('Unable to submit a tenure. Please try again later.')
 					setLoading(false);
 				});
@@ -102,6 +108,7 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={'md'} fullWidth={true}>
 			<DialogTitle id="form-dialog-title">Add A Tenure</DialogTitle>
+			
 			<DialogContent>
 				<Box style={{margin: 0, padding: 0}} display="flex" flexDirection={'column'}>
 					<FormControl>
@@ -117,9 +124,9 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 							autoFocus
 							disabled={tenureReferenceData.length > 0 ? false : true}
 						/>
+						{admin ? <FormHelperText style={{margin: 0, padding: 0}}>Adding the tenure for: {organizationName} <br /> ID: {organizationID} </FormHelperText> : null}
 					</FormControl>
 				</Box>
-
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={handleClose} color="primary">

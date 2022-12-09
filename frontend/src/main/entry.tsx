@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from './App';
 import {setupStore} from "../state/store";
 import { createRoot } from 'react-dom/client';

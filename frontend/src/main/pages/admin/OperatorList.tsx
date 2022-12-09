@@ -1,43 +1,83 @@
-import React, {useEffect} from 'react';
-import ListComponent from "../../components/ListComponent";
+import React, {useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {OperatorActions} from "../../../state/actions";
 import Loading from "../../components/util/Loading";
-import ButtonBar from "../../components/util/ButtonBar";
-import {Button} from "@mui/material";
+import {Box, Button, Grid, Typography} from "@mui/material";
 import {useSelector} from "../../../state/utilities/use_selector";
-import {useNavigate} from "react-router-dom";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import CreateTenureDialog from '../../components/CreateTenureDialog';
 
 const OperatorList = () => {
-	const detailRoute = `/admin/organizations/view/:id`;
+	// const detailRoute = `/admin/organizations/view/:id`;
 
 	const items = useSelector(state => state.Operators.items);
 	const loading = useSelector(state => state.Operators.loading);
 
-	const dispatch = useDispatch();
+	const [organization, setOrganization] = useState<string>()
+	const [tenureDialog, setTenureDialog] = useState<boolean>(false);
+	const handleTenureDialog = () => { setTenureDialog(!tenureDialog); };
 
+	const dispatch = useDispatch();
 	const load = () => dispatch({type: OperatorActions.LIST_REQUEST, payload: {api: 'admin'}})
 
-	const navigate = useNavigate();
+	const commercialOperatorColumns: GridColDef[] = [
+		{        
+			field: 'name', 
+			headerName: 'Name', 
+			flex: 2
+		},
+		{        
+			field: 'region', 
+			headerName: 'Region', 
+			flex: 1
+		},
+		{        
+			field: 'type', 
+			headerName: 'Type', 
+			flex: 1.5
+		},
+		{        
+			field: 'status', 
+			headerName: 'Status', 
+			flex: 1
+		},
+		{
+			field:'action',
+			headerName: 'Action',
+			flex: 1,
+			sortable: false,
+			renderCell: (params) => {
+				const onClick = (e) => {
+					e.stopPropagation();
+					setOrganization(params.row)
+					handleTenureDialog();
+				}
+				return <Button
+					onClick={onClick}
+					variant={'contained'}
+					color='primary'
+				>Add Tenure</Button>
+			}
+		}
+	];
 
-	const renderer = (it) => (
-		[
-			<td key='name'>{it.name}</td>,
-			<td key='region'>{it.region}</td>,
-			<td key='type'>{it.type}</td>,
-			<td key='activity'><em>Placeholder</em></td>,
-			<td key='active'>{it.active ? 'Active' : 'Inactive'}</td>
-		]
-	);
+	const commercialOperatorRowRenderer = () => {
+		const rows = [];
 
-	//the ListComponent will use this if there are no items
-	const noItemsRenderer = () => (
-		[
-			<td key="noitems">No data available.</td>,
-			<td key="noitems" />
-		]
-	);
-
+		if (items.length) {
+			items.map((item) => {
+				rows.push({
+					id: item.id,
+					name: item.name,
+					region: item.region,
+					type: item.type,
+					status: item.active ? 'active' : 'inactive'
+				})
+			});
+			return rows;
+		}
+		return [];
+	}
 
 	useEffect(() => {
 		load();
@@ -49,25 +89,28 @@ const OperatorList = () => {
 
 	return (
 		<>
-			<h2>Commercial Operators</h2>
-			
-			<ButtonBar>
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={() => navigate('/admin/organizations/add')}
-				>
-						Create New
-				</Button>
-			</ButtonBar>
-			
-			<ListComponent 
-				items={items.length > 0 ? items : [1]}
-				detailRoute={items.length > 0 ? detailRoute : "#"}
-				headers={['Name', 'Region', 'Type', 'Last Activity Date', 'Status']}
-				rowRenderer={items ? renderer : noItemsRenderer}/>
-			
-					
+			<Box sx={{height: '100%', width: '100%'}}>
+				<Grid container direction='row'>
+					<Grid item>
+						<Typography variant='h5'>Commercial Operators</Typography>
+					</Grid>
+				</Grid>
+
+				<br />
+
+				<DataGrid
+					rows={commercialOperatorRowRenderer()}
+					columns={commercialOperatorColumns}
+					pageSize={10}
+					rowsPerPageOptions={[10]}
+					disableSelectionOnClick
+					disableColumnSelector
+					style={{height: 600}}
+				/>
+				{organization ? (
+					<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} organizationName={organization.name} organizationID={organization.id} admin={true}/>
+				) : null}
+			</Box>		
 		</>
 	);
 };

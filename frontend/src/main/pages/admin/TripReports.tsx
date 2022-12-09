@@ -7,6 +7,7 @@ import { useList } from "../../../state/utilities/use_list";
 import { useSelector } from '../../../state/utilities/use_selector';
 import CreateTenureDialog from '../../../main/components/CreateTenureDialog';
 import CreateTripReportDialog from '../../../main/components/CreateTripReportDialog';
+import { usePrevious } from "../../../state/utilities/use_previous";
 
 // Library Components
 import {
@@ -61,7 +62,8 @@ const TripReports: FC = () => {
 	// We are using the operator route since there is no discernable difference in action
 	const navigate = useNavigate();
 	const detailRoute = `/operator/activities/view/:id`;
-	const REFRESH_INTERVAL_IN_SECONDS = 10;
+	const dispatch = useDispatch();
+
 
 	// Controlled floating menu
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -71,75 +73,51 @@ const TripReports: FC = () => {
 
 	// Controlled dialog box
 	const [activityDialog, setActivityDialog] = useState<boolean>(false);
-	const handleActivityDialog = () => { 
-		setActivityDialog(!activityDialog); 
-		setSecondsToRefresh(REFRESH_INTERVAL_IN_SECONDS);
-	};
+	const handleActivityDialog = () => { setActivityDialog(!activityDialog); };
 
 	const [tenureDialog, setTenureDialog] = useState<boolean>(false);
-	const handleTenureDialog = () => { 
-		setTenureDialog(!tenureDialog);
-	};
-
-	const [tripReportData, setTripReportData] = useState([]);
-	const [secondsToRefresh, setSecondsToRefresh] = useState<number>(REFRESH_INTERVAL_IN_SECONDS);
-	const [lastUpdated, setLastUpdated] = useState(moment().format('ll hh:mm A'));
-	const dispatch = useDispatch();
+	const handleTenureDialog = () => { setTenureDialog(!tenureDialog); };
 
 	useList(ActivityActions, 'operator');
-	const activities = useSelector(state => {return state.Activities.items});
+	const activities = useSelector(state => { return state.Activities.items });
 	const fetchTripReportData = () => {
-
-		// we won't use these until we can connect them to their respective trip reports
-		// const permits = useSelector(state => {return state.Permits.items});
-		// const tenures = useSelector(state => {return state.Tenures.items});
-
-		// const permitReferences = [];
-		// const tenureReferences = [];
-
 		// @todo we need a way to connect permits and tenures to their respective trip report (activity)
 		// there is not a field to display permits or tenures since this is not something we have attached to each trip report
 		// GPX files currently upload but have no attachment to any particular trip report (right now this works the same way as travel reports)
 		// Update: Robert and I have discussed the potential database changes. It looks like we would possibly need a review on our database structure and that it would be a better sell if we create an associative table to join rather then have a column of arrays containing the ID's of what is associated with the trip report
-
 		const renderedRows = [];
-
-		activities.map((item) => {
-			renderedRows.push ({
-				id: item.id,
-				submissionDate: moment(item.createdat).format('ll hh:mm:ss'),
-				status: item.processingstate,
-				tenures: [],
-				permits: [],
-				activities: [],
-			});					
-		});
+		console.log(activities)
+		if(activities.length > 0) {
+			activities.map((item) => {
+				renderedRows.push ({
+					id: item.id,
+					submissionDate: moment(item.createdat).format('ll hh:mm:ss'),
+					status: item.processingstate,
+					tenures: [],
+					permits: [],
+					activities: [],
+				});					
+			});
+		}
 		return renderedRows;
 	}
 
-	const refreshTripReportData = () => {
-		dispatch({type: ActivityActions.LIST_REQUEST, payload: {api: 'operator'}});
-		setTripReportData(fetchTripReportData());
-		setLastUpdated(moment().format('ll hh:mm A'));
-	}
+	const [tripReportData, setTripReportData] = useState(fetchTripReportData());
+	const [lastUpdated, setLastUpdated] = useState<string>(moment().format('ll hh:mm A'));
 
-	//we refresh the list by sending out a dispatch and re-running the fetchTripReport function
+	// We need these to check if a user has uploaded a file or not, this allows us to refresh the data when it comes in.
+	const uploadSuccess = useSelector(state => state.TravelPathUpload.success);
+	const uploading = useSelector(state => state.TravelPathUpload.uploading);
+	const previousUploading = usePrevious(uploading);
+
+	// We refresh the list by sending out a dispatch and re-running the fetchTripReport function
 	useEffect(() => {
-		if(!tripReportData.length) {
+		if (previousUploading && !uploading && uploadSuccess) {
+			dispatch({type: ActivityActions.LIST_REQUEST, payload: {api: 'operator'}});
 			setTripReportData(fetchTripReportData());
+			setLastUpdated(moment().format('ll hh:mm A'));
 		}
-
-		if(!activityDialog) {
-			const timer = 
-			secondsToRefresh > 0 && setInterval(() => setSecondsToRefresh(secondsToRefresh-1), 1000);
-
-			if(secondsToRefresh === 0) {
-				refreshTripReportData();
-			}
-			return () => clearInterval(timer)
-		}
-		
-	}, [secondsToRefresh, activityDialog])
+	}, [uploading])
 
 	return (
 		<>
@@ -150,7 +128,7 @@ const TripReports: FC = () => {
 						<span style={{display: 'flex'}}>
 							<IconButton disabled size='small'>
 								<CachedOutlinedIcon fontSize='small'></CachedOutlinedIcon> &nbsp;
-								{secondsToRefresh === 0 ? <Typography>Last updated {lastUpdated}</Typography> : <Typography>Refreshing in {secondsToRefresh} seconds.</Typography>}
+								<Typography>Last updated {lastUpdated}</Typography>
 							</IconButton>							
 						</span>
 					</Grid>
@@ -175,7 +153,7 @@ const TripReports: FC = () => {
 								<MenuItem onClick={handleActivityDialog} disableRipple>Add Trip Report(s)</MenuItem>
 								<CreateTripReportDialog handleClose={handleActivityDialog} open={activityDialog} />
 								<MenuItem onClick={handleTenureDialog} disableRipple>Add Tenure(s)</MenuItem>
-								<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} />
+								<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} admin={false} />
 							</Box>
 						</Menu>
 					</Grid>
@@ -184,7 +162,7 @@ const TripReports: FC = () => {
 				<br />
 				
 				<DataGrid
-					rows={tripReportData}
+					rows={tripReportData.length ? tripReportData : fetchTripReportData()}
 					columns={tripReportcolumns}
 					pageSize={10}
 					rowsPerPageOptions={[10]}
