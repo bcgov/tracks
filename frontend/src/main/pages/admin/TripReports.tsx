@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ActivityActions } from "../../../state/actions";
 import { useList } from "../../../state/utilities/use_list";
 import { useSelector } from '../../../state/utilities/use_selector';
-import CreateTenureDialog from '../../../main/components/CreateTenureDialog';
+import {CreateAdminTenureDialog, CreateTenureDialog} from '../../../main/components/CreateTenureDialog';
 import CreateTripReportDialog from '../../../main/components/CreateTripReportDialog';
 import { usePrevious } from "../../../state/utilities/use_previous";
 
@@ -63,7 +63,6 @@ const TripReports: FC = () => {
 	const navigate = useNavigate();
 	const detailRoute = `/operator/activities/view/:id`;
 	const dispatch = useDispatch();
-
 
 	// Controlled floating menu
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -150,10 +149,12 @@ const TripReports: FC = () => {
 							onClose={handleCloseMenu}
 						>
 							<Box sx={{ width: 250 }}>
-								<MenuItem onClick={handleActivityDialog} disableRipple>Add Trip Report(s)</MenuItem>
-								<CreateTripReportDialog handleClose={handleActivityDialog} open={activityDialog} />
-								<MenuItem onClick={handleTenureDialog} disableRipple>Add Tenure(s)</MenuItem>
-								<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} admin={false} />
+								<>
+									<MenuItem onClick={handleActivityDialog} disableRipple>Add Trip Report(s)</MenuItem>
+									<CreateTripReportDialog handleClose={handleActivityDialog} open={activityDialog} />
+									<MenuItem onClick={handleTenureDialog} disableRipple>Add Tenure(s)</MenuItem>
+									<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} />
+								</>
 							</Box>
 						</Menu>
 					</Grid>

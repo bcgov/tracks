@@ -5,7 +5,7 @@ import Loading from "../../components/util/Loading";
 import {Box, Button, Grid, Typography} from "@mui/material";
 import {useSelector} from "../../../state/utilities/use_selector";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import CreateTenureDialog from '../../components/CreateTenureDialog';
+import { CreateAdminTenureDialog } from '../../../main/components/CreateTenureDialog';
 
 const OperatorList = () => {
 	// const detailRoute = `/admin/organizations/view/:id`;
@@ -108,7 +108,7 @@ const OperatorList = () => {
 					style={{height: 600}}
 				/>
 				{organization ? (
-					<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} organizationName={organization.name} organizationID={organization.id} admin={true}/>
+					<CreateAdminTenureDialog handleClose={handleTenureDialog} open={tenureDialog} organizationName={organization.name} organizationID={organization.id} />
 				) : null}
 			</Box>		
 		</>
