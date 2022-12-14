@@ -72,7 +72,6 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 		if(tenureReferenceData.some(item => { return item.fullTenure.fileNumber === tenures})) {
 			axios
 				.post(Uri, payload, { headers: headers }).then(() => {
-					console.log('using operator route')
 					dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'operator'}});
 					
 					handleClose();
@@ -181,7 +180,6 @@ const CreateAdminTenureDialog = ({open, handleClose, organizationName, organizat
 		if(tenureReferenceData.some(item => { return item.fullTenure.fileNumber === tenures})) {
 			axios
 				.post(Uri, payload, { headers: headers }).then(() => {
-					console.log('using admin route')
 					dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'admin'}});
 					handleClose();
 					setErrorMessage('');

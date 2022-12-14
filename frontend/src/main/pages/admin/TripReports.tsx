@@ -85,7 +85,6 @@ const TripReports: FC = () => {
 		// GPX files currently upload but have no attachment to any particular trip report (right now this works the same way as travel reports)
 		// Update: Robert and I have discussed the potential database changes. It looks like we would possibly need a review on our database structure and that it would be a better sell if we create an associative table to join rather then have a column of arrays containing the ID's of what is associated with the trip report
 		const renderedRows = [];
-		console.log(activities)
 		if(activities.length > 0) {
 			activities.map((item) => {
 				renderedRows.push ({
