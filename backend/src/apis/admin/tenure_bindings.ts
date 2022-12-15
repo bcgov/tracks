@@ -2,6 +2,11 @@ import {Response} from 'express';
 import {TracksRequest} from "../../tracks";
 import ttls from "../../services/tantalis_service";
 
+interface RequestNewTenureBinding {
+	reference: string;
+	org: string;
+}
+
 const tenureBindings = {
 
 	bindingRequests: async (req: TracksRequest, res: Response): Promise<Response> => {
@@ -73,7 +78,23 @@ const tenureBindings = {
 
 		return res.status(201).send();
 
-	}
+	},
+
+	request_binding: async (req: TracksRequest, res: Response): Promise<Response> => {
+		const requested_org = req.params.id;
+		const newBindingRequest: RequestNewTenureBinding = req.body;
+
+
+		const queryResult = await req.database.query({
+			text: `insert into tenure_binding_request(state, reference, organization_id)
+             values ($1, $2, $3)
+             returning id
+			`,
+			values: ['SUBMITTED', newBindingRequest.reference, requested_org]
+		});
+
+		return res.status(201).send(queryResult.rows[0]['id']);
+	},
 }
 
 export {tenureBindings};

@@ -11,9 +11,9 @@ import { styled, Paper , Grid ,Button, Typography } from '@mui/material/';
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import ArtTrackOutlinedIcon from '@mui/icons-material/ArtTrackOutlined';
 import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
-import Person4OutlinedIcon from '@mui/icons-material/Person4Outlined';
+//import Person4OutlinedIcon from '@mui/icons-material/Person4Outlined';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
-import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
+// import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import FlightOutlinedIcon from '@mui/icons-material/FlightOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
@@ -41,7 +41,7 @@ const Navigation = () => {
 		nav('/admin/organizations/list', 'Commercial Operators', ['admin'], <Person3OutlinedIcon />),
 		// nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
-		nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
+		//nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
 		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
 		nav('/operator/tenures', 'My Tenures', ['admin'], <ArticleOutlinedIcon />),
 		// nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),

@@ -138,6 +138,11 @@ const app = express()
 		requireOrganizationMapping: true
 	}), tenureBindings.action)
 
+	.post(`${prefix}/admin/tenure_bindings/:id`, jwks.protect({
+		requireRole: 'admin',
+		requireOrganizationMapping: true
+	}), tenureBindings.request_binding)
+
 	.get(`${prefix}/officer/reports`, jwks.protect({
 		requireRole: 'conservation_officer',
 		requireOrganizationMapping: true
