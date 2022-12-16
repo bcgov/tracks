@@ -69,7 +69,6 @@ const DataSubmissions : FC = () => {
 		try {
 			axios.get(`${configuration.API_BASE}/api/v1/admin/activities`, {headers})
 				.then((response) => {
-					console.log(response.data);
 					if(response.data) {						
 						response.data.map((item, index) => {
 							data.push({
