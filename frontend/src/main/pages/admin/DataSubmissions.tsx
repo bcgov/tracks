@@ -83,18 +83,20 @@ const DataSubmissions : FC = () => {
 							})
 						})
 					}
+				})
+				.then(() => {
+					return data;
+				})
+				.catch((err) => {
+					console.log(err)
 				});
 		} catch (error) {
-			return;
+			return data;
 		}
-		setDataSubmissions(data);
 	}
 
 	useEffect(() => {
-		if(!dataSubmissions.length) {
-			fetchDataSubmissions();
-		}
-		console.log(dataSubmissions);
+		setDataSubmissions(fetchDataSubmissions());
 	}, []);
     
 	return (
