@@ -91,7 +91,10 @@ const DataSubmissions : FC = () => {
 	}
 
 	useEffect(() => {
-		fetchDataSubmissions();
+		if(!dataSubmissions.length) {
+			fetchDataSubmissions();
+		}
+		console.log(dataSubmissions);
 	}, []);
     
 	return (
