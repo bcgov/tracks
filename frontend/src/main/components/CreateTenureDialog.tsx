@@ -211,6 +211,8 @@ const CreateAdminTenureDialog = ({open, handleClose, organizationName, organizat
 					organizations: tenureReferenceData[i].fullTenure.organizations
 				}
 				setTenureInfo(tenure);
+			} else {
+				setErrorMessage('Unable to find that file number. Please try again.');
 			}
 		}	
 	}
@@ -241,6 +243,10 @@ const CreateAdminTenureDialog = ({open, handleClose, organizationName, organizat
 
 	useEffect(() => {
 		fetchTenuresFromTTLS();
+		setTenures('');
+		setTenureInfo(null);
+		setLoading(false);
+		setErrorMessage('');
 	}, []);
 
 	return (

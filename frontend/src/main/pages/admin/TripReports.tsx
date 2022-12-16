@@ -115,7 +115,7 @@ const TripReports: FC = () => {
 			setTripReportData(fetchTripReportData());
 			setLastUpdated(moment().format('ll hh:mm A'));
 		}
-	}, [uploading])
+	}, [uploading]);
 
 	return (
 		<>
@@ -171,6 +171,11 @@ const TripReports: FC = () => {
 					style={{height: 600}}
 					onCellClick={(data) => {
 						navigate(detailRoute.replace(':id', data.row.id));
+					}}
+					sx={{
+						'& .MuiDataGrid-row:hover': {
+							cursor: 'pointer',
+						}
 					}}
 				/>
 								
