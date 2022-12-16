@@ -69,18 +69,17 @@ const DataSubmissions : FC = () => {
 		try {
 			axios.get(`${configuration.API_BASE}/api/v1/admin/activities`, {headers})
 				.then((response) => {
-					console.log(response.data);
 					if(response.data) {						
 						response.data.map((item, index) => {
 							data.push({
 								id: item.id,
 								organization: 'none' || 'none',
-								dateSubmitted: moment(item.created_at).format('ll hh:mm:ss'),
+								dateSubmitted: moment(item.createdat).format('ll hh:mm:ss'),
 								tenures: item.tenures || 'none',
-								status: item.processing_state,
+								status: item.processingstate,
 								activity: item.activity || 'none',
-								transportationMode: item.mode_of_transport,
-								tripDuration: moment(item.start_time).diff(moment(item.end_time), 'hours'),
+								transportationMode: item.mode,
+								tripDuration: moment(item.starttime).diff(moment(item.endtime), 'hours'),
 							})
 						})
 					}
