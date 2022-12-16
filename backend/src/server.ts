@@ -14,6 +14,7 @@ import {regions} from "./apis/admin/regions";
 import {officers} from './apis/admin/officers';
 import {reports} from './apis/admin/reports';
 import {dataExports} from './apis/admin/exports';
+import {activities} from './apis/admin/actvities';
 
 import {activities as officerActivities} from "./apis/officer/activities";
 import {reports as officerReports} from './apis/officer/reports';
@@ -92,7 +93,6 @@ const app = express()
 		requireOrganizationMapping: true
 	}), officers.view)
 
-
 	.post(`${prefix}/exports`, jwks.protect({
 		requireRole: 'admin',
 		requireOrganizationMapping: true
@@ -142,6 +142,11 @@ const app = express()
 		requireRole: 'admin',
 		requireOrganizationMapping: true
 	}), tenureBindings.request_binding)
+
+	.get(`${prefix}/admin/activities`, jwks.protect({
+		requireRole: 'admin',
+		requireOrganizationMapping: true
+	}), activities.list)
 
 	.get(`${prefix}/officer/reports`, jwks.protect({
 		requireRole: 'conservation_officer',

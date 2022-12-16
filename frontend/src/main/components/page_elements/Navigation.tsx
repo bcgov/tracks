@@ -16,6 +16,7 @@ import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined
 // import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import FlightOutlinedIcon from '@mui/icons-material/FlightOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
 
 import ConnectingAirportsOutlinedIcon from '@mui/icons-material/ConnectingAirportsOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
@@ -39,11 +40,12 @@ const Navigation = () => {
 		nav('/admin/reporting_periods/list', 'Reporting Periods', ['admin'], <SummarizeOutlinedIcon />),
 		nav('/admin/reports/list', 'Track Observation Reports', ['admin'], <ArtTrackOutlinedIcon />),
 		nav('/admin/organizations/list', 'Commercial Operators', ['admin'], <Person3OutlinedIcon />),
-		// nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
-		//nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
 		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
 		nav('/operator/tenures', 'My Tenures', ['admin'], <ArticleOutlinedIcon />),
+		nav('/admin/DataSubmissions', 'Data Submissions', ['admin'], <BallotOutlinedIcon />),
+		// nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
+		//nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
 		// nav('/admin/tantalis', 'Tantalis Integration Demo', ['admin']),
 		// nav('/admin/tenure_binding_requests', 'Tenure Binding Requests', ['admin']),
 
@@ -57,12 +59,10 @@ const Navigation = () => {
 		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
 		nav('/operator/tenures', 'My Tenures', ['commercial_operator'], <ArticleOutlinedIcon />),
 		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
-
 		// nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
 
 		nav('/officer/activities/list', 'Activities', ['conservation_officer'], <LocalActivityOutlinedIcon />),
 		nav('/officer/reports/list', 'Track Observation Reports', ['conservation_officer'], <RemoveRedEyeOutlinedIcon />),
-
 	];
 	
 	const Item = styled(Paper)(({ theme }) => ({
