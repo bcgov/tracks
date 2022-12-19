@@ -54,7 +54,13 @@ class DataSubmission {
 	status: string;
 	activity: string;
 	transportationMode: string;
-	tripDuration: number;
+	tripDuration: string;
+}
+
+class Organization {
+	id: string;
+	name: string;
+	active: string;
 }
 
 const DataSubmissions : FC = () => {
@@ -62,30 +68,60 @@ const DataSubmissions : FC = () => {
 	const configuration = useSelector(getConfiguration);
 
 	const [dataSubmissions, setDataSubmissions] = useState<DataSubmission[]>([]);
+	const [organizationList, setOrganizationList] = useState<Organization[]>([]);
 
-	// @todo grab data from new route
-	const fetchDataSubmissions = () => {
-		const data: Array<DataSubmission> = [];
+	// This assumes the orgID is unique. This might break if this assumption is untrue.
+	const compareToOrg = (itemId, orgList) => {
+		for(let i = 0; i < orgList.length; i++) {
+			if(itemId === orgList[i].id) {
+				return orgList[i].name;
+			}
+		}
+	}
+
+	const fetchOrganizationList = async () => {
+		const data: Array<Organization> = [];
 		try {
-			axios.get(`${configuration.API_BASE}/api/v1/admin/activities`, {headers})
+			await axios.get(`${configuration.API_BASE}/api/v1/admin/organizations`, {headers})
 				.then((response) => {
-					if(response.data) {						
-						response.data.map((item, index) => {
+					if (response.data) {
+						response.data.map((item) => {
 							data.push({
 								id: item.id,
-								organization: 'none' || 'none',
+								name: item.name,
+								active: item.active
+							})
+						})
+						setOrganizationList(data);
+					}
+				})
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	const fetchDataSubmissions = async () => {
+		const data: DataSubmission[] = [];
+		try {
+			fetchOrganizationList();
+			await axios.get(`${configuration.API_BASE}/api/v1/admin/activities`, {headers})
+				.then((response) => {
+					if(response.data) {						
+						response.data.map((item) => {
+							data.push({
+								id: item.id,
+								organization: compareToOrg(item.organizationId, organizationList),
 								dateSubmitted: moment(item.createdat).format('ll hh:mm:ss'),
 								tenures: item.tenures || 'none',
 								status: item.processingstate,
 								activity: item.activity || 'none',
 								transportationMode: item.mode,
-								tripDuration: moment(item.starttime).diff(moment(item.endtime), 'hours'),
+								tripDuration: moment(item.endtime).diff(moment(item.starttime), 'hours') + ' Hours',
 							})
-						})
+						});
+						setDataSubmissions(data);
+						return data;
 					}
-				})
-				.then(() => {
-					return data;
 				})
 				.catch((err) => {
 					console.log(err)
@@ -96,7 +132,7 @@ const DataSubmissions : FC = () => {
 	}
 
 	useEffect(() => {
-		setDataSubmissions(fetchDataSubmissions());
+		fetchDataSubmissions();
 	}, []);
     
 	return (

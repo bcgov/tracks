@@ -12,6 +12,7 @@ const activities = {
                     tp.start_time          as startTime,
                     tp.end_time            as endTime,
                     tp.processing_state    as processingState
+                    tp.organization_id     as organizationId
              from activity as tp
              order by createdAt desc`,
     });
