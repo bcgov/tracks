@@ -42,7 +42,7 @@ const Navigation = () => {
 		nav('/admin/organizations/list', 'Commercial Operators', ['admin'], <Person3OutlinedIcon />),
 		nav('/admin/onboarding/list', 'User Onboarding Requests', ['admin'], <PersonAddAlt1OutlinedIcon />),
 		nav('/admin/TripReports', 'Trip Reports', ['admin'], <FlightOutlinedIcon />),
-		nav('/operator/tenures', 'My Tenures', ['admin'], <ArticleOutlinedIcon />),
+		//nav('/operator/tenures', 'My Tenures', ['admin'], <ArticleOutlinedIcon />),
 		nav('/admin/DataSubmissions', 'Data Submissions', ['admin'], <BallotOutlinedIcon />),
 		// nav('/admin/officers/list', 'Conservation Officers', ['admin'],  <Person4OutlinedIcon />),
 		//nav('/admin/pinpicker', 'Pin Picker Demo', ['admin'], <PinDropOutlinedIcon />),
@@ -57,7 +57,7 @@ const Navigation = () => {
 
 		nav('/operator/profile', 'Profile', ['commercial_operator'], <AccountCircleOutlinedIcon />),
 		nav('/operator/activities/list', 'Travel Path Reports', ['commercial_operator'], <FlightTakeoffOutlinedIcon />),
-		nav('/operator/tenures', 'My Tenures', ['commercial_operator'], <ArticleOutlinedIcon />),
+		//nav('/operator/tenures', 'My Tenures', ['commercial_operator'], <ArticleOutlinedIcon />),
 		nav('/operator/TripReports', 'Trip Reports', ['commercial_operator'], <FlightOutlinedIcon />),
 		// nav('/operator/reports/list', 'Travel Path Reports', ['commercial_operator']),
 

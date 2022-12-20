@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from '../../../../state/utilities/use_selector'
 
 import { Typography, IconButton, Avatar, Paper, Grid, styled, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Edit } from '@mui/icons-material';
-// import { useList } from '../../../../state/utilities/use_list';
-// import { TenureActions } from '../../../../state/actions';
+import { useList } from '../../../../state/utilities/use_list';
+import { TenureActions } from '../../../../state/actions';
+import moment from 'moment';
 
 const PermitList = () => {
 	const [open, setOpen] = useState(false);
@@ -52,23 +53,28 @@ const PermitList = () => {
 		}
 	});
 
-	// @todo create a simple grid to display approved tenures
-	// useList(TenureActions, 'operator');
-	// const fetchTenureData = () => {
-	// 	const renderedRows = [];
-	// 	useSelector(state => {
-	// 		console.log(state.Tenures.items);
-	// 		state.Tenures.items.map((item, index) => {
-	// 			renderedRows.push((
-	// 				<>
-	// 				</>
-	// 			))
-	// 		})
-	// 		return state.Tenures.items;
-	// 	})
-	// }
-	// const renderedTenureRows = fetchTenureData();
+	useList(TenureActions, 'operator');
 
+	const renderedReference = [];
+	const renderedCreation = [];
+
+	useSelector(state => {
+		state.Tenures.items.map((item) => {
+			renderedReference.push(
+				<Grid item>
+					<Typography variant='body2'>{item.reference}</Typography>
+				</Grid>
+			);
+		});
+		state.Tenures.items.map((item) => {
+			renderedCreation.push(
+				<Grid item>
+					<Typography variant='body2'>{moment(item.startdate).format('ll hh:mm:ss')}</Typography>
+				</Grid>
+			)
+		})
+	});
+	
 	return (
 		<>
 			<Typography variant='h5' gutterBottom={true}>Profile</Typography> <br />
@@ -161,11 +167,28 @@ const PermitList = () => {
 								<Typography gutterBottom align='left' variant='subtitle2'>No data was found.</Typography> <br />
 							</Grid> */}
 							<Grid item xs={4}>
-								<Typography align='left'>Land Act Tenures</Typography>
-								<Typography gutterBottom align='left' variant='subtitle2'>Coming soon.</Typography> <br />
+								<Typography align='left' fontWeight='bold'>Land Act Tenures</Typography>
+								<Grid container direction='row' spacing={12}>
+									<Grid item>
+										<Typography variant='body2'>Reference</Typography>
+									</Grid>
+									<Grid item>
+										<Typography variant='body2'>Creation Date</Typography>
+									</Grid>
+								</Grid>
+								<Grid container direction='row' sx={{height: 150, overflow: 'scroll'}}>
+									<Grid container direction='row' spacing={6.7}>
+										<Grid item>
+											{renderedReference}
+										</Grid>
+										<Grid item>
+											{renderedCreation}
+										</Grid>
+									</Grid>
+								</Grid> <br />
 							</Grid>
 							<Grid item xs={4}>
-								<Typography align='left'>BC Park Use Permits</Typography>
+								<Typography align='left' fontWeight='bold'>BC Park Use Permits</Typography>
 								<Typography gutterBottom align='left' variant='subtitle2'>Coming soon.</Typography> <br />
 							</Grid>
 						</Grid>
