@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ActivityActions } from "../../../state/actions";
 import { useList } from "../../../state/utilities/use_list";
 import { useSelector } from '../../../state/utilities/use_selector';
-import {CreateAdminTenureDialog, CreateTenureDialog} from '../../../main/components/CreateTenureDialog';
+import { CreateTenureDialog } from '../../../main/components/CreateTenureDialog';
 import CreateTripReportDialog from '../../../main/components/CreateTripReportDialog';
 import { usePrevious } from "../../../state/utilities/use_previous";
 
