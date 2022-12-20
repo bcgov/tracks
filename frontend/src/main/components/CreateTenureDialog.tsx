@@ -76,10 +76,12 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 					
 					handleClose();
 					setErrorMessage('');
+					setTenures('');
 					setLoading(false); 
 				})
 				.catch(() => {
-					setErrorMessage('Unable to submit a tenure. Please try again later.')
+					setErrorMessage('Unable to submit a tenure. Please try again later.');
+					setTenures('');
 					setLoading(false);
 				});
 		} else {
@@ -97,13 +99,16 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 			).then(response => {
 				if(response) {
 					response.data.map((item) => {
-						data.push({
-							label: item.fileNumber,
-							value: item.id,
-							fullTenure: item
-						})
+						if(!data.includes(item)) {
+							data.push({
+								label: item.fileNumber,
+								value: item.id,
+								fullTenure: item
+							})
+						}
 					})
 					setTenureReferenceData(data);
+					
 				}
 			});
 		}
@@ -140,7 +145,10 @@ const CreateTenureDialog = ({open, handleClose}: TenureDialogProps) => {
 				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
+				<Button onClick={() => {
+					handleClose();
+					setTenures('');
+				}} color="primary">
 					Cancel
 				</Button>
 				<Button onClick={doSubmit} color="primary" disabled={loading ? true : false}>
@@ -182,11 +190,13 @@ const CreateAdminTenureDialog = ({open, handleClose, organizationName, organizat
 				.post(Uri, payload, { headers: headers }).then(() => {
 					dispatch({type: 'TENURE_BINDING_REQUEST_LIST_REQUEST', payload: {api: 'admin'}});
 					handleClose();
+					setTenures('');
 					setErrorMessage('');
 					setLoading(false); 
 				})
 				.catch(() => {
-					setErrorMessage('Unable to submit a tenure. Please try again later.')
+					setErrorMessage('Unable to submit a tenure. Please try again later.');
+					setTenures('');
 					setLoading(false);
 				});
 		} else {
@@ -225,11 +235,13 @@ const CreateAdminTenureDialog = ({open, handleClose, organizationName, organizat
 			).then(response => {
 				if(response) {
 					response.data.map((item) => {
-						data.push({
-							label: item.fileNumber,
-							value: item.id,
-							fullTenure: item
-						})
+						if(!data.includes(item)) {
+							data.push({
+								label: item.fileNumber,
+								value: item.id,
+								fullTenure: item
+							});
+						}
 					})
 					setTenureReferenceData(data);
 				}
@@ -311,7 +323,10 @@ const CreateAdminTenureDialog = ({open, handleClose, organizationName, organizat
 				}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
+				<Button onClick={() => {
+					handleClose();
+					setTenures('');
+				}} color="primary">
 					Cancel
 				</Button>
 				<Button onClick={doSubmit} color="primary" disabled={loading ? true : false}>
