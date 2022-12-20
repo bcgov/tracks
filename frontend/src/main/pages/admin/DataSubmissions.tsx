@@ -68,7 +68,6 @@ const DataSubmissions : FC = () => {
 	const configuration = useSelector(getConfiguration);
 
 	const [dataSubmissions, setDataSubmissions] = useState<DataSubmission[]>([]);
-	const [organizationList, setOrganizationList] = useState<Organization[]>([]);
 
 	// This assumes the orgID is unique. This might break if this assumption is untrue.
 	const compareToOrg = (itemId, orgList) => {
@@ -79,10 +78,10 @@ const DataSubmissions : FC = () => {
 		}
 	}
 
-	const fetchOrganizationList = async () => {
+	const fetchOrganizationList = () => {
 		const data: Array<Organization> = [];
 		try {
-			await axios.get(`${configuration.API_BASE}/api/v1/admin/organizations`, {headers})
+			axios.get(`${configuration.API_BASE}/api/v1/admin/organizations`, {headers})
 				.then((response) => {
 					if (response.data) {
 						response.data.map((item) => {
@@ -92,25 +91,26 @@ const DataSubmissions : FC = () => {
 								active: item.active
 							})
 						})
-						setOrganizationList(data);
+						return data;
 					}
+				}).then((data) => {
+					fetchDataSubmissions(data);
 				})
 		} catch (err) {
 			console.log(err);
 		}
 	}
 
-	const fetchDataSubmissions = async () => {
+	const fetchDataSubmissions = async (orgRefs) => {
 		const data: DataSubmission[] = [];
 		try {
-			fetchOrganizationList();
 			await axios.get(`${configuration.API_BASE}/api/v1/admin/activities`, {headers})
 				.then((response) => {
-					if(response.data) {						
+					if(response.data && orgRefs.length) {
 						response.data.map((item) => {
 							data.push({
 								id: item.id,
-								organization: compareToOrg(item.organizationId, organizationList),
+								organization: compareToOrg(item.organizationid, orgRefs),
 								dateSubmitted: moment(item.createdat).format('ll hh:mm:ss'),
 								tenures: item.tenures || 'none',
 								status: item.processingstate,
@@ -120,7 +120,6 @@ const DataSubmissions : FC = () => {
 							})
 						});
 						setDataSubmissions(data);
-						return data;
 					}
 				})
 				.catch((err) => {
@@ -132,7 +131,7 @@ const DataSubmissions : FC = () => {
 	}
 
 	useEffect(() => {
-		fetchDataSubmissions();
+		fetchOrganizationList()
 	}, []);
     
 	return (
