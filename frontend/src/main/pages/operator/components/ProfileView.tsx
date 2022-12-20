@@ -168,24 +168,28 @@ const PermitList = () => {
 							</Grid> */}
 							<Grid item xs={4}>
 								<Typography align='left' fontWeight='bold'>Land Act Tenures</Typography>
-								<Grid container direction='row' spacing={12}>
-									<Grid item>
-										<Typography variant='body2'>Reference</Typography>
-									</Grid>
-									<Grid item>
-										<Typography variant='body2'>Creation Date</Typography>
-									</Grid>
-								</Grid>
-								<Grid container direction='row' sx={{height: 150, overflow: 'scroll'}}>
-									<Grid container direction='row' spacing={6.7}>
-										<Grid item>
-											{renderedReference}
-										</Grid>
-										<Grid item>
-											{renderedCreation}
-										</Grid>
-									</Grid>
-								</Grid> <br />
+								{renderedReference.length ? 
+									(
+										<>
+											<Grid container direction='row' spacing={12}>
+												<Grid item>
+													<Typography variant='body2'>Reference</Typography>
+												</Grid>
+												<Grid item>
+													<Typography variant='body2'>Creation Date</Typography>
+												</Grid>
+											</Grid><Grid container direction='row' sx={{ height: 150, overflow: 'scroll' }}>
+												<Grid container direction='row' spacing={6.7}>
+													<Grid item>
+														{renderedReference}
+													</Grid>
+													<Grid item>
+														{renderedCreation}
+													</Grid>
+												</Grid>
+											</Grid>
+										</>
+									) : <Typography variant='body2'>No Tenures found.</Typography>} <br />
 							</Grid>
 							<Grid item xs={4}>
 								<Typography align='left' fontWeight='bold'>BC Park Use Permits</Typography>
