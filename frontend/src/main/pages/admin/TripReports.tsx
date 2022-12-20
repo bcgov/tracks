@@ -72,10 +72,14 @@ const TripReports: FC = () => {
 
 	// Controlled dialog box
 	const [activityDialog, setActivityDialog] = useState<boolean>(false);
-	const handleActivityDialog = () => { setActivityDialog(!activityDialog); };
+	const handleActivityDialog = () => { 
+		setActivityDialog(!activityDialog);
+	};
 
 	const [tenureDialog, setTenureDialog] = useState<boolean>(false);
-	const handleTenureDialog = () => { setTenureDialog(!tenureDialog); };
+	const handleTenureDialog = () => { 
+		setTenureDialog(!tenureDialog);
+	};
 
 	useList(ActivityActions, 'operator');
 	const activities = useSelector(state => { return state.Activities.items });
@@ -149,13 +153,21 @@ const TripReports: FC = () => {
 						>
 							<Box sx={{ width: 250 }}>
 								<>
-									<MenuItem onClick={handleActivityDialog} disableRipple>Add Trip Report(s)</MenuItem>
-									<CreateTripReportDialog handleClose={handleActivityDialog} open={activityDialog} />
-									<MenuItem onClick={handleTenureDialog} disableRipple>Add Tenure(s)</MenuItem>
-									<CreateTenureDialog handleClose={handleTenureDialog} open={tenureDialog} />
+									<MenuItem onClick={() => {
+										handleActivityDialog();
+										handleCloseMenu();
+
+									}} disableRipple>Add Trip Report(s)</MenuItem>
+									<MenuItem onClick={() => {
+										handleTenureDialog();
+										handleCloseMenu();
+
+									}} disableRipple>Add Tenure(s)</MenuItem>	
 								</>
 							</Box>
 						</Menu>
+						<CreateTripReportDialog handleClose={handleActivityDialog} open={activityDialog} />
+						<CreateTenureDialog handleClose={handleTenureDialog } open={tenureDialog} />			
 					</Grid>
 				</Grid>
 

@@ -197,7 +197,15 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	useList(TenureActions, 'operator');
 	const fetchTenureData = () => {
 		const tenures = useSelector(state => {return state.Tenures.items});
-		return tenures;
+		
+		// Deletes all the duplicate references
+		const filteredTenures = tenures.filter((value, index, self) => 
+			index === self.findIndex((t) => (
+				t.reference === value.reference
+			))
+		)
+
+		return filteredTenures;
 	}
 
 	const renderActivitiesOptions = referenceActivities.activities.map((item, index) => { return <MenuItem key={index} value={item}>{item}</MenuItem> });
