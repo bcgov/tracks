@@ -150,7 +150,7 @@ const DataSubmissions : FC = () => {
 				</Grid>
 				<Grid item>
 					<DataGrid
-						rows={dataSubmissions ? dataSubmissions : []}
+						rows={dataSubmissions.length ? dataSubmissions : []}
 						columns={DataSubmissionColumns}
 						pageSize={10}
 						rowsPerPageOptions={[10]}
