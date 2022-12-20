@@ -116,7 +116,7 @@ const DataSubmissions : FC = () => {
 								status: item.processingstate,
 								activity: item.activity || 'none',
 								transportationMode: item.mode,
-								tripDuration: moment(item.endtime).diff(moment(item.starttime), 'hours') + ' Hours',
+								tripDuration: item.endtime ? moment(item.endtime).diff(moment(item.starttime), 'hours') + ' Hours' : 'none',
 							})
 						});
 						setDataSubmissions(data);
