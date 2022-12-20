@@ -12,12 +12,12 @@ const DataSubmissionColumns: GridColDef[] = [
 	{
 		field: 'organization', 
 		headerName: 'Organization',
-		flex: 1
+		flex: 2
 	},
 	{        
 		field: 'dateSubmitted', 
 		headerName: 'Date Submitted', 
-		flex: 1
+		flex: 2
 	},
 	{        
 		field: 'tenures', 
@@ -42,7 +42,7 @@ const DataSubmissionColumns: GridColDef[] = [
 	{        
 		field: 'tripDuration', 
 		headerName: 'Trip Duration', 
-		flex: 2
+		flex: 1
 	},
 ];
 
