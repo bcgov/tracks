@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { getConfiguration } from "../../../state/utilities/config_helper";
 import moment from 'moment';
-
+import { useNavigate } from "react-router-dom";
 
 const DataSubmissionColumns: GridColDef[] = [
 	{
@@ -66,6 +66,9 @@ class Organization {
 const DataSubmissions : FC = () => {
 	const headers = useSelector(state => {return state.Auth.headers});
 	const configuration = useSelector(getConfiguration);
+
+	const navigate = useNavigate();
+	const detailRoute = `/operator/activities/view/:id`;
 
 	const [dataSubmissions, setDataSubmissions] = useState<DataSubmission[]>([]);
 
@@ -154,9 +157,18 @@ const DataSubmissions : FC = () => {
 						columns={DataSubmissionColumns}
 						pageSize={10}
 						rowsPerPageOptions={[10]}
+						
 						disableSelectionOnClick
 						disableColumnSelector
 						style={{height: 600}}
+						sx={{
+							'& .MuiDataGrid-row:hover': {
+								cursor: 'pointer',
+							}
+						}}
+						onCellClick={(data) => {
+							navigate(detailRoute.replace(':id', data.row.id));
+						}}
 					/>
 				</Grid>
 			</Grid>

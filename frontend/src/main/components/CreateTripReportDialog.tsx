@@ -32,6 +32,7 @@ import {
 	TenureActions, 
 	TRAVEL_PATH_UPLOAD_REQUEST 
 } from "../../state/actions";
+import moment from "moment";
 
 class TripReportDialogProps {
 	open: boolean;
@@ -197,6 +198,19 @@ const CreateTripReportDialog = ({open, handleClose}: TripReportDialogProps) => {
 	useList(TenureActions, 'operator');
 	const fetchTenureData = () => {
 		const tenures = useSelector(state => {return state.Tenures.items});
+		tenures.unshift({
+			id: "9999",
+			reference: "None",
+			startdate: moment(),
+			subtenures: "0"
+		},
+		{
+			id: "9998",
+			reference: "Unknown",
+			startdate: moment(),
+			subtenures: "0"
+		});
+
 		
 		// Deletes all the duplicate references
 		const filteredTenures = tenures.filter((value, index, self) => 
